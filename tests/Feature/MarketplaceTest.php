@@ -313,4 +313,56 @@ class MarketplaceTest extends TestCase
             ->where('listings.data.0.id', $itemSurabaya->id)
             ->etc());
     }
+
+    public function test_catalog_default_order_prioritizes_available_most_viewed_and_newest(): void
+    {
+        $category = $this->category();
+        $user = User::factory()->create();
+
+        $availableLowViews = $this->listing($user, $category, ['title' => 'Avail Low', 'status' => 'available']);
+        $availableLowViews->update(['views_count' => 10, 'created_at' => now()->subDays(2)]);
+
+        $availableHighViews = $this->listing($user, $category, ['title' => 'Avail High', 'status' => 'available']);
+        $availableHighViews->update(['views_count' => 50, 'created_at' => now()->subDay()]);
+
+        $availableNewerSameViews = $this->listing($user, $category, ['title' => 'Avail Newer', 'status' => 'available']);
+        $availableNewerSameViews->update(['views_count' => 10, 'created_at' => now()]);
+
+        $soldHugeViews = $this->listing($user, $category, ['title' => 'Sold Huge', 'status' => 'sold']);
+        $soldHugeViews->update(['views_count' => 999, 'created_at' => now()]);
+
+        $soldLowViews = $this->listing($user, $category, ['title' => 'Sold Low', 'status' => 'sold']);
+        $soldLowViews->update(['views_count' => 5, 'created_at' => now()]);
+
+        $this->get('/')->assertOk()->assertInertia(fn (Assert $page) => $page
+            ->component('Catalog/Index')
+            ->has('listings.data', 5)
+            ->where('listings.data.0.id', $availableHighViews->id)
+            ->where('listings.data.1.id', $availableNewerSameViews->id)
+            ->where('listings.data.2.id', $availableLowViews->id)
+            ->where('listings.data.3.id', $soldHugeViews->id)
+            ->where('listings.data.4.id', $soldLowViews->id)
+            ->etc());
+    }
+
+    public function test_viewing_listing_detail_increments_views_count(): void
+    {
+        $category = $this->category();
+        $user = User::factory()->create();
+        $listing = $this->listing($user, $category, ['status' => 'available']);
+
+        $this->assertSame(0, $listing->fresh()->views_count);
+
+        $this->get(route('listings.show', $listing))->assertOk();
+        $this->assertSame(1, $listing->fresh()->views_count);
+
+        $this->get(route('listings.show', $listing))->assertOk();
+        $this->assertSame(2, $listing->fresh()->views_count);
+
+        $this->actingAs($user)->get(route('listings.mine'))->assertOk()
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Listings/MyListings')
+                ->where('listings.data.0.views_count', 2)
+                ->etc());
+    }
 }

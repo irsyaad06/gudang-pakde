@@ -9,14 +9,17 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 
-#[Fillable(['user_id', 'category_id', 'title', 'price', 'item_condition', 'description', 'location', 'status'])]
+#[Fillable(['user_id', 'category_id', 'title', 'price', 'item_condition', 'description', 'location', 'status', 'views_count'])]
 class Listing extends Model
 {
     use SoftDeletes;
 
     protected function casts(): array
     {
-        return ['price' => 'integer'];
+        return [
+            'price' => 'integer',
+            'views_count' => 'integer',
+        ];
     }
 
     public function user(): BelongsTo
@@ -51,6 +54,7 @@ class Listing extends Model
             'item_condition' => $this->item_condition,
             'status' => $this->status,
             'location' => $this->location,
+            'views_count' => (int) ($this->views_count ?? 0),
             'image_url' => $image ? Storage::disk('public')->url($image->path) : null,
             'images' => $this->images->map(fn ($img) => [
                 'id' => $img->id,

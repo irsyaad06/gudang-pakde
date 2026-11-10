@@ -49,9 +49,15 @@ const remove = () => {
                 <div class="pointer-events-none absolute left-3 top-3"><StatusBadge :status="listing.status" /></div>
             </div>
             <div class="flex flex-1 flex-col px-2 pb-2 pt-5 sm:px-3">
-                <div class="flex flex-wrap items-center gap-2">
-                    <span v-if="listing.category?.name" class="text-xs font-medium text-ink-500">{{ listing.category.name }}</span>
-                    <ConditionBadge :condition="listing.item_condition" />
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span v-if="listing.category?.name" class="text-xs font-medium text-ink-500">{{ listing.category.name }}</span>
+                        <ConditionBadge :condition="listing.item_condition" />
+                    </div>
+                    <span class="inline-flex items-center gap-1.5 rounded-full border border-border bg-photo px-2.5 py-0.5 text-xs font-medium text-ink-600" :title="`${listing.views_count || 0} kali dilihat atau diklik`">
+                        <AppIcon name="eye" class="h-3.5 w-3.5 text-ink-500" />
+                        <span>{{ Number(listing.views_count || 0).toLocaleString('id-ID') }}x dilihat</span>
+                    </span>
                 </div>
                 <h3 class="mt-2 break-words text-lg font-semibold tracking-tight text-ink-900"><Link :href="route('listings.show', listing.id)" class="rounded-lg hover:underline">{{ listing.title }}</Link></h3>
                 <p class="mt-2 break-words text-xl font-semibold tracking-tight text-ink-900">{{ formatPrice(listing.price) }}</p>

@@ -34,7 +34,11 @@ class CatalogController extends Controller
             ->when($category, fn ($query) => $query->whereHas('category', fn ($query) => $query->where('slug', $category)))
             ->when($condition, fn ($query) => $query->where('item_condition', $condition))
             ->when($location !== '', fn ($query) => $query->where('location', 'like', '%'.$location.'%'))
-            ->latest()->paginate(12)->withQueryString()
+            ->orderByRaw("CASE WHEN status = 'available' THEN 0 ELSE 1 END ASC")
+            ->orderByDesc('views_count')
+            ->orderByDesc('created_at')
+            ->orderByDesc('id')
+            ->paginate(12)->withQueryString()
             ->through(fn (Listing $listing) => $listing->cardData());
 
         $activeFilters = [
@@ -55,6 +59,7 @@ class CatalogController extends Controller
 
     public function show(Listing $listing): Response
     {
+        $listing->increment('views_count');
         $listing->load(['category', 'images', 'user:id,name,phone']);
         $phone = $listing->user->phone;
         $whatsappUrl = $listing->status === 'available' && is_string($phone)
