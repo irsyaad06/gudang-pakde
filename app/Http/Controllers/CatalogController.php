@@ -47,7 +47,7 @@ class CatalogController extends Controller
         $phone = $listing->user->phone;
         $whatsappUrl = $listing->status === 'available' && is_string($phone)
             && preg_match('/^62[1-9][0-9]{7,12}$/', $phone)
-                ? 'https://wa.me/'.$phone.'?text='.rawurlencode('Halo, saya tertarik dengan '.$listing->title.' (#'.$listing->id.').')
+                ? 'https://wa.me/'.$phone.'?text='.rawurlencode('Halo, pakde! saya tertarik dengan '.$listing->title.' (#'.$listing->id.').'. ', saya mau liat detailnya dong...')
                 : null;
 
         return Inertia::render('Listings/Show', [

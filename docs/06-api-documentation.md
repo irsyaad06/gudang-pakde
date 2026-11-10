@@ -13,9 +13,9 @@ Use the existing Breeze/Laravel auth routes and session-based auth; inspect `php
 | GET | `/profile` | Member | None | Inertia `Profile/Edit` with paginated owned listings and account settings |
 | GET | `/my-listings` | Member | `page?` | Inertia `Listings/MyListings` |
 | GET | `/listings/create` | Member | None | Inertia `Listings/Create` |
-| POST | `/listings` | Member with valid WhatsApp number | `title`, `category_id`, `price`, `item_condition`, `description`, `location`, `image` | Redirect to detail with flash success |
+| POST | `/listings` | Member with valid WhatsApp number | `title`, `category_id`, `price`, `item_condition`, `description`, `location`, `images[]` or `image` | Redirect to detail with flash success |
 | GET | `/listings/{listing}/edit` | Owner | Route ID | Inertia `Listings/Edit` |
-| PUT/PATCH | `/listings/{listing}` | Owner | Editable listing fields, optional image | Redirect with flash success |
+| PUT/PATCH | `/listings/{listing}` | Owner | Editable listing fields, optional `images[]`, `delete_image_ids[]`, or single `image` | Redirect with flash success |
 | DELETE | `/listings/{listing}` | Owner | Route ID | Redirect with flash success |
 | PATCH | `/listings/{listing}/status` | Owner | `status=available|sold` | Redirect with flash success |
 
@@ -30,7 +30,7 @@ Use the existing Breeze/Laravel auth routes and session-based auth; inspect `php
 | `item_condition` | One of `new`, `like_new`, `good`, `fair` |
 | `description` | Required string, reasonable max length |
 | `location` | Required string, max 255 |
-| `image` | Required on create; optional on update; JPEG/PNG/WebP, max 2 MB; edit form sends `POST` with `_method=patch` for multipart |
+| `images` / `image` | Minimal 1 foto barang (maksimal 5 foto); JPEG/PNG/WebP, max 2 MB per foto; form edit mendukung tambah foto baru dan `delete_image_ids` via `POST` dengan `_method=patch` |
 | `status` | `available` or `sold` only |
 
 Server validation is mandatory. Image MIME and file extension must not be trusted without validation.

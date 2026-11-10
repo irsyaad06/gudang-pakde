@@ -39,20 +39,52 @@ class ListingController extends Controller
             throw ValidationException::withMessages(['phone' => 'Tambahkan nomor WhatsApp valid (62...) di profil sebelum memasang barang.']);
         }
 
-        $data = $request->safe()->except('image');
-        $path = $request->file('image')->store('listings', 'public');
-        if ($path === false) {
-            throw new \RuntimeException('Gagal menyimpan foto barang.');
+        $data = $request->safe()->except(['image', 'images', 'delete_image_ids']);
+
+        $uploadedFiles = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
+                if ($file instanceof \Illuminate\Http\UploadedFile) {
+                    $uploadedFiles[] = $file;
+                }
+            }
         }
+        if ($request->hasFile('image')) {
+            $uploadedFiles[] = $request->file('image');
+        }
+
+        if (empty($uploadedFiles)) {
+            throw ValidationException::withMessages(['images' => 'Wajib mengunggah minimal satu foto barang.']);
+        }
+
+        $storedPaths = [];
+        foreach ($uploadedFiles as $file) {
+            $path = $file->store('listings', 'public');
+            if ($path === false) {
+                foreach ($storedPaths as $p) {
+                    Storage::disk('public')->delete($p);
+                }
+                throw new \RuntimeException('Gagal menyimpan foto barang.');
+            }
+            $storedPaths[] = $path;
+        }
+
         try {
-            $listing = DB::transaction(function () use ($request, $data, $path) {
+            $listing = DB::transaction(function () use ($request, $data, $storedPaths) {
                 $listing = $request->user()->listings()->create($data);
-                $listing->images()->create(['path' => $path]);
+                foreach ($storedPaths as $index => $path) {
+                    $listing->images()->create([
+                        'path' => $path,
+                        'sort_order' => $index,
+                    ]);
+                }
 
                 return $listing;
             });
         } catch (Throwable $exception) {
-            Storage::disk('public')->delete($path);
+            foreach ($storedPaths as $p) {
+                Storage::disk('public')->delete($p);
+            }
             throw $exception;
         }
 
@@ -73,35 +105,101 @@ class ListingController extends Controller
     public function update(ListingRequest $request, Listing $listing): RedirectResponse
     {
         Gate::authorize('update', $listing);
-        $data = $request->safe()->except('image');
-        $path = $request->hasFile('image') ? $request->file('image')->store('listings', 'public') : null;
-        if ($path === false) {
-            throw new \RuntimeException('Gagal menyimpan foto barang.');
+        $data = $request->safe()->except(['image', 'images', 'delete_image_ids']);
+
+        $singleReplacement = $request->hasFile('image') ? $request->file('image') : null;
+
+        $newFiles = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
+                if ($file instanceof \Illuminate\Http\UploadedFile) {
+                    $newFiles[] = $file;
+                }
+            }
         }
-        $oldPath = null;
+
+        $deleteImageIds = array_filter(array_map('intval', (array) $request->input('delete_image_ids', [])));
+        $imagesToDelete = !empty($deleteImageIds)
+            ? $listing->images()->whereIn('id', $deleteImageIds)->get()
+            : collect();
+
+        if (! $singleReplacement) {
+            $currentCount = $listing->images()->count();
+            $remainingCount = ($currentCount - $imagesToDelete->count()) + count($newFiles);
+            if ($remainingCount < 1) {
+                throw ValidationException::withMessages(['images' => 'Barang harus memiliki minimal satu foto.']);
+            }
+            if ($remainingCount > 5) {
+                throw ValidationException::withMessages(['images' => 'Maksimal 5 foto barang yang diperbolehkan.']);
+            }
+        }
+
+        $singlePath = null;
+        if ($singleReplacement) {
+            $singlePath = $singleReplacement->store('listings', 'public');
+            if ($singlePath === false) {
+                throw new \RuntimeException('Gagal menyimpan foto barang.');
+            }
+        }
+
+        $storedNewPaths = [];
+        foreach ($newFiles as $file) {
+            $path = $file->store('listings', 'public');
+            if ($path === false) {
+                if ($singlePath) {
+                    Storage::disk('public')->delete($singlePath);
+                }
+                foreach ($storedNewPaths as $p) {
+                    Storage::disk('public')->delete($p);
+                }
+                throw new \RuntimeException('Gagal menyimpan foto barang.');
+            }
+            $storedNewPaths[] = $path;
+        }
+
+        $pathsToDelete = [];
 
         try {
-            DB::transaction(function () use ($listing, $data, $path, &$oldPath) {
+            DB::transaction(function () use ($listing, $data, $singlePath, $storedNewPaths, $imagesToDelete, &$pathsToDelete) {
                 $listing->update($data);
-                if ($path !== null) {
-                    $image = $listing->images()->first();
-                    $oldPath = $image?->path;
-                    if ($image) {
-                        $image->update(['path' => $path]);
-                    } else {
-                        $listing->images()->create(['path' => $path]);
+
+                if ($singlePath !== null) {
+                    $allExisting = $listing->images()->get();
+                    foreach ($allExisting as $old) {
+                        $pathsToDelete[] = $old->path;
+                        $old->delete();
+                    }
+                    $listing->images()->create([
+                        'path' => $singlePath,
+                        'sort_order' => 0,
+                    ]);
+                } else {
+                    foreach ($imagesToDelete as $toDelete) {
+                        $pathsToDelete[] = $toDelete->path;
+                        $toDelete->delete();
+                    }
+
+                    $maxOrder = $listing->images()->max('sort_order') ?? -1;
+                    foreach ($storedNewPaths as $idx => $p) {
+                        $listing->images()->create([
+                            'path' => $p,
+                            'sort_order' => $maxOrder + 1 + $idx,
+                        ]);
                     }
                 }
             });
         } catch (Throwable $exception) {
-            if ($path !== null) {
-                Storage::disk('public')->delete($path);
+            if ($singlePath !== null) {
+                Storage::disk('public')->delete($singlePath);
+            }
+            foreach ($storedNewPaths as $p) {
+                Storage::disk('public')->delete($p);
             }
             throw $exception;
         }
 
-        if ($oldPath !== null) {
-            Storage::disk('public')->delete($oldPath);
+        foreach ($pathsToDelete as $oldP) {
+            Storage::disk('public')->delete($oldP);
         }
 
         return redirect()->route('listings.show', $listing)->with('success', 'Barang berhasil diperbarui.');

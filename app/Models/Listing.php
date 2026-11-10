@@ -46,7 +46,12 @@ class Listing extends Model
             'status' => $this->status,
             'location' => $this->location,
             'image_url' => $image ? Storage::disk('public')->url($image->path) : null,
-            'category' => $this->category->only('id', 'name', 'slug'),
+            'images' => $this->images->map(fn ($img) => [
+                'id' => $img->id,
+                'url' => Storage::disk('public')->url($img->path),
+            ])->values()->all(),
+            'images_count' => $this->images->count(),
+            'category' => $this->category ? $this->category->only('id', 'name', 'slug') : null,
         ];
     }
 }

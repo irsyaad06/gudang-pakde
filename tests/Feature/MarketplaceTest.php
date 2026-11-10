@@ -72,7 +72,7 @@ class MarketplaceTest extends TestCase
             ->assertInertia(fn (Assert $page) => $page->component('Listings/Show')
                 ->where('listing.user.name', $owner->name)
                 ->where('listing.description', 'Sepeda terawat')
-                ->where('listing.whatsapp_url', 'https://wa.me/6281234567890?text='.rawurlencode('Halo, saya tertarik dengan Sepeda lipat (#'.$match->id.').'))
+                ->where('listing.whatsapp_url', 'https://wa.me/6281234567890?text='.rawurlencode('Halo, pakde! saya tertarik dengan '.$match->title.' (#'.$match->id.')., saya mau liat detailnya dong...'))
                 ->missing('listing.user.phone')->etc());
 
         $owner->update(['phone' => null]);
@@ -163,6 +163,61 @@ class MarketplaceTest extends TestCase
         $this->delete(route('listings.destroy', $listing))->assertRedirect(route('listings.mine'));
         $this->assertSoftDeleted('listings', ['id' => $listing->id]);
         Storage::disk('public')->assertExists($listing->images()->firstOrFail()->path);
+    }
+
+    public function test_owner_can_manage_multiple_images_and_gallery(): void
+    {
+        Storage::fake('public');
+        $category = $this->category();
+        $user = User::factory()->create(['phone' => '6281234567890']);
+
+        // 1. Create with multiple images
+        $this->actingAs($user)->post(route('listings.store'), [
+            ...$this->fields($category),
+            'images' => [
+                UploadedFile::fake()->image('img1.jpg'),
+                UploadedFile::fake()->image('img2.png'),
+                UploadedFile::fake()->image('img3.webp'),
+            ],
+        ])->assertSessionHasNoErrors();
+
+        $listing = Listing::firstOrFail();
+        $this->assertCount(3, $listing->images);
+        $firstImageId = $listing->images[0]->id;
+        $secondImageId = $listing->images[1]->id;
+
+        // Verify detail page has all images
+        $this->get(route('listings.show', $listing))->assertOk()
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Listings/Show')
+                ->has('listing.images', 3)
+                ->where('listing.images.0.id', $firstImageId)
+                ->where('listing.images_count', 3)
+                ->etc());
+
+        // 2. Update by deleting first image and adding new one
+        $this->put(route('listings.update', $listing), [
+            ...$this->fields($category),
+            'delete_image_ids' => [$firstImageId],
+            'images' => [
+                UploadedFile::fake()->image('img4.jpg'),
+            ],
+        ])->assertSessionHasNoErrors();
+
+        $listing->refresh();
+        $this->assertCount(3, $listing->images);
+        $this->assertFalse($listing->images->contains('id', $firstImageId));
+        $this->assertTrue($listing->images->contains('id', $secondImageId));
+
+        // 3. Validation: Cannot exceed 5 images
+        $this->put(route('listings.update', $listing), [
+            ...$this->fields($category),
+            'images' => [
+                UploadedFile::fake()->image('extra1.jpg'),
+                UploadedFile::fake()->image('extra2.jpg'),
+                UploadedFile::fake()->image('extra3.jpg'),
+            ],
+        ])->assertSessionHasErrors('images');
     }
 
     public function test_nonowner_cannot_edit_update_delete_or_change_status(): void
