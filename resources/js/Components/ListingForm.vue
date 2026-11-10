@@ -3,6 +3,7 @@ import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue';
 import { Link, useForm } from '@inertiajs/vue3';
 import AppIcon from '@/Components/AppIcon.vue';
 import CustomSelect from '@/Components/CustomSelect.vue';
+import LocationSelect from '@/Components/LocationSelect.vue';
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 
@@ -311,7 +312,22 @@ const field = 'mt-2 block min-h-12 w-full rounded-2xl border-border bg-white px-
                         </div>
                     </div>
                     <div><label for="listing-price" class="block text-sm font-semibold">Harga (Rp) *</label><input id="listing-price" v-model="form.price" type="number" min="0" step="1" inputmode="numeric" required placeholder="Contoh: 1250000" :class="field" :aria-invalid="!!form.errors.price" :aria-describedby="form.errors.price ? 'listing-price-error' : undefined" /><InputError id="listing-price-error" :message="form.errors.price" class="mt-2" /></div>
-                    <div><label for="listing-location" class="block text-sm font-semibold">Lokasi *</label><input id="listing-location" v-model="form.location" type="text" maxlength="255" required placeholder="Kota atau area pengambilan" :class="field" :aria-invalid="!!form.errors.location" :aria-describedby="form.errors.location ? 'listing-location-error' : undefined" /><InputError id="listing-location-error" :message="form.errors.location" class="mt-2" /></div>
+                    <div>
+                        <label for="listing-location" class="block text-sm font-semibold">Wilayah / Lokasi *</label>
+                        <LocationSelect
+                            id="listing-location"
+                            v-model="form.location"
+                            name="location"
+                            placeholder="Pilih kota & provinsi..."
+                            rounded="2xl"
+                            class="mt-2"
+                            :allow-province-only="false"
+                            :invalid="!!form.errors.location"
+                            :described-by="form.errors.location ? 'listing-location-error' : undefined"
+                            :disabled="form.processing"
+                        />
+                        <InputError id="listing-location-error" :message="form.errors.location" class="mt-2" />
+                    </div>
                     <div><label for="listing-description" class="block text-sm font-semibold">Deskripsi *</label><textarea id="listing-description" v-model="form.description" rows="5" maxlength="10000" required placeholder="Jelaskan kondisi, ukuran, kelengkapan, dan hal lain yang perlu diketahui pembeli…" :class="field" :aria-invalid="!!form.errors.description" :aria-describedby="form.errors.description ? 'listing-description-help listing-description-error' : 'listing-description-help'"></textarea><p id="listing-description-help" class="mt-2 text-xs leading-relaxed text-ink-500">Ceritakan kondisi barang dengan jujur, termasuk kekurangannya.</p><InputError id="listing-description-error" :message="form.errors.description" class="mt-2" /></div>
                 </div>
             </section>
