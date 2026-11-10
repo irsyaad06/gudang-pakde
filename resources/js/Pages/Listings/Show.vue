@@ -103,7 +103,7 @@ watch(galleryImages, (images) => {
                                 <p class="mt-3 rounded-xl bg-sold p-3 text-xs leading-relaxed text-warning">Barang ini sudah terjual. Kontak penjual tidak tersedia.</p>
                             </template>
                             <template v-else-if="listing.whatsapp_url">
-                                <a :href="listing.whatsapp_url" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-ink-900 px-3 text-center text-sm font-semibold text-white hover:bg-black transition-colors">
+                                <a :href="listing.whatsapp_url" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-ink-900 px-3 text-center text-sm font-semibold text-white transition-colors duration-200 hover:bg-[#25D366]">
                                     <AppIcon name="whatsapp" class="h-5 w-5 shrink-0" />
                                     <span>Hubungi via WhatsApp</span>
                                     <span class="sr-only">(buka tab baru)</span>
