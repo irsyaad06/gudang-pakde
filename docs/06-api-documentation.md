@@ -37,7 +37,8 @@ Use the existing Breeze/Laravel auth routes and session-based auth; inspect `php
 Server validation is mandatory. Image MIME and file extension must not be trusted without validation.
 
 ## Response and error behavior
-- **GET page:** Inertia component + serializable props; catalog props include paginated listings and current filters.
+- **GET page:** Inertia component + serializable props; catalog props include paginated listings (default sort: status available first, most viewed/`views_count` DESC, newest created_at DESC) and current filters.
+- **Location API:** `GET /api/locations?search={keyword}` returns JSON array of Indonesian provinces and cities/regencies for autocomplete.
 - **Successful mutation:** redirect with flash success message (Post/Redirect/Get).
 - **Invalid input:** Laravel validation errors displayed beside form fields.
 - **Unauthenticated mutation:** redirect to login.

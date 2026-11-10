@@ -32,6 +32,7 @@ erDiagram
     text description
     varchar location
     varchar status
+    int views_count
     timestamp created_at
     timestamp updated_at
     timestamp deleted_at
@@ -78,6 +79,7 @@ Seed: bicycles, tools, hobbies, electronics, household goods (display names in I
 | `description` | TEXT | Required |
 | `location` | VARCHAR(255) | Required; plain-text location |
 | `status` | VARCHAR(20) | `available` or `sold`, default `available` |
+| `views_count` | INT UNSIGNED | Default 0, incremented on detail visit |
 | timestamps | TIMESTAMP | Required |
 | `deleted_at` | TIMESTAMP NULL | Soft delete |
 
