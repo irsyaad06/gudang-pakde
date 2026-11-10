@@ -28,6 +28,42 @@ const form = useForm({
     delete_image_ids: [],
 });
 
+const formatNumberWithDots = (val) => {
+    if (val === null || val === undefined || val === '') return '';
+    let digits = String(val).replace(/\D/g, '');
+    if (digits.length > 1) {
+        digits = digits.replace(/^0+/, '') || '0';
+    }
+    if (!digits) return '';
+    return digits.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+};
+
+const displayPrice = ref(formatNumberWithDots(props.listing?.price));
+
+watch(
+    () => form.price,
+    (newVal) => {
+        const formatted = formatNumberWithDots(newVal);
+        if (displayPrice.value !== formatted) {
+            displayPrice.value = formatted;
+        }
+    }
+);
+
+const onPriceInput = (event) => {
+    const rawVal = event.target.value;
+    let digits = rawVal.replace(/\D/g, '');
+    if (digits.length > 1) {
+        digits = digits.replace(/^0+/, '') || '0';
+    }
+    const formatted = digits ? digits.replace(/\B(?=(\d{3})+(?!\d))/g, '.') : '';
+
+    displayPrice.value = formatted;
+    event.target.value = formatted;
+
+    form.price = digits !== '' ? parseInt(digits, 10) : '';
+};
+
 const existingImages = ref(
     (props.listing?.images && props.listing.images.length > 0)
         ? [...props.listing.images]
@@ -311,7 +347,31 @@ const field = 'mt-2 block min-h-12 w-full rounded-2xl border-border bg-white px-
                             <InputError id="listing-condition-error" :message="form.errors.item_condition" class="mt-2" />
                         </div>
                     </div>
-                    <div><label for="listing-price" class="block text-sm font-semibold">Harga (Rp) *</label><input id="listing-price" v-model="form.price" type="number" min="0" step="1" inputmode="numeric" required placeholder="Contoh: 1250000" :class="field" :aria-invalid="!!form.errors.price" :aria-describedby="form.errors.price ? 'listing-price-error' : undefined" /><InputError id="listing-price-error" :message="form.errors.price" class="mt-2" /></div>
+                    <div>
+                        <label for="listing-price" class="block text-sm font-semibold">Harga *</label>
+                        <div
+                            class="mt-2 flex min-h-12 w-full rounded-2xl border border-border bg-surface transition-all focus-within:border-brand-600 focus-within:ring-1 focus-within:ring-brand-600"
+                            :class="{ '!border-danger': !!form.errors.price }"
+                        >
+                            <span class="inline-flex shrink-0 select-none items-center rounded-l-2xl border-r border-border bg-photo px-4 text-sm font-semibold text-ink-900">
+                                Rp
+                            </span>
+                            <input
+                                id="listing-price"
+                                :value="displayPrice"
+                                type="text"
+                                inputmode="numeric"
+                                required
+                                autocomplete="off"
+                                placeholder="1.250.000"
+                                class="min-h-12 min-w-0 flex-1 rounded-r-2xl border-0 bg-transparent px-4 text-sm text-ink-900 placeholder:text-ink-500 focus:ring-0 disabled:cursor-not-allowed disabled:opacity-60"
+                                :aria-invalid="!!form.errors.price"
+                                :aria-describedby="form.errors.price ? 'listing-price-error' : undefined"
+                                @input="onPriceInput"
+                            />
+                        </div>
+                        <InputError id="listing-price-error" :message="form.errors.price" class="mt-2" />
+                    </div>
                     <div>
                         <label for="listing-location" class="block text-sm font-semibold">Wilayah / Lokasi *</label>
                         <LocationSelect

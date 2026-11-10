@@ -148,6 +148,10 @@ class MarketplaceTest extends TestCase
         $this->put(route('listings.update', $listing), [
             ...$this->fields($category), 'price' => 2000000,
         ])->assertSessionHasNoErrors();
+        $this->put(route('listings.update', $listing), [
+            ...$this->fields($category), 'price' => '1.230.000',
+        ])->assertSessionHasNoErrors();
+        $this->assertSame(1230000, $listing->fresh()->price);
         Storage::disk('public')->assertExists($oldPath);
         $this->post(route('listings.store'), [
             ...$this->fields($category), 'image' => UploadedFile::fake()->create('bad.pdf', 10, 'application/pdf'),

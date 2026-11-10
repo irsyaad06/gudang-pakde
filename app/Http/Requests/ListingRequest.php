@@ -12,6 +12,16 @@ class ListingRequest extends FormRequest
         return $this->route('listing') === null || $this->user()->can('update', $this->route('listing'));
     }
 
+    protected function prepareForValidation(): void
+    {
+        if (is_string($this->input('price'))) {
+            $cleanPrice = str_replace(['.', ',', ' '], '', $this->input('price'));
+            if ($cleanPrice !== '' && is_numeric($cleanPrice)) {
+                $this->merge(['price' => (int) $cleanPrice]);
+            }
+        }
+    }
+
     public function rules(): array
     {
         $isUpdate = $this->route('listing') !== null;
