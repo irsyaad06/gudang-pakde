@@ -21,6 +21,8 @@ class ProfileController extends Controller
         return Inertia::render('Profile/Edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
+            'ownedListings' => $request->user()->listings()->with(['category', 'images'])
+                ->latest()->paginate(12)->through(fn (\App\Models\Listing $listing) => $listing->cardData()),
         ]);
     }
 
@@ -50,6 +52,12 @@ class ProfileController extends Controller
         ]);
 
         $user = $request->user();
+
+        if ($user->listings()->withTrashed()->exists()) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'account' => 'Akun dengan riwayat barang tidak dapat dihapus.',
+            ]);
+        }
 
         Auth::logout();
 

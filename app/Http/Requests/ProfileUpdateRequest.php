@@ -14,10 +14,18 @@ class ProfileUpdateRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
+    protected function prepareForValidation(): void
+    {
+        if (is_string($this->input('phone')) && str_starts_with($this->input('phone'), '+62')) {
+            $this->merge(['phone' => substr($this->input('phone'), 1)]);
+        }
+    }
+
     public function rules(): array
     {
         return [
             'name' => ['required', 'string', 'max:255'],
+            'phone' => ['sometimes', 'nullable', 'regex:/^62[1-9][0-9]{7,12}$/'],
             'email' => [
                 'required',
                 'string',
