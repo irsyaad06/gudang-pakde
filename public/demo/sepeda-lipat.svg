@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Ilustrasi sepeda lipat biru">
+<rect width="800" height="600" fill="#e8f3ef"/><path d="M0 477h800v123H0z" fill="#c9ddd3"/><ellipse cx="400" cy="484" rx="326" ry="18" fill="#aac9bc"/>
+<g fill="none" stroke="#243e49" stroke-width="16"><circle cx="216" cy="433" r="108"/><circle cx="586" cy="433" r="108"/></g>
+<g fill="none" stroke="#267e78" stroke-width="19" stroke-linecap="round" stroke-linejoin="round"><path d="m216 433 143-147 78 147H216l80-110m141 110 149-1-74-186m-153 40 153-40"/><path d="m359 286 24-47m129 7 52-44h40"/></g>
+<g fill="none" stroke="#243e49" stroke-width="13" stroke-linecap="round"><path d="M332 240h89m-45 193h65m-34-30 34 60"/></g><circle cx="437" cy="433" r="17" fill="#f3be70"/><path d="M120 524h560" stroke="#86afa2" stroke-width="5"/>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Ilustrasi gitar akustik warna kayu">
+<rect width="800" height="600" fill="#f3eee5"/><path d="M0 500h800v100H0z" fill="#e3d8c8"/><ellipse cx="408" cy="496" rx="220" ry="21" fill="#c8b8a5"/>
+<g transform="rotate(34 402 326)"><path d="M355 221q-107-51-135 36-15 51 31 85-55 42-26 109 26 64 104 56 61-4 79-50 18 46 79 50 78 8 104-56 29-67-26-109 46-34 31-85-28-87-135-36z" fill="#d99d59" stroke="#854f33" stroke-width="11"/><path d="M360 233q-61-35-98 19m231-19q61-35 98 19" fill="none" stroke="#f6ca89" stroke-width="12"/>
+<circle cx="408" cy="346" r="53" fill="#4e3830" stroke="#efc182" stroke-width="12"/><path d="M371 215h74V60h-74z" fill="#80543b" stroke="#5d3e30" stroke-width="8"/><path d="M369 63h78l10-70h-98z" fill="#80543b" stroke="#5d3e30" stroke-width="8"/><path d="M373 273h70v-21h-70z" fill="#6d422c"/>
+<path d="M380 10v441m11-441v441m11-441v441m11-441v441m11-441v441m11-441v441" stroke="#eee3ce" stroke-width="2"/><path d="M373 84h71m-71 24h71m-71 24h71m-71 24h71m-71 24h71" stroke="#b49874" stroke-width="5"/><path d="M370 449h77" stroke="#50392f" stroke-width="13" stroke-linecap="round"/></g>
+</svg>
