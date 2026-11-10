@@ -3,6 +3,7 @@ import { computed, ref, watch } from 'vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import AppIcon from '@/Components/AppIcon.vue';
+import CustomSelect from '@/Components/CustomSelect.vue';
 import ListingCard from '@/Components/ListingCard.vue';
 import ListingPagination from '@/Components/ListingPagination.vue';
 
@@ -15,6 +16,19 @@ const filtersOpen = ref(!!(props.filters.category || props.filters.condition));
 const hasFilters = computed(() => !!(props.filters.search || props.filters.category || props.filters.condition));
 const filterCount = computed(() => [props.filters.category, props.filters.condition].filter(Boolean).length);
 const activeQuery = computed(() => Object.fromEntries(Object.entries(props.filters).filter(([, value]) => value)));
+
+const categoryOptions = computed(() => [
+    { value: '', label: 'Semua kategori' },
+    ...props.categories.map(c => ({ value: c.slug, label: c.name })),
+]);
+
+const conditionOptions = [
+    { value: '', label: 'Semua kondisi' },
+    { value: 'new', label: 'Baru' },
+    { value: 'like_new', label: 'Seperti Baru' },
+    { value: 'good', label: 'Bagus' },
+    { value: 'fair', label: 'Cukup' },
+];
 
 watch(() => props.filters, (filters) => {
     search.value = filters.search || '';
@@ -61,20 +75,27 @@ const reset = () => { search.value = ''; category.value = ''; condition.value = 
             <form v-show="filtersOpen" id="catalog-filters" aria-label="Filter kategori dan kondisi" class="mt-5 grid gap-3 rounded-2xl bg-photo p-3 sm:flex sm:flex-wrap sm:items-end sm:p-4" @submit.prevent="apply">
                 <div class="min-w-0 sm:min-w-52">
                     <label for="catalog-category" class="mb-1.5 block text-xs font-semibold text-ink-600">Kategori</label>
-                    <select id="catalog-category" v-model="category" name="category" class="min-h-11 w-full rounded-xl border-border bg-surface py-2 text-sm focus:border-focus focus:ring-focus" :disabled="loading" @change="apply">
-                        <option value="">Semua kategori</option>
-                        <option v-for="item in categories" :key="item.id" :value="item.slug">{{ item.name }}</option>
-                    </select>
+                    <CustomSelect
+                        id="catalog-category"
+                        v-model="category"
+                        name="category"
+                        :options="categoryOptions"
+                        placeholder="Semua kategori"
+                        :disabled="loading"
+                        @change="apply"
+                    />
                 </div>
                 <div class="min-w-0 sm:min-w-48">
                     <label for="catalog-condition" class="mb-1.5 block text-xs font-semibold text-ink-600">Kondisi barang</label>
-                    <select id="catalog-condition" v-model="condition" name="condition" class="min-h-11 w-full rounded-xl border-border bg-surface py-2 text-sm focus:border-focus focus:ring-focus" :disabled="loading" @change="apply">
-                        <option value="">Semua kondisi</option>
-                        <option value="new">Baru</option>
-                        <option value="like_new">Seperti Baru</option>
-                        <option value="good">Bagus</option>
-                        <option value="fair">Cukup</option>
-                    </select>
+                    <CustomSelect
+                        id="catalog-condition"
+                        v-model="condition"
+                        name="condition"
+                        :options="conditionOptions"
+                        placeholder="Semua kondisi"
+                        :disabled="loading"
+                        @change="apply"
+                    />
                 </div>
                 <button v-if="hasFilters" type="button" :disabled="loading" class="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-3 text-sm font-semibold text-ink-600 underline underline-offset-4 hover:text-ink-900 disabled:opacity-50 sm:ml-auto" @click="reset"><AppIcon name="close" class="h-4 w-4" />Hapus filter</button>
             </form>

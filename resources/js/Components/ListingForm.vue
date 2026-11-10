@@ -2,10 +2,18 @@
 import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue';
 import { Link, useForm } from '@inertiajs/vue3';
 import AppIcon from '@/Components/AppIcon.vue';
+import CustomSelect from '@/Components/CustomSelect.vue';
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 
 const props = defineProps({ categories: { type: Array, required: true }, listing: { type: Object, default: null } });
+
+const conditionOptions = [
+    { value: 'new', label: 'Baru' },
+    { value: 'like_new', label: 'Seperti Baru' },
+    { value: 'good', label: 'Bagus' },
+    { value: 'fair', label: 'Cukup' },
+];
 
 const form = useForm({
     ...(props.listing ? { _method: 'patch' } : {}),
@@ -267,8 +275,40 @@ const field = 'mt-2 block min-h-12 w-full rounded-2xl border-border bg-white px-
                 <div class="space-y-5">
                     <div><label for="listing-title" class="block text-sm font-semibold">Nama barang *</label><input id="listing-title" v-model="form.title" type="text" required maxlength="200" autocomplete="off" placeholder="Contoh: Sepeda lipat 20 inci" :class="field" :aria-invalid="!!form.errors.title" :aria-describedby="form.errors.title ? 'listing-title-error' : undefined" /><InputError id="listing-title-error" :message="form.errors.title" class="mt-2" /></div>
                     <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-                        <div><label for="listing-category" class="block text-sm font-semibold">Kategori *</label><select id="listing-category" v-model="form.category_id" required :class="field" :aria-invalid="!!form.errors.category_id" :aria-describedby="form.errors.category_id ? 'listing-category-error' : undefined"><option value="" disabled>Pilih kategori</option><option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option></select><InputError id="listing-category-error" :message="form.errors.category_id" class="mt-2" /></div>
-                        <div><label for="listing-condition" class="block text-sm font-semibold">Kondisi *</label><select id="listing-condition" v-model="form.item_condition" required :class="field" :aria-invalid="!!form.errors.item_condition" :aria-describedby="form.errors.item_condition ? 'listing-condition-error' : undefined"><option value="" disabled>Pilih kondisi</option><option value="new">Baru</option><option value="like_new">Seperti Baru</option><option value="good">Bagus</option><option value="fair">Cukup</option></select><InputError id="listing-condition-error" :message="form.errors.item_condition" class="mt-2" /></div>
+                        <div>
+                            <label for="listing-category" class="block text-sm font-semibold">Kategori *</label>
+                            <CustomSelect
+                                id="listing-category"
+                                v-model="form.category_id"
+                                name="category_id"
+                                :options="categories"
+                                value-key="id"
+                                label-key="name"
+                                placeholder="Pilih kategori"
+                                rounded="2xl"
+                                class="mt-2"
+                                :invalid="!!form.errors.category_id"
+                                :described-by="form.errors.category_id ? 'listing-category-error' : undefined"
+                                :disabled="form.processing"
+                            />
+                            <InputError id="listing-category-error" :message="form.errors.category_id" class="mt-2" />
+                        </div>
+                        <div>
+                            <label for="listing-condition" class="block text-sm font-semibold">Kondisi *</label>
+                            <CustomSelect
+                                id="listing-condition"
+                                v-model="form.item_condition"
+                                name="item_condition"
+                                :options="conditionOptions"
+                                placeholder="Pilih kondisi"
+                                rounded="2xl"
+                                class="mt-2"
+                                :invalid="!!form.errors.item_condition"
+                                :described-by="form.errors.item_condition ? 'listing-condition-error' : undefined"
+                                :disabled="form.processing"
+                            />
+                            <InputError id="listing-condition-error" :message="form.errors.item_condition" class="mt-2" />
+                        </div>
                     </div>
                     <div><label for="listing-price" class="block text-sm font-semibold">Harga (Rp) *</label><input id="listing-price" v-model="form.price" type="number" min="0" step="1" inputmode="numeric" required placeholder="Contoh: 1250000" :class="field" :aria-invalid="!!form.errors.price" :aria-describedby="form.errors.price ? 'listing-price-error' : undefined" /><InputError id="listing-price-error" :message="form.errors.price" class="mt-2" /></div>
                     <div><label for="listing-location" class="block text-sm font-semibold">Lokasi *</label><input id="listing-location" v-model="form.location" type="text" maxlength="255" required placeholder="Kota atau area pengambilan" :class="field" :aria-invalid="!!form.errors.location" :aria-describedby="form.errors.location ? 'listing-location-error' : undefined" /><InputError id="listing-location-error" :message="form.errors.location" class="mt-2" /></div>
