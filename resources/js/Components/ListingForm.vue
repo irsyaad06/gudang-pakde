@@ -6,8 +6,10 @@ import CustomSelect from '@/Components/CustomSelect.vue';
 import LocationSelect from '@/Components/LocationSelect.vue';
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import { useToast } from '@/Composables/useToast.js';
 
 const props = defineProps({ categories: { type: Array, required: true }, listing: { type: Object, default: null } });
+const toast = useToast();
 
 const conditionOptions = [
     { value: 'new', label: 'Baru' },
@@ -171,6 +173,7 @@ const submit = () => {
 
     if (totalPhotosCount.value === 0) {
         imageError.value = 'Wajib mengunggah minimal satu foto barang.';
+        toast.error('Wajib mengunggah minimal satu foto barang.');
         nextTick(() => fileInput.value?.focus());
         return;
     }
@@ -189,7 +192,10 @@ const submit = () => {
         return payload;
     }).post(props.listing ? route('listings.update', props.listing.id) : route('listings.store'), {
         forceFormData: true,
-        onError: () => nextTick(() => (document.querySelector('#listing-form [aria-invalid="true"]') || document.querySelector('#listing-phone-link'))?.focus()),
+        onError: () => {
+            toast.error('Mohon lengkapi seluruh kolom wajib.');
+            nextTick(() => (document.querySelector('#listing-form [aria-invalid="true"]') || document.querySelector('#listing-phone-link'))?.focus());
+        },
     });
 };
 

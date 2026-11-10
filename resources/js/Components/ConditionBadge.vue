@@ -54,3 +54,4 @@ const config = computed(() => {
         {{ config.label }}
     </span>
 </template>
+

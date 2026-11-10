@@ -2,10 +2,12 @@
 import { Link } from '@inertiajs/vue3';
 import AppIcon from '@/Components/AppIcon.vue';
 import BrandMark from '@/Components/BrandMark.vue';
+import ToastContainer from '@/Components/ToastContainer.vue';
 </script>
 
 <template>
     <div class="flex min-h-screen flex-col bg-canvas font-sans text-ink-900">
+        <ToastContainer />
         <header class="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-3 px-5 py-5 sm:px-8 sm:py-7">
             <Link :href="route('catalog.index')" class="inline-flex min-h-11 items-center gap-2.5 rounded-xl text-lg font-bold tracking-tight"><BrandMark class="h-10 w-10 shrink-0" /><span>Gudang Pakde</span></Link>
             <Link :href="route('catalog.index')" class="inline-flex min-h-11 items-center gap-2 rounded-full border border-border bg-white px-4 text-sm font-medium text-ink-600 hover:text-ink-900"><AppIcon name="arrow-left" class="h-4 w-4" /><span>Kembali ke katalog</span></Link>

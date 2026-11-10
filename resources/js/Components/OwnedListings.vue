@@ -9,38 +9,36 @@ import Modal from '@/Components/Modal.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import DangerButton from '@/Components/DangerButton.vue';
 import { formatPrice, conditionLabel } from '@/Utils/listing';
+import { useToast } from '@/Composables/useToast.js';
 
 defineProps({ listings: { type: Object, required: true } });
+const toast = useToast();
 const pendingId = ref(null);
 const deleting = ref(null);
-const error = ref('');
 const dialogId = useId();
 const setStatus = (listing) => {
     if (pendingId.value !== null) return;
-    error.value = '';
     pendingId.value = listing.id;
     router.patch(route('listings.status', listing.id), { status: listing.status === 'sold' ? 'available' : 'sold' }, {
         preserveScroll: true,
-        onError: () => { error.value = 'Status gagal diubah. Coba lagi.'; },
+        onError: () => { toast.error('Status gagal diubah. Coba lagi.'); },
         onFinish: () => { pendingId.value = null; },
     });
 };
 const remove = () => {
     if (!deleting.value || pendingId.value !== null) return;
     const id = deleting.value.id;
-    error.value = '';
     pendingId.value = id;
     router.delete(route('listings.destroy', id), {
         preserveScroll: true,
         onSuccess: () => { deleting.value = null; },
-        onError: () => { error.value = 'Barang gagal dihapus. Coba lagi.'; deleting.value = null; },
+        onError: () => { toast.error('Barang gagal dihapus. Coba lagi.'); deleting.value = null; },
         onFinish: () => { pendingId.value = null; },
     });
 };
 </script>
 
 <template>
-    <div v-if="error" role="alert" class="mb-5 rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-danger">{{ error }}</div>
     <div v-if="listings.data?.length" class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
         <article v-for="listing in listings.data" :key="listing.id" class="flex min-w-0 flex-col overflow-hidden rounded-3xl border border-border bg-surface p-3 shadow-sm" :aria-busy="pendingId === listing.id">
             <div class="relative overflow-hidden rounded-2xl bg-photo">

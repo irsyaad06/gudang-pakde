@@ -3,6 +3,7 @@ import { computed, ref, watch } from 'vue';
 import { Link, router, usePage } from '@inertiajs/vue3';
 import AppIcon from '@/Components/AppIcon.vue';
 import BrandMark from '@/Components/BrandMark.vue';
+import ToastContainer from '@/Components/ToastContainer.vue';
 
 const page = usePage();
 const menuOpen = ref(false);
@@ -32,6 +33,7 @@ const searchCatalog = () => {
 
 <template>
     <div class="flex min-h-screen flex-col bg-canvas font-sans text-ink-900">
+        <ToastContainer />
         <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-2 focus:z-50 focus:rounded-xl focus:bg-surface focus:px-4 focus:py-3">Lewati ke konten</a>
         <header class="relative z-20 mx-auto w-full max-w-[1440px] px-3 pb-5 pt-4 sm:px-6 sm:pb-6 sm:pt-6 lg:px-8">
             <div class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:gap-5">
@@ -82,9 +84,6 @@ const searchCatalog = () => {
             </div>
         </header>
 
-        <div v-if="page.props.flash?.success" role="status" class="mx-auto mb-4 w-full max-w-[1440px] px-3 sm:px-6 lg:px-8">
-            <p class="flex items-start gap-3 rounded-2xl border border-success/10 bg-success-soft p-4 text-sm font-medium text-success"><AppIcon name="check" class="h-5 w-5 shrink-0" />{{ page.props.flash.success }}</p>
-        </div>
         <main id="main-content" class="mx-auto w-full max-w-[1440px] flex-1 px-3 sm:px-6 lg:px-8"><slot /></main>
         <footer class="mx-auto flex w-full max-w-[1440px] flex-wrap items-center justify-between gap-2 px-5 py-7 text-xs text-ink-500 sm:px-8 lg:px-10">
             <div class="flex items-center gap-2">

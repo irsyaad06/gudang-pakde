@@ -84,13 +84,12 @@ const photoCount = computed(() => {
 
             <!-- Tombol Aksi: Lihat Barang & Hubungi Penjual -->
             <div class="mt-auto border-t border-border pt-3">
-                <div class="grid grid-cols-2 gap-2">
+                <div class="flex items-center gap-2">
                     <Link
                         :href="route('listings.show', listing.id)"
-                        class="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-full border border-border bg-white px-2.5 text-xs font-semibold text-ink-900 transition-colors hover:bg-canvas sm:px-3 sm:text-sm"
+                        class="inline-flex min-h-10 flex-1 items-center justify-center rounded-full border border-border bg-white px-3 text-xs font-semibold text-ink-900 transition-colors hover:bg-canvas sm:text-sm"
                     >
-                        <AppIcon name="eye" class="h-3.5 w-3.5 shrink-0 text-ink-600 sm:h-4 sm:w-4" />
-                        <span class="truncate">Lihat Barang</span>
+                        Lihat Barang
                     </Link>
 
                     <a
@@ -98,21 +97,21 @@ const photoCount = computed(() => {
                         :href="listing.whatsapp_url"
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-full bg-ink-900 px-2.5 text-xs font-semibold text-white transition-colors hover:bg-black sm:px-3 sm:text-sm"
+                        class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-ink-900 text-white transition-colors hover:bg-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-900"
                         title="Hubungi penjual via WhatsApp"
+                        aria-label="Hubungi penjual via WhatsApp"
                     >
-                        <AppIcon name="whatsapp" class="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" />
-                        <span class="truncate">Hubungi Penjual</span>
+                        <AppIcon name="whatsapp" class="h-4 w-4" />
                     </a>
                     <button
                         v-else
                         type="button"
                         disabled
-                        class="inline-flex min-h-10 cursor-not-allowed items-center justify-center gap-1.5 rounded-full bg-ink-900/50 px-2.5 text-xs font-semibold text-white opacity-60 sm:px-3 sm:text-sm"
+                        class="inline-flex h-10 w-10 shrink-0 cursor-not-allowed items-center justify-center rounded-full bg-ink-900/50 text-white opacity-60"
                         :title="listing.status === 'sold' ? 'Barang sudah terjual' : 'Kontak WhatsApp belum tersedia'"
+                        aria-label="Kontak WhatsApp tidak tersedia"
                     >
-                        <AppIcon name="whatsapp" class="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" />
-                        <span class="truncate">Hubungi Penjual</span>
+                        <AppIcon name="whatsapp" class="h-4 w-4" />
                     </button>
                 </div>
             </div>
