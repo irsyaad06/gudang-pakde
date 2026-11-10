@@ -36,7 +36,7 @@ const searchCatalog = () => {
         <header class="relative z-20 mx-auto w-full max-w-[1440px] px-3 pb-5 pt-4 sm:px-6 sm:pb-6 sm:pt-6 lg:px-8">
             <div class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:gap-5">
                 <Link :href="route('catalog.index')" class="inline-flex min-h-16 w-fit items-center gap-2.5 rounded-full border border-white bg-surface px-4 pr-5 sm:gap-3 sm:px-5 sm:pr-7" aria-label="Gudang Pakde — katalog">
-                    <BrandMark class="h-10 w-10 shrink-0 text-brand-600" />
+                    <BrandMark class="h-10 w-10 shrink-0" />
                     <span class="text-[15px] font-bold tracking-tight sm:text-lg">Gudang Pakde</span>
                 </Link>
 
@@ -87,7 +87,10 @@ const searchCatalog = () => {
         </div>
         <main id="main-content" class="mx-auto w-full max-w-[1440px] flex-1 px-3 sm:px-6 lg:px-8"><slot /></main>
         <footer class="mx-auto flex w-full max-w-[1440px] flex-wrap items-center justify-between gap-2 px-5 py-7 text-xs text-ink-500 sm:px-8 lg:px-10">
-            <span class="font-semibold text-ink-600">Gudang Pakde</span>
+            <div class="flex items-center gap-2">
+                <BrandMark class="h-5 w-5 shrink-0" />
+                <span class="font-semibold text-ink-600">Gudang Pakde</span>
+            </div>
             <span>Barang bekas, kesempatan baru.</span>
         </footer>
     </div>
