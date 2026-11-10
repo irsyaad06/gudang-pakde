@@ -3,7 +3,8 @@ import { computed } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import AppIcon from '@/Components/AppIcon.vue';
 import StatusBadge from '@/Components/StatusBadge.vue';
-import { conditionLabel, formatPrice } from '@/Utils/listing.js';
+import ConditionBadge from '@/Components/ConditionBadge.vue';
+import { formatPrice } from '@/Utils/listing.js';
 
 const props = defineProps({ listing: { type: Object, required: true } });
 
@@ -13,42 +14,108 @@ const photoCount = computed(() => {
 </script>
 
 <template>
-    <Link
-        :href="route('listings.show', listing.id)"
-        class="group flex min-w-0 flex-col rounded-xl border border-border bg-surface p-2 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-ink-900/25 hover:shadow-[0_10px_25px_-5px_rgba(0,0,0,0.08),0_8px_10px_-6px_rgba(0,0,0,0.04)] sm:p-3"
+    <article
+        class="group flex min-w-0 flex-col overflow-hidden rounded-3xl border border-border bg-surface p-3 shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:border-ink-900/25 hover:shadow-[0_10px_25px_-5px_rgba(0,0,0,0.08),0_8px_10px_-6px_rgba(0,0,0,0.04)]"
     >
-        <div class="relative aspect-[4/3] overflow-hidden rounded-lg bg-photo">
-            <img
-                v-if="listing.image_url"
-                :src="listing.image_url"
-                :alt="`Foto ${listing.title}`"
-                class="h-full w-full object-contain p-2 transition-transform duration-500 ease-out group-hover:scale-105 sm:p-3"
-                loading="lazy"
-                decoding="async"
-            />
-            <div v-else class="flex h-full flex-col items-center justify-center gap-2 px-2 text-center text-xs text-ink-500">
-                <AppIcon name="image" class="h-8 w-8" />
-                Foto belum tersedia
+        <!-- Kontainer Gambar dengan Status Badge di Kiri Atas -->
+        <div class="relative overflow-hidden rounded-2xl bg-photo">
+            <Link
+                :href="route('listings.show', listing.id)"
+                :aria-label="`Lihat detail ${listing.title}`"
+                class="block aspect-[4/3] overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-brand-600"
+            >
+                <img
+                    v-if="listing.image_url"
+                    :src="listing.image_url"
+                    :alt="`Foto ${listing.title}`"
+                    class="h-full w-full object-contain p-2 sm:p-3 transition-transform duration-500 ease-out group-hover:scale-105"
+                    loading="lazy"
+                    decoding="async"
+                />
+                <div v-else class="flex h-full flex-col items-center justify-center gap-2 p-4 text-center text-xs text-ink-500">
+                    <AppIcon name="image" class="h-8 w-8" />
+                    <span>Foto belum tersedia</span>
+                </div>
+            </Link>
+
+            <!-- Status Barang di Atas Gambar (Kiri Atas) -->
+            <div class="pointer-events-none absolute left-2.5 top-2.5 z-10 sm:left-3 sm:top-3">
+                <StatusBadge :status="listing.status" />
             </div>
 
+            <!-- Jumlah Foto (di Kanan Bawah) -->
             <span
                 v-if="photoCount > 1"
-                class="absolute bottom-2 right-2 flex items-center gap-1 rounded-md bg-ink-900/70 px-1.5 py-0.5 text-[10px] font-semibold text-white shadow-sm backdrop-blur-sm"
+                class="pointer-events-none absolute bottom-2.5 right-2.5 z-10 flex items-center gap-1 rounded-md bg-ink-900/70 px-1.5 py-0.5 text-[10px] font-semibold text-white shadow-sm backdrop-blur-sm"
                 :title="`${photoCount} foto`"
             >
                 <AppIcon name="image" class="h-3 w-3" />
                 {{ photoCount }}
             </span>
         </div>
-        <div class="flex flex-1 flex-col px-0.5 pb-3 pt-3 sm:px-1 sm:pb-4 sm:pt-4">
-            <h3 class="line-clamp-2 min-h-10 break-words text-sm font-semibold leading-5 tracking-tight text-ink-900 transition-colors duration-200 group-hover:text-brand-600 sm:min-h-12 sm:text-base sm:leading-6">{{ listing.title }}</h3>
-            <p v-if="listing.category?.name" class="mt-1 truncate text-xs text-ink-600 sm:text-sm">{{ listing.category.name }}</p>
-            <p class="mt-3 break-words text-[15px] font-bold leading-snug tracking-tight text-ink-900 sm:text-xl">{{ formatPrice(listing.price) }}</p>
-            <div class="mt-auto space-y-1.5 pt-3 text-xs text-ink-600">
-                <p class="break-words">{{ conditionLabel(listing.item_condition) }}</p>
-                <p class="flex min-w-0 items-start gap-1"><AppIcon name="location" class="mt-px h-3.5 w-3.5 shrink-0 text-ink-500" /><span class="line-clamp-2 break-words">{{ listing.location }}</span></p>
+
+        <!-- Konten Info Barang -->
+        <div class="flex flex-1 flex-col px-1 pb-1 pt-4 sm:px-2">
+            <!-- Kategori & Badge Kondisi Barang -->
+            <div class="flex flex-wrap items-center gap-2">
+                <span v-if="listing.category?.name" class="text-xs font-medium text-ink-500">
+                    {{ listing.category.name }}
+                </span>
+                <ConditionBadge :condition="listing.item_condition" />
+            </div>
+
+            <!-- Judul Barang -->
+            <h3 class="mt-2.5 line-clamp-2 break-words text-base font-semibold leading-snug tracking-tight text-ink-900 transition-colors duration-200 group-hover:text-brand-600 sm:text-lg">
+                <Link :href="route('listings.show', listing.id)" class="hover:underline">
+                    {{ listing.title }}
+                </Link>
+            </h3>
+
+            <!-- Harga -->
+            <p class="mt-2 break-words text-lg font-bold tracking-tight text-ink-900 sm:text-xl">
+                {{ formatPrice(listing.price) }}
+            </p>
+
+            <!-- Lokasi Wilayah -->
+            <p class="mb-4 mt-2 flex items-start gap-1.5 break-words text-xs text-ink-600 sm:text-sm">
+                <AppIcon name="location" class="mt-0.5 h-3.5 w-3.5 shrink-0 text-ink-500" />
+                <span class="line-clamp-1 min-w-0 break-words">{{ listing.location }}</span>
+            </p>
+
+            <!-- Tombol Aksi: Lihat Barang & Hubungi Penjual -->
+            <div class="mt-auto border-t border-border pt-3">
+                <div class="grid grid-cols-2 gap-2">
+                    <Link
+                        :href="route('listings.show', listing.id)"
+                        class="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-full border border-border bg-white px-2.5 text-xs font-semibold text-ink-900 transition-colors hover:bg-canvas sm:px-3 sm:text-sm"
+                    >
+                        <AppIcon name="eye" class="h-3.5 w-3.5 shrink-0 text-ink-600 sm:h-4 sm:w-4" />
+                        <span class="truncate">Lihat Barang</span>
+                    </Link>
+
+                    <a
+                        v-if="listing.whatsapp_url"
+                        :href="listing.whatsapp_url"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-full bg-ink-900 px-2.5 text-xs font-semibold text-white transition-colors hover:bg-black sm:px-3 sm:text-sm"
+                        title="Hubungi penjual via WhatsApp"
+                    >
+                        <AppIcon name="whatsapp" class="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" />
+                        <span class="truncate">Hubungi Penjual</span>
+                    </a>
+                    <button
+                        v-else
+                        type="button"
+                        disabled
+                        class="inline-flex min-h-10 cursor-not-allowed items-center justify-center gap-1.5 rounded-full bg-ink-900/50 px-2.5 text-xs font-semibold text-white opacity-60 sm:px-3 sm:text-sm"
+                        :title="listing.status === 'sold' ? 'Barang sudah terjual' : 'Kontak WhatsApp belum tersedia'"
+                    >
+                        <AppIcon name="whatsapp" class="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" />
+                        <span class="truncate">Hubungi Penjual</span>
+                    </button>
+                </div>
             </div>
         </div>
-        <StatusBadge :status="listing.status" class="w-full shrink-0" />
-    </Link>
+    </article>
 </template>

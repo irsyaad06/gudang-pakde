@@ -26,7 +26,7 @@ class CatalogController extends Controller
         $location = trim($filters['location'] ?? '');
 
         $listings = Listing::query()
-            ->with(['category', 'images'])
+            ->with(['category', 'images', 'user:id,name,phone'])
             ->when($search !== '', fn ($query) => $query->where(function ($query) use ($search) {
                 $query->where('title', 'like', '%'.$search.'%')
                     ->orWhere('description', 'like', '%'.$search.'%');

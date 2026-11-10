@@ -66,6 +66,7 @@ class MarketplaceTest extends TestCase
                 ->where('listings.data.0.id', $match->id)
                 ->where('listings.data.0.category.slug', 'sepeda')
                 ->where('listings.data.0.image_url', Storage::disk('public')->url('listings/photo.jpg'))
+                ->where('listings.data.0.whatsapp_url', 'https://wa.me/6281234567890?text='.rawurlencode('Halo, pakde! saya tertarik dengan '.$match->title.' (#'.$match->id.')., saya mau liat detailnya dong...'))
                 ->missing('listings.data.0.user_id')->etc());
 
         $this->get(route('listings.show', $match))->assertOk()

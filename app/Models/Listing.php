@@ -38,6 +38,12 @@ class Listing extends Model
     {
         $image = $this->images->first();
 
+        $phone = $this->relationLoaded('user') ? $this->user?->phone : null;
+        $whatsappUrl = $this->status === 'available' && is_string($phone)
+            && preg_match('/^62[1-9][0-9]{7,12}$/', $phone)
+                ? 'https://wa.me/'.$phone.'?text='.rawurlencode('Halo, pakde! saya tertarik dengan '.$this->title.' (#'.$this->id.')., saya mau liat detailnya dong...')
+                : null;
+
         return [
             'id' => $this->id,
             'title' => $this->title,
@@ -52,6 +58,7 @@ class Listing extends Model
             ])->values()->all(),
             'images_count' => $this->images->count(),
             'category' => $this->category ? $this->category->only('id', 'name', 'slug') : null,
+            'whatsapp_url' => $whatsappUrl,
         ];
     }
 }

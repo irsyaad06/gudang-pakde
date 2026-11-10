@@ -3,6 +3,7 @@ import { ref, useId } from 'vue';
 import { Link, router } from '@inertiajs/vue3';
 import AppIcon from '@/Components/AppIcon.vue';
 import StatusBadge from '@/Components/StatusBadge.vue';
+import ConditionBadge from '@/Components/ConditionBadge.vue';
 import ListingPagination from '@/Components/ListingPagination.vue';
 import Modal from '@/Components/Modal.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
@@ -50,7 +51,10 @@ const remove = () => {
                 <div class="pointer-events-none absolute left-3 top-3"><StatusBadge :status="listing.status" /></div>
             </div>
             <div class="flex flex-1 flex-col px-2 pb-2 pt-5 sm:px-3">
-                <p class="text-xs font-medium text-ink-500">{{ listing.category?.name }}<span v-if="listing.category?.name"> · </span>{{ conditionLabel(listing.item_condition) }}</p>
+                <div class="flex flex-wrap items-center gap-2">
+                    <span v-if="listing.category?.name" class="text-xs font-medium text-ink-500">{{ listing.category.name }}</span>
+                    <ConditionBadge :condition="listing.item_condition" />
+                </div>
                 <h3 class="mt-2 break-words text-lg font-semibold tracking-tight text-ink-900"><Link :href="route('listings.show', listing.id)" class="rounded-lg hover:underline">{{ listing.title }}</Link></h3>
                 <p class="mt-2 break-words text-xl font-semibold tracking-tight text-ink-900">{{ formatPrice(listing.price) }}</p>
                 <p class="mb-5 mt-2 flex items-start gap-1.5 break-words text-sm text-ink-600"><AppIcon name="location" class="mt-0.5 h-4 w-4 shrink-0" /><span class="min-w-0 break-words">{{ listing.location }}</span></p>

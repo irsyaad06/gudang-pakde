@@ -7,9 +7,11 @@ defineProps({
 </script>
 
 <template>
-    <span class="inline-flex items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold" :class="status === 'sold' ? 'bg-sold text-warning' : 'bg-success-soft text-success'">
-        <AppIcon v-if="status === 'available'" name="check" class="h-3.5 w-3.5 shrink-0" />
-        <span v-else aria-hidden="true" class="h-1.5 w-1.5 shrink-0 rounded-full bg-current" />
+    <span
+        class="inline-flex items-center justify-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold shadow-sm backdrop-blur-sm transition-colors"
+        :class="status === 'sold' ? 'bg-danger text-white' : 'bg-emerald-600 text-white'"
+    >
+        <span aria-hidden="true" class="h-1.5 w-1.5 shrink-0 rounded-full bg-white" />
         {{ status === 'sold' ? 'Terjual' : 'Tersedia' }}
     </span>
 </template>

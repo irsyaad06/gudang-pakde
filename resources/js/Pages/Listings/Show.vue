@@ -4,6 +4,7 @@ import { Head, Link } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import AppIcon from '@/Components/AppIcon.vue';
 import StatusBadge from '@/Components/StatusBadge.vue';
+import ConditionBadge from '@/Components/ConditionBadge.vue';
 import { conditionLabel, formatPrice } from '@/Utils/listing.js';
 
 const props = defineProps({ listing: { type: Object, required: true } });
@@ -78,7 +79,9 @@ watch(galleryImages, (images) => {
                     <dl class="mt-7 grid grid-cols-2 gap-4 border-y border-border py-5 text-sm sm:mt-8 sm:py-6">
                         <div class="min-w-0">
                             <dt class="mb-2 text-xs text-ink-600">Kondisi barang</dt>
-                            <dd class="break-words font-semibold">{{ conditionLabel(listing.item_condition) }}</dd>
+                            <dd class="break-words font-semibold">
+                                <ConditionBadge :condition="listing.item_condition" />
+                            </dd>
                         </div>
                         <div class="min-w-0 border-l border-border pl-4">
                             <dt class="mb-2 text-xs text-ink-600">Lokasi barang</dt>
@@ -100,7 +103,11 @@ watch(galleryImages, (images) => {
                                 <p class="mt-3 rounded-xl bg-sold p-3 text-xs leading-relaxed text-warning">Barang ini sudah terjual. Kontak penjual tidak tersedia.</p>
                             </template>
                             <template v-else-if="listing.whatsapp_url">
-                                <a :href="listing.whatsapp_url" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-ink-900 px-3 text-center text-sm font-semibold text-white hover:bg-ink-900/90">Hubungi via WhatsApp<AppIcon name="arrow-up-right" class="h-[18px] w-[18px] shrink-0" /><span class="sr-only">(buka tab baru)</span></a>
+                                <a :href="listing.whatsapp_url" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-ink-900 px-3 text-center text-sm font-semibold text-white hover:bg-black transition-colors">
+                                    <AppIcon name="whatsapp" class="h-5 w-5 shrink-0" />
+                                    <span>Hubungi via WhatsApp</span>
+                                    <span class="sr-only">(buka tab baru)</span>
+                                </a>
                                 <p class="mt-3 text-center text-xs leading-relaxed text-ink-600">Percakapan terbuka di WhatsApp. Transaksi diatur langsung dengan penjual.</p>
                             </template>
                             <p v-else class="rounded-xl bg-photo p-4 text-sm leading-relaxed text-ink-600">Kontak penjual belum tersedia.</p>
