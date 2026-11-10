@@ -211,7 +211,11 @@ const field = 'mt-2 block min-h-12 w-full rounded-2xl border-border bg-white px-
                 </div>
 
                 <!-- Pratinjau Utama Foto -->
-                <div class="relative flex aspect-[4/3] max-h-60 w-full items-center justify-center overflow-hidden rounded-3xl border border-border bg-photo sm:max-h-72 lg:aspect-square lg:max-h-none">
+                <div
+                    class="relative flex aspect-[4/3] max-h-60 w-full items-center justify-center overflow-hidden rounded-3xl border border-border bg-photo sm:max-h-72 lg:aspect-square lg:max-h-none"
+                    :class="{ 'cursor-pointer transition-colors hover:bg-canvas': !activePreview && totalPhotosCount < 5 }"
+                    @click="!activePreview && totalPhotosCount < 5 ? triggerFileInput() : null"
+                >
                     <img
                         v-if="activePreview"
                         :src="activePreview"
@@ -224,16 +228,21 @@ const field = 'mt-2 block min-h-12 w-full rounded-2xl border-border bg-white px-
                         </div>
                         <p class="mt-5 text-base font-semibold">Foto yang jelas, kesan yang baik</p>
                         <p class="mx-auto mt-2 max-w-xs text-sm leading-relaxed text-ink-600">
-                            Unggah satu atau lebih foto (hingga 5 foto) untuk memperlihatkan kondisi barang secara menyeluruh.
+                            Klik di sini atau tombol <span class="font-semibold text-brand-700">+ Tambah</span> di bawah untuk mengunggah hingga 5 foto.
                         </p>
                     </div>
                 </div>
 
                 <!-- Kotak-kotak Thumbnail & Tambah Foto -->
                 <div class="mt-4">
-                    <p class="text-xs font-semibold uppercase tracking-wider text-ink-500">
-                        Daftar Foto (klik untuk lihat, x untuk hapus)
-                    </p>
+                    <div class="flex items-center justify-between">
+                        <p class="text-xs font-semibold uppercase tracking-wider text-ink-500">
+                            Daftar Foto (maks. 5)
+                        </p>
+                        <span class="text-xs text-ink-500">
+                            Maks. 2 MB/foto
+                        </span>
+                    </div>
 
                     <div class="mt-2.5 flex flex-wrap items-center gap-2.5 sm:gap-3">
                         <div
@@ -279,17 +288,14 @@ const field = 'mt-2 block min-h-12 w-full rounded-2xl border-border bg-white px-
                             <span class="mt-1 text-[10px] font-semibold">+ Tambah</span>
                         </button>
                     </div>
-                </div>
 
-                <!-- Input File Tersembunyi tapi Aksesibel -->
-                <div class="mt-5 rounded-2xl border border-dashed border-border p-4 sm:p-5">
-                    <label for="listing-images" class="flex items-center gap-2 text-sm font-semibold">
-                        <AppIcon name="upload" class="h-5 w-5" />
-                        Unggah foto barang {{ listing ? '' : '*' }}
-                    </label>
-                    <p id="listing-images-help" class="mt-2 text-sm leading-relaxed text-ink-600">
-                        JPG, PNG, atau WebP · Maksimal 2 MB per foto · Maksimal 5 foto. Anda dapat memilih beberapa foto sekaligus.
+                    <!-- Keterangan & Error Validasi Foto -->
+                    <p class="mt-2 text-xs text-ink-500">
+                        Format JPG, PNG, atau WebP. Anda dapat memilih beberapa foto sekaligus.
                     </p>
+                    <InputError id="listing-images-error" :message="imageError || form.errors.images" class="mt-2" />
+
+                    <!-- Input File Tersembunyi tapi Aksesibel untuk triggerFileInput -->
                     <input
                         id="listing-images"
                         ref="fileInput"
@@ -297,12 +303,11 @@ const field = 'mt-2 block min-h-12 w-full rounded-2xl border-border bg-white px-
                         multiple
                         accept="image/jpeg,image/png,image/webp"
                         :disabled="form.processing || totalPhotosCount >= 5"
-                        class="mt-4 block min-h-11 w-full min-w-0 rounded-xl text-sm text-ink-600 file:mr-3 file:min-h-11 file:rounded-full file:border file:border-border file:bg-white file:px-4 file:text-sm file:font-semibold file:text-ink-900 hover:file:bg-canvas focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-600 disabled:opacity-60"
+                        class="sr-only"
                         :aria-invalid="!!(imageError || form.errors.images)"
-                        :aria-describedby="imageError || form.errors.images ? 'listing-images-help listing-images-error' : 'listing-images-help'"
+                        aria-describedby="listing-images-error"
                         @change="chooseImages"
                     />
-                    <InputError id="listing-images-error" :message="imageError || form.errors.images" class="mt-2" />
                 </div>
             </section>
 
