@@ -1,6 +1,6 @@
 # 09 — UI/UX Design System: Gudang Pakde
 
-> **Status:** Proposed, implementation-ready design specification. This document translates the previously agreed **clean, modern, minimalist, responsive secondhand marketplace** direction into concrete UI rules. It is **not** a pixel-perfect reproduction of an approved Figma/screenshot: no authoritative design asset is attached. If one is later provided, that visual reference takes precedence over aesthetic defaults here.
+> **Status:** Updated to follow the **Sellora commerce screenshot supplied by the user in conversation**. That reference supersedes the earlier green marketplace direction: light-gray canvas, white rounded panels, pill navigation, charcoal active states and primary actions, violet brand/focus accents, and large inset product imagery. The screenshot is visual direction, not a requirement to copy Sellora's dashboard features or claim pixel-perfect fidelity. Only FR-01–FR-09 are implemented.
 >
 > **Scope:** Laravel 13 + Vue 3 + Inertia.js + Tailwind CSS. MVP must remain achievable in one day. No UI framework or icon dependency is mandatory; reuse what is already installed.
 
@@ -19,22 +19,26 @@ Brand name in UI: **Gudang Pakde**. Tone: approachable, trustworthy, practical, 
 
 | Token | Value | Use |
 |---|---|---|
-| `brand-50` | `#ECFDF5` | Subtle selected backgrounds |
-| `brand-100` | `#D1FAE5` | Soft emphasis |
-| `brand-600` | `#059669` | Primary buttons, links |
-| `brand-700` | `#047857` | Hover/active |
-| `brand-800` | `#065F46` | Strong text emphasis |
-| `ink-900` | `#111827` | Primary text |
-| `ink-600` | `#4B5563` | Secondary text |
-| `ink-500` | `#6B7280` | Muted labels |
-| `surface` | `#FFFFFF` | Cards/forms |
-| `canvas` | `#F9FAFB` | Page background |
-| `border` | `#E5E7EB` | Dividers, controls |
+| `brand-50` | `#F5F3FF` | Subtle violet backgrounds |
+| `brand-100` | `#EDE9FE` | Soft emphasis |
+| `brand-600` | `#6D5CE7` | Brand mark and focus accents |
+| `brand-700` | `#5B4BC4` | Accent hover |
+| `brand-800` | `#4637A5` | Strong accent text |
+| `ink-900` | `#202024` | Primary text, dark buttons and active pills |
+| `ink-600` | `#62626B` | Secondary text |
+| `ink-500` | `#777780` | Muted labels |
+| `surface` | `#FFFFFF` | Content panels/cards/forms |
+| `canvas` | `#F3F3F5` | Application background |
+| `photo` | `#F7F7F8` | Inset image stages |
+| `border` | `#E8E8EC` | Subtle dividers/controls |
 | `danger` | `#DC2626` | Validation/destructive |
-| `warning` | `#B45309` | Sold / attention |
-| `focus` | `#10B981` | Focus ring |
+| `success` | `#15803D` | Available status text |
+| `success-soft` | `#F0FDF4` | Available status background |
+| `warning` | `#A16207` | Sold status text |
+| `sold` | `#FFFBEB` | Sold status background |
+| `focus` | `#6D5CE7` | Focus ring |
 
-**Note:** Color tokens are *new project design decisions*, not colors extracted from a screenshot. Use semantic CSS variables or Tailwind theme mapping to avoid scattered hard-coded values. Verify WCAG contrast (especially white text on brand buttons and secondary text).
+Tokens are centralized in `tailwind.config.js` and interpret the supplied reference rather than claiming sampled exact colors. Use charcoal with white text for primary actions, violet for brand/focus, and green/amber only for honest availability feedback. Verify contrast in context.
 
 ### Typography
 - Primary: `Inter`, fallback `ui-sans-serif, system-ui, sans-serif`; use system fonts if Inter is not already bundled.
@@ -47,12 +51,13 @@ Brand name in UI: **Gudang Pakde**. Tone: approachable, trustworthy, practical, 
 
 ### Layout and rhythm
 - Spacing scale: Tailwind 1/2/3/4/6/8/10/12; base vertical section gap 24–32px.
-- Container: `max-w-7xl mx-auto px-4 sm:px-6 lg:px-8`.
-- Header: ~64px height; sticky optional, never cover content.
-- Cards: white background, `rounded-xl`, subtle `border`, optional `shadow-sm`; hover effect only on devices with hover.
-- Buttons/inputs: minimum 44px touch target; `rounded-lg` or `rounded-xl`, consistent across screens.
+- Application container: maximum 1440px with responsive 12/24/32px side gutters.
+- Header: three floating white pill groups (brand, functional navigation, search/account). Navigation wraps to a second row on mobile; no fake Sellora menus.
+- Content panels: white, 24–32px corners, subtle borders/shadow; catalog and owner management share a panel-based composition.
+- Cards: inset image stage, thin border, `rounded-xl`, restrained elevation. Status is a full-width text strip in catalog cards.
+- Buttons/inputs: minimum 44px touch target; pill primary/secondary buttons, rounded 12–16px fields, shared focus treatment.
 - Icons: consistent 18–20px line icons; always pair critical actions with labels.
-- Image ratio: **4:3** in catalog cards, `object-cover`; show neutral placeholder when absent.
+- Catalog image stage: **4:3**, inset with `object-contain` so the whole product stays visible, neutral placeholder when absent. Detail/upload use a larger proportional stage; mobile/tablet upload preview height is capped for efficient scrolling.
 - Avoid gradients, glassmorphism, heavy shadows, arbitrary animations, and dense admin-style tables.
 
 ## 3. Responsive behavior
@@ -141,8 +146,17 @@ Reuse existing Breeze/Inertia layout and components when sensible; don't add a f
 - [ ] All actions have keyboard-visible focus and usable touch targets.
 - [ ] UI uses Bahasa Indonesia consistently.
 - [ ] No invented features, seller ratings, payment, or AI widgets.
-- [ ] Screenshot comparison performed against approved reference **if supplied**.
+- [ ] Visual review against the user-supplied Sellora direction; do not claim exact pixel matching or copy features beyond the MVP.
 
 ## 8. Agent implementation guidance
 
 Build in order: shared layout → catalog card/search/filter → detail → listing form → my listings/profile → auth polish. Keep design tokens centralized. Avoid page-specific arbitrary colors/spacing. Implement and test behavior before decorative polish. Read `10-page-specifications.md` for per-screen layouts and acceptance.
+
+## 9. Implemented redesign and verification
+
+- Shared `AppIcon`, `BrandMark`, `StatusBadge`, listing formatters, input/button controls, `ListingForm`, and `OwnedListings` keep visual and interaction behavior reusable without a UI-library dependency.
+- The redesign retains Laravel routes, Inertia page contracts, authentication, upload rules, and marketplace business logic (FR-01–FR-09).
+- Chrome/CDP visual review covered catalog, detail, create, edit, my listings, profile, login, and register at 360/768/1440 CSS px. Catalog renders 2/3/4 columns. Create/edit stack on mobile/tablet and use two columns on desktop. No horizontal overflow, broken images, JavaScript exceptions, or native-modal errors were detected in reviewed states.
+- Browser interactions checked combined search/category/condition filters and reset, account navigation, login/logout, guest-post redirect, and modal cancel/Escape/focus return. This is not a full accessibility certification or complete browser mutation suite; no real WhatsApp message was sent.
+- Latest validation: `php artisan test` passed (36 tests, 371 assertions), `npm run build` passed, and `git diff --check` passed.
+- Local screenshots/measurements are ignored development artifacts under `storage/app/ui-review/sellora-*`. Synthetic QA records were removed after capture; existing user records were not edited by the review. Demo imagery remains clearly documented original illustrations, not actual product photography from the Sellora reference.

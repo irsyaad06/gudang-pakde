@@ -1,6 +1,6 @@
 # 10 — Page Specifications & User Flows: Gudang Pakde
 
-> **Status:** Proposed page-level specification for the GITS MVP. Based on the previously agreed modern, clean secondhand-marketplace concept, **not a pixel-perfect mockup**. Use `09-ui-ux-design-system.md` for visual tokens and interaction rules.
+> **Status:** Page behavior specification for the GITS MVP, updated for the user's **Sellora reference**. Earlier wireframes describe functional content, not the final visual composition. All screens now use the neutral panel/pill design in `09-ui-ux-design-system.md`; no orders, analytics, marketing, or other out-of-scope dashboard features are added.
 >
 > **Route note:** URLs are proposed; check the existing Laravel/Breeze routes before implementation. Use Inertia pages, not a separate Vue SPA/API.
 
@@ -29,9 +29,9 @@ flowchart TD
 
 ## 2. Global shell
 
-**Header desktop:** left logo/text “Gudang Pakde”; central search or search accessible from catalog; right `Jelajahi Barang`, `Pasang Barang`, guest `Masuk/Daftar` or member `Profil/Keluar`.
+**Header desktop:** floating white pill groups on a gray canvas: brand left, navigation center (`Katalog`, member `Barang Saya`, `Pasang Barang`) with dark active pill, search/account right. The account dropdown contains guest `Masuk/Buat akun` or member `Profil/Barang Saya/Keluar`; only real actions are present.
 
-**Header mobile:** brand + compact auth/menu controls; search row below header on catalog; posting CTA remains discoverable. Use semantic navigation and keyboard-accessible menu.
+**Header mobile:** brand and account trigger on the first row, pill navigation below. Catalog search sits inside the content panel; posting stays discoverable. Account dropdown supports keyboard, Escape, and return focus.
 
 **Footer:** short copyright/product text; no fake corporate/legal links. Main content has `max-w-7xl` container.
 
@@ -61,7 +61,7 @@ flowchart TD
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-**Mobile:** compact header; search full width; filter controls stacked/scrollable; 2-column cards where readable; pagination usable without overflow.
+**Final composition:** compact catalog heading, count and working search/filter/post toolbar inside a large rounded white content panel. No marketing hero. Product cards use inset 4:3 imagery and full-width available/sold strips. **Mobile:** search full width; collapsible filters stack; 2-column cards where readable; pagination usable without overflow.
 
 **Props:** paginated `listings`, `categories`, `filters`, optional `total` from query. **Cards:** image, title, price, condition, location, status. **Interactions:** search, filter category/condition, reset, click card, pagination. **States:** loading, no listings, no search results, missing image.
 
@@ -94,7 +94,7 @@ flowchart TD
 
 **Routes:** existing auth routes · **Access:** guest · **Pages:** installed auth components.
 
-**Layout:** centered compact card, logo, clear title, labeled inputs, primary CTA, link to alternate auth page. Preserve starter-kit security patterns.
+**Layout:** premium rounded white authentication panel on gray canvas, with restrained brand/editorial column on desktop and a single form column on mobile. Charcoal CTA, labeled inputs, violet focus, and working alternate-auth links. Existing starter-kit authentication behavior is preserved, not its default visual styling.
 
 **Login:** email, password, remember-me if already supported, submit, link to register.  
 **Register:** name, email, password, confirmation; phone may be collected at profile stage.  
@@ -135,7 +135,7 @@ flowchart TD
 7. Foto (required, JPEG/PNG/WebP up to 2 MB proposed)
 8. `Pasang Barang` CTA and `Batal`
 
-**Layout:** one-column form in max-width ~720px, grouped sections, image preview, inline validation. **States:** initial, invalid, uploading/processing, success, upload failure.
+**Layout:** shared full-width two-column white panel on desktop: large image preview/upload on the left, complete listing details on the right, save/cancel footer. Stacks on mobile/tablet with a capped preview height. One photo remains the MVP limit; no fake multi-image gallery. **States:** initial, invalid, uploading/processing, success, upload failure.
 
 **Acceptance:** server validation, seller contact requirement, safe upload, duplicate-submit prevention, redirect to detail or my listings on success.
 
@@ -205,4 +205,4 @@ Reuse create form with initial values. Existing photo visible and retained unles
 - [ ] Status, price, location, condition, seller info accurately displayed.
 - [ ] No checkout, payment, ratings, reviews, chat, AI, or unnecessary admin.
 - [ ] Agent provides screenshots for visual review if tooling permits.
-- [ ] **Pixel-perfect comparison only after approved visual mockup is supplied.**
+- [ ] Visual review against the supplied Sellora screenshot for composition, surfaces, typography and spacing; no claim of pixel-perfect reproduction.

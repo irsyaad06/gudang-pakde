@@ -1,6 +1,6 @@
 # 05 — Database Design (MySQL)
 
-**Engine:** MySQL 8.x InnoDB. **Status:** proposed schema; migrations must be checked against existing Laravel starter-kit tables.
+**Engine target:** MySQL 8.x InnoDB. **Implementation:** `database/migrations/2026_11_11_000001_create_marketplace_tables.php` extends the existing users table and adds categories, listings, and listing_images. The test suite uses SQLite in-memory. The four migrations and category seeder were also executed successfully on the configured local MySQL connection; this is a migration check, not a production load/compatibility benchmark.
 
 ## ERD
 ```mermaid
@@ -90,7 +90,7 @@ Seed: bicycles, tools, hobbies, electronics, household goods (display names in I
 | `sort_order` | INT UNSIGNED | Default 0 |
 | timestamps | TIMESTAMP | Laravel standard |
 
-MVP may restrict each listing to one uploaded photo; retaining a separate images table makes multi-photo support possible later.
+The MVP form accepts one uploaded photo per listing, stored on Laravel's `public` disk. The images table can support more than one image later.
 
 ## Referential integrity
 - `listings.user_id` → `users.id`: restrict deletion of users with listings unless explicit cleanup policy exists.

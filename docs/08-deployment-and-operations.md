@@ -9,7 +9,7 @@ Existing project directory: `gudang-pakde` (Laravel already installed by develop
 - MySQL 8.x.
 - Git.
 
-### Fresh clone setup (once implementation exists)
+### Fresh clone setup
 ```bash
 composer install
 npm install
@@ -22,7 +22,7 @@ php artisan serve
 # in another terminal
 npm run dev
 ```
-Run `php artisan route:list`, `php artisan test`, and `npm run build` to verify. The above assumes migration/seeder and storage upload code are implemented.
+Run `php artisan route:list`, `php artisan test`, and `npm run build` to verify. Migrations, category seeder, and public-disk upload code are implemented. Tests use SQLite in-memory from `phpunit.xml`; they do not validate MySQL connectivity. Validate `php artisan migrate:status` and `php artisan migrate --seed` with a configured local MySQL database before deploying. Existing local `.env` files are not changed automatically.
 
 ### Example local `.env` values
 ```dotenv
@@ -96,4 +96,4 @@ DB_PASSWORD=
 - [ ] `npm run build` passes
 
 ## Documentation maintenance
-Treat these files as the **planned design**. Update route names, props, schema, and implementation status after code changes. Do not claim infrastructure has been deployed simply because its diagram exists.
+Application routes and schema are now implemented as described in docs 05/06; production scaling and infrastructure remain design-only. Keep route names, props, schema, and implementation status current. Do not claim infrastructure has been deployed simply because its diagram exists.
