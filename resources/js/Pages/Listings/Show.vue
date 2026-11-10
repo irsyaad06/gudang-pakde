@@ -1,11 +1,30 @@
 <script setup>
+import { computed, ref, watch } from 'vue';
 import { Head, Link } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import AppIcon from '@/Components/AppIcon.vue';
 import StatusBadge from '@/Components/StatusBadge.vue';
 import { conditionLabel, formatPrice } from '@/Utils/listing.js';
 
-defineProps({ listing: { type: Object, required: true } });
+const props = defineProps({ listing: { type: Object, required: true } });
+
+const galleryImages = computed(() => {
+    if (props.listing.images && props.listing.images.length > 0) {
+        return props.listing.images;
+    }
+    if (props.listing.image_url) {
+        return [{ id: 'primary', url: props.listing.image_url }];
+    }
+    return [];
+});
+
+const activeImage = ref(galleryImages.value[0]?.url || props.listing.image_url || null);
+
+watch(galleryImages, (images) => {
+    if (!activeImage.value || !images.some(img => img.url === activeImage.value)) {
+        activeImage.value = images[0]?.url || props.listing.image_url || null;
+    }
+}, { immediate: true });
 </script>
 
 <template>
@@ -20,9 +39,30 @@ defineProps({ listing: { type: Object, required: true } });
 
             <article class="grid min-w-0 items-start gap-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.85fr)] lg:gap-8 xl:gap-10">
                 <div class="min-w-0 lg:col-start-1 lg:row-start-1">
-                    <div class="aspect-[4/3] overflow-hidden rounded-2xl bg-photo sm:rounded-[20px]">
-                        <img v-if="listing.image_url" :src="listing.image_url" :alt="`Foto ${listing.title}`" class="h-full w-full object-contain p-5 sm:p-8" fetchpriority="high" />
+                    <div class="relative aspect-[4/3] overflow-hidden rounded-2xl bg-photo sm:rounded-[20px]">
+                        <img v-if="activeImage" :src="activeImage" :alt="`Foto ${listing.title}`" class="h-full w-full object-contain p-5 sm:p-8 transition-opacity duration-200" fetchpriority="high" />
                         <div v-else class="flex h-full flex-col items-center justify-center gap-3 text-sm text-ink-500"><AppIcon name="image" class="h-12 w-12" />Foto belum tersedia</div>
+                        <span v-if="galleryImages.length > 1" class="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-full bg-ink-900/70 px-2.5 py-1 text-xs font-semibold text-white shadow-sm backdrop-blur-sm">
+                            <AppIcon name="image" class="h-3.5 w-3.5" />
+                            {{ galleryImages.findIndex(i => i.url === activeImage) + 1 }} / {{ galleryImages.length }}
+                        </span>
+                    </div>
+
+                    <!-- Kotak-kotak thumbnail dibawah untuk menampilkan gambar selanjutnya dan merujuk ke gambar tersebut -->
+                    <div v-if="galleryImages.length > 1" class="mt-3.5 flex flex-wrap items-center gap-2.5 sm:mt-4 sm:gap-3" role="tablist" aria-label="Galeri foto barang">
+                        <button
+                            v-for="(img, idx) in galleryImages"
+                            :key="img.id || idx"
+                            type="button"
+                            role="tab"
+                            :aria-selected="activeImage === img.url"
+                            :aria-label="`Pilih foto ${idx + 1} dari ${galleryImages.length}`"
+                            @click="activeImage = img.url"
+                            class="group relative h-16 w-16 sm:h-20 sm:w-20 shrink-0 overflow-hidden rounded-xl border-2 bg-photo p-1 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-600"
+                            :class="activeImage === img.url ? 'border-brand-600 ring-2 ring-brand-600/30 opacity-100 shadow-sm' : 'border-border opacity-70 hover:opacity-100 hover:border-ink-900/40'"
+                        >
+                            <img :src="img.url" :alt="`Thumbnail foto ${idx + 1}`" class="h-full w-full object-contain transition-transform duration-200 group-hover:scale-105" />
+                        </button>
                     </div>
                 </div>
 

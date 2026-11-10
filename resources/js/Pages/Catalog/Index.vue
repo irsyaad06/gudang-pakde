@@ -47,7 +47,7 @@ const reset = () => { search.value = ''; category.value = ''; condition.value = 
                 <div class="flex flex-wrap items-center gap-2 sm:gap-3">
                     <form role="search" aria-label="Cari barang di katalog" class="flex min-h-11 w-full min-w-0 items-center rounded-xl border border-border bg-surface pl-3 focus-within:border-focus focus-within:ring-2 focus-within:ring-focus sm:w-72" @submit.prevent="apply">
                         <label for="catalog-search" class="sr-only">Cari barang</label>
-                        <input id="catalog-search" v-model="search" type="search" name="search" maxlength="200" placeholder="Cari nama barang..." class="min-h-11 min-w-0 flex-1 rounded-l-xl border-0 bg-transparent px-0 text-sm placeholder:text-ink-500 focus:ring-0" />
+                        <input id="catalog-search" v-model="search" type="search" name="search" maxlength="200" placeholder="Cari apa pakde?" class="min-h-11 min-w-0 flex-1 rounded-l-xl border-0 bg-transparent px-0 text-sm placeholder:text-ink-500 focus:ring-0" />
                         <button type="submit" :disabled="loading" aria-label="Cari barang" class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-ink-600 hover:text-ink-900 disabled:opacity-50"><AppIcon name="search" class="h-5 w-5" /></button>
                     </form>
                     <button type="button" :aria-expanded="filtersOpen" aria-controls="catalog-filters" class="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-border px-4 text-sm font-semibold hover:bg-canvas" :class="filterCount ? 'bg-canvas' : 'bg-surface'" @click="filtersOpen = !filtersOpen">

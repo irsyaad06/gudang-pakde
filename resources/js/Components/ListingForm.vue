@@ -1,12 +1,12 @@
 <script setup>
-import { nextTick, onBeforeUnmount, ref } from 'vue';
+import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue';
 import { Link, useForm } from '@inertiajs/vue3';
 import AppIcon from '@/Components/AppIcon.vue';
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import SecondaryButton from '@/Components/SecondaryButton.vue';
 
 const props = defineProps({ categories: { type: Array, required: true }, listing: { type: Object, default: null } });
+
 const form = useForm({
     ...(props.listing ? { _method: 'patch' } : {}),
     title: props.listing?.title ?? '',
@@ -15,53 +15,139 @@ const form = useForm({
     item_condition: props.listing?.item_condition ?? '',
     location: props.listing?.location ?? '',
     description: props.listing?.description ?? '',
-    image: null,
+    images: [],
+    delete_image_ids: [],
 });
-const preview = ref(null);
+
+const existingImages = ref(
+    (props.listing?.images && props.listing.images.length > 0)
+        ? [...props.listing.images]
+        : (props.listing?.image_url ? [{ id: 'primary', url: props.listing.image_url }] : [])
+);
+
+const newImages = ref([]);
+const deletedImageIds = ref([]);
 const imageError = ref('');
-const input = ref(null);
-const releasePreview = () => {
-    if (preview.value) URL.revokeObjectURL(preview.value);
-    preview.value = null;
+const fileInput = ref(null);
+
+const activeExistingImages = computed(() => {
+    return existingImages.value.filter(img => !deletedImageIds.value.includes(img.id));
+});
+
+const totalPhotosCount = computed(() => {
+    return activeExistingImages.value.length + newImages.value.length;
+});
+
+const allDisplayPhotos = computed(() => {
+    const list = [];
+    activeExistingImages.value.forEach(img => {
+        list.push({ type: 'existing', id: img.id, url: img.url });
+    });
+    newImages.value.forEach((item, idx) => {
+        list.push({ type: 'new', id: `new-${idx}`, url: item.preview, fileIndex: idx });
+    });
+    return list;
+});
+
+const activePreview = ref(allDisplayPhotos.value[0]?.url || null);
+
+watch(allDisplayPhotos, (photos) => {
+    if (!activePreview.value || !photos.some(p => p.url === activePreview.value)) {
+        activePreview.value = photos[0]?.url || null;
+    }
+}, { immediate: true });
+
+const releaseNewPreviews = () => {
+    newImages.value.forEach(img => {
+        if (img.preview) URL.revokeObjectURL(img.preview);
+    });
 };
-onBeforeUnmount(releasePreview);
-const chooseImage = (event) => {
-    releasePreview();
+
+onBeforeUnmount(releaseNewPreviews);
+
+const chooseImages = (event) => {
     imageError.value = '';
-    form.clearErrors('image');
-    const file = event.target.files?.[0];
-    form.image = null;
-    if (!file) return;
-    if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type) || file.size > 2 * 1024 * 1024) {
-        imageError.value = 'Gunakan foto JPG, PNG, atau WebP maksimal 2 MB.';
+    form.clearErrors('images');
+    const files = Array.from(event.target.files || []);
+    if (!files.length) return;
+
+    if (totalPhotosCount.value + files.length > 5) {
+        imageError.value = 'Maksimal 5 foto barang. Hapus foto lain jika ingin menambah foto baru.';
         event.target.value = '';
-        nextTick(() => input.value?.focus());
         return;
     }
-    form.image = file;
-    preview.value = URL.createObjectURL(file);
-};
-const removeImage = () => {
-    releasePreview();
-    form.image = null;
-    imageError.value = '';
-    form.clearErrors('image');
-    if (input.value) input.value.value = '';
-    input.value?.focus();
-};
-const submit = () => {
-    if (form.processing || imageError.value) return;
-    form.transform((data) => {
-        if (props.listing && !data.image) {
-            const { image, ...fields } = data;
-            return fields;
+
+    for (const file of files) {
+        if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+            imageError.value = 'Format foto harus berupa JPG, PNG, atau WebP.';
+            event.target.value = '';
+            return;
         }
-        return data;
+        if (file.size > 2 * 1024 * 1024) {
+            imageError.value = `Ukuran foto "${file.name}" melebihi batas 2 MB.`;
+            event.target.value = '';
+            return;
+        }
+    }
+
+    files.forEach(file => {
+        const previewUrl = URL.createObjectURL(file);
+        newImages.value.push({ file, preview: previewUrl });
+        activePreview.value = previewUrl;
+    });
+
+    event.target.value = '';
+};
+
+const removePhoto = (photo) => {
+    imageError.value = '';
+    form.clearErrors('images');
+
+    if (photo.type === 'existing') {
+        if (typeof photo.id === 'number') {
+            deletedImageIds.value.push(photo.id);
+        } else {
+            existingImages.value = existingImages.value.filter(img => img.id !== photo.id);
+        }
+    } else {
+        const removed = newImages.value.splice(photo.fileIndex, 1)[0];
+        if (removed?.preview) {
+            URL.revokeObjectURL(removed.preview);
+        }
+    }
+};
+
+const triggerFileInput = () => {
+    fileInput.value?.click();
+};
+
+const submit = () => {
+    if (form.processing) return;
+
+    if (totalPhotosCount.value === 0) {
+        imageError.value = 'Wajib mengunggah minimal satu foto barang.';
+        nextTick(() => fileInput.value?.focus());
+        return;
+    }
+
+    form.images = newImages.value.map(i => i.file);
+    form.delete_image_ids = deletedImageIds.value.filter(id => typeof id === 'number');
+
+    form.transform((data) => {
+        const payload = { ...data };
+        if (payload.images && payload.images.length === 0) {
+            delete payload.images;
+        }
+        if (payload.delete_image_ids && payload.delete_image_ids.length === 0) {
+            delete payload.delete_image_ids;
+        }
+        return payload;
     }).post(props.listing ? route('listings.update', props.listing.id) : route('listings.store'), {
         forceFormData: true,
         onError: () => nextTick(() => (document.querySelector('#listing-form [aria-invalid="true"]') || document.querySelector('#listing-phone-link'))?.focus()),
     });
 };
+
 const field = 'mt-2 block min-h-12 w-full rounded-2xl border-border bg-white px-4 text-sm text-ink-900 placeholder:text-ink-500 focus:border-brand-600 focus:ring-brand-600 aria-[invalid=true]:border-danger disabled:opacity-60';
 </script>
 
@@ -70,23 +156,108 @@ const field = 'mt-2 block min-h-12 w-full rounded-2xl border-border bg-white px-
         <div class="grid lg:grid-cols-2">
             <section class="min-w-0 border-b border-border p-5 sm:p-8 lg:border-b-0 lg:border-r lg:p-10" aria-labelledby="listing-photo-heading">
                 <div class="mb-6 flex items-start justify-between gap-3">
-                    <div><p class="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">Foto barang</p><h2 id="listing-photo-heading" class="mt-2 text-xl font-semibold tracking-tight">Tampilkan sisi terbaiknya.</h2></div>
-                    <span class="shrink-0 rounded-full border border-border px-3 py-1.5 text-xs font-medium text-ink-600">1 foto</span>
+                    <div>
+                        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">Foto barang</p>
+                        <h2 id="listing-photo-heading" class="mt-2 text-xl font-semibold tracking-tight">Tampilkan sisi terbaiknya.</h2>
+                    </div>
+                    <span class="shrink-0 rounded-full border border-border px-3 py-1.5 text-xs font-medium text-ink-600">
+                        {{ totalPhotosCount }} / 5 foto
+                    </span>
                 </div>
-                <div class="relative flex aspect-[4/3] max-h-56 w-full items-center justify-center overflow-hidden rounded-3xl border border-border bg-photo sm:max-h-72 lg:aspect-square lg:max-h-none">
-                    <img v-if="preview || listing?.image_url" :src="preview || listing.image_url" :alt="preview ? 'Pratinjau foto baru' : `Foto saat ini untuk ${listing.title}`" class="h-full w-full object-contain p-4 sm:p-6" />
+
+                <!-- Pratinjau Utama Foto -->
+                <div class="relative flex aspect-[4/3] max-h-60 w-full items-center justify-center overflow-hidden rounded-3xl border border-border bg-photo sm:max-h-72 lg:aspect-square lg:max-h-none">
+                    <img
+                        v-if="activePreview"
+                        :src="activePreview"
+                        alt="Pratinjau foto terpilih"
+                        class="h-full w-full object-contain p-4 sm:p-6"
+                    />
                     <div v-else class="px-6 text-center">
-                        <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border border-border bg-white"><AppIcon name="image" class="h-7 w-7 text-ink-500" /></div>
+                        <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border border-border bg-white shadow-sm">
+                            <AppIcon name="image" class="h-7 w-7 text-ink-500" />
+                        </div>
                         <p class="mt-5 text-base font-semibold">Foto yang jelas, kesan yang baik</p>
-                        <p class="mx-auto mt-2 max-w-xs text-sm leading-relaxed text-ink-600">Pilih satu foto yang memperlihatkan kondisi barang secara keseluruhan.</p>
+                        <p class="mx-auto mt-2 max-w-xs text-sm leading-relaxed text-ink-600">
+                            Unggah satu atau lebih foto (hingga 5 foto) untuk memperlihatkan kondisi barang secara menyeluruh.
+                        </p>
                     </div>
                 </div>
+
+                <!-- Kotak-kotak Thumbnail & Tambah Foto -->
+                <div class="mt-4">
+                    <p class="text-xs font-semibold uppercase tracking-wider text-ink-500">
+                        Daftar Foto (klik untuk lihat, x untuk hapus)
+                    </p>
+
+                    <div class="mt-2.5 flex flex-wrap items-center gap-2.5 sm:gap-3">
+                        <div
+                            v-for="(photo, idx) in allDisplayPhotos"
+                            :key="photo.id || idx"
+                            class="group relative h-16 w-16 sm:h-20 sm:w-20 overflow-hidden rounded-xl border-2 bg-photo p-1 transition-all"
+                            :class="activePreview === photo.url ? 'border-brand-600 ring-2 ring-brand-600/30' : 'border-border hover:border-ink-600/40'"
+                        >
+                            <button
+                                type="button"
+                                :aria-label="`Tampilkan foto ${idx + 1}`"
+                                class="h-full w-full focus:outline-none"
+                                @click="activePreview = photo.url"
+                            >
+                                <img :src="photo.url" :alt="`Foto ${idx + 1}`" class="h-full w-full object-contain" />
+                            </button>
+
+                            <button
+                                type="button"
+                                :aria-label="`Hapus foto ${idx + 1}`"
+                                :disabled="form.processing"
+                                class="absolute right-1 top-1 flex h-5 w-5 items-center justify-center rounded-full bg-ink-900/80 text-white shadow hover:bg-danger focus:outline-none focus-visible:ring-1 focus-visible:ring-white disabled:opacity-50"
+                                @click.stop="removePhoto(photo)"
+                            >
+                                <AppIcon name="close" class="h-3 w-3" />
+                            </button>
+
+                            <span v-if="idx === 0" class="absolute bottom-0.5 left-0.5 right-0.5 rounded bg-ink-900/75 px-1 py-0.5 text-center text-[9px] font-semibold text-white">
+                                Utama
+                            </span>
+                        </div>
+
+                        <!-- Tombol Tambah Foto -->
+                        <button
+                            v-if="totalPhotosCount < 5"
+                            type="button"
+                            :disabled="form.processing"
+                            class="flex h-16 w-16 sm:h-20 sm:w-20 flex-col items-center justify-center rounded-xl border-2 border-dashed border-border bg-white text-ink-600 transition-all hover:border-brand-600 hover:bg-brand-50 hover:text-brand-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-600 disabled:opacity-50"
+                            aria-label="Tambah foto baru"
+                            @click="triggerFileInput"
+                        >
+                            <AppIcon name="upload" class="h-5 w-5" />
+                            <span class="mt-1 text-[10px] font-semibold">+ Tambah</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Input File Tersembunyi tapi Aksesibel -->
                 <div class="mt-5 rounded-2xl border border-dashed border-border p-4 sm:p-5">
-                    <label for="listing-image" class="flex items-center gap-2 text-sm font-semibold"><AppIcon name="upload" class="h-5 w-5" />{{ listing ? 'Ganti foto barang' : 'Unggah foto barang *' }}</label>
-                    <p id="listing-image-help" class="mt-2 text-sm leading-relaxed text-ink-600">JPG, PNG, atau WebP · Maksimal 2 MB. {{ listing ? 'Foto lama tetap tersimpan jika tidak diganti.' : 'Satu foto untuk setiap barang.' }}</p>
-                    <input id="listing-image" ref="input" type="file" accept="image/jpeg,image/png,image/webp" :required="!listing" :disabled="form.processing" class="mt-4 block min-h-11 w-full min-w-0 rounded-xl text-sm text-ink-600 file:mr-3 file:min-h-11 file:rounded-full file:border file:border-border file:bg-white file:px-4 file:text-sm file:font-semibold file:text-ink-900 hover:file:bg-canvas focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-600 disabled:opacity-60" :aria-invalid="!!(imageError || form.errors.image)" :aria-describedby="imageError || form.errors.image ? 'listing-image-help listing-image-error' : 'listing-image-help'" @change="chooseImage" />
-                    <InputError id="listing-image-error" :message="imageError || form.errors.image" class="mt-2" />
-                    <SecondaryButton v-if="preview" class="mt-3" :disabled="form.processing" @click="removeImage"><AppIcon name="close" class="h-4 w-4" />Batalkan foto baru</SecondaryButton>
+                    <label for="listing-images" class="flex items-center gap-2 text-sm font-semibold">
+                        <AppIcon name="upload" class="h-5 w-5" />
+                        Unggah foto barang {{ listing ? '' : '*' }}
+                    </label>
+                    <p id="listing-images-help" class="mt-2 text-sm leading-relaxed text-ink-600">
+                        JPG, PNG, atau WebP · Maksimal 2 MB per foto · Maksimal 5 foto. Anda dapat memilih beberapa foto sekaligus.
+                    </p>
+                    <input
+                        id="listing-images"
+                        ref="fileInput"
+                        type="file"
+                        multiple
+                        accept="image/jpeg,image/png,image/webp"
+                        :disabled="form.processing || totalPhotosCount >= 5"
+                        class="mt-4 block min-h-11 w-full min-w-0 rounded-xl text-sm text-ink-600 file:mr-3 file:min-h-11 file:rounded-full file:border file:border-border file:bg-white file:px-4 file:text-sm file:font-semibold file:text-ink-900 hover:file:bg-canvas focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-600 disabled:opacity-60"
+                        :aria-invalid="!!(imageError || form.errors.images)"
+                        :aria-describedby="imageError || form.errors.images ? 'listing-images-help listing-images-error' : 'listing-images-help'"
+                        @change="chooseImages"
+                    />
+                    <InputError id="listing-images-error" :message="imageError || form.errors.images" class="mt-2" />
                 </div>
             </section>
 
