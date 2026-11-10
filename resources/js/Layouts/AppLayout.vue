@@ -1,9 +1,16 @@
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { Link, router, usePage } from '@inertiajs/vue3';
 import AppIcon from '@/Components/AppIcon.vue';
 import BrandMark from '@/Components/BrandMark.vue';
 import ToastContainer from '@/Components/ToastContainer.vue';
+
+// Module-level persistent state so the sliding pill animates seamlessly across page loads
+let lastNavPosition = null;
+try {
+    const saved = sessionStorage.getItem('gudang_pakde_nav_pill');
+    if (saved) lastNavPosition = JSON.parse(saved);
+} catch (e) {}
 
 const page = usePage();
 const menuOpen = ref(false);
@@ -13,7 +20,101 @@ const isMine = computed(() => ['Listings/MyListings', 'Listings/Edit'].includes(
 const isCreate = computed(() => page.component === 'Listings/Create');
 const accountButton = ref(null);
 
-watch(() => page.url, () => { menuOpen.value = false; });
+const navContainer = ref(null);
+const pillStyle = ref(
+    lastNavPosition
+        ? {
+              left: `${lastNavPosition.left}px`,
+              width: `${lastNavPosition.width}px`,
+              top: `${lastNavPosition.top}px`,
+              height: `${lastNavPosition.height}px`,
+              opacity: 1,
+              transition: 'none',
+          }
+        : { opacity: 0 }
+);
+
+const updatePill = (withTransition = true) => {
+    if (!navContainer.value) return;
+    const activeEl = navContainer.value.querySelector('[aria-current="page"]');
+    if (!activeEl) {
+        pillStyle.value = { ...pillStyle.value, opacity: 0 };
+        return;
+    }
+
+    const pos = {
+        left: activeEl.offsetLeft,
+        width: activeEl.offsetWidth,
+        top: activeEl.offsetTop,
+        height: activeEl.offsetHeight,
+    };
+
+    pillStyle.value = {
+        left: `${pos.left}px`,
+        width: `${pos.width}px`,
+        top: `${pos.top}px`,
+        height: `${pos.height}px`,
+        opacity: 1,
+        transition: withTransition ? 'all 320ms cubic-bezier(0.4, 0, 0.2, 1)' : 'none',
+    };
+
+    lastNavPosition = pos;
+    try {
+        sessionStorage.setItem('gudang_pakde_nav_pill', JSON.stringify(pos));
+    } catch (e) {}
+};
+
+const onTabClick = (event) => {
+    const el = event?.currentTarget;
+    if (!el) return;
+    const pos = {
+        left: el.offsetLeft,
+        width: el.offsetWidth,
+        top: el.offsetTop,
+        height: el.offsetHeight,
+    };
+    pillStyle.value = {
+        left: `${pos.left}px`,
+        width: `${pos.width}px`,
+        top: `${pos.top}px`,
+        height: `${pos.height}px`,
+        opacity: 1,
+        transition: 'all 320ms cubic-bezier(0.4, 0, 0.2, 1)',
+    };
+    lastNavPosition = pos;
+    try {
+        sessionStorage.setItem('gudang_pakde_nav_pill', JSON.stringify(pos));
+    } catch (e) {}
+};
+
+let resizeObserver = null;
+
+onMounted(() => {
+    nextTick(() => {
+        const hadPrevious = !!lastNavPosition;
+        requestAnimationFrame(() => {
+            updatePill(hadPrevious);
+        });
+    });
+
+    if (typeof ResizeObserver !== 'undefined' && navContainer.value) {
+        resizeObserver = new ResizeObserver(() => {
+            updatePill(false);
+        });
+        resizeObserver.observe(navContainer.value);
+    }
+});
+
+onBeforeUnmount(() => {
+    if (resizeObserver) {
+        resizeObserver.disconnect();
+    }
+});
+
+watch(() => page.url, () => {
+    menuOpen.value = false;
+    nextTick(() => updatePill(true));
+});
 watch(() => page.props.filters?.search, (search) => { headerSearch.value = search || ''; });
 
 const closeMenu = () => {
@@ -42,18 +143,46 @@ const searchCatalog = () => {
                     <span class="text-[15px] font-bold tracking-tight sm:text-lg">Gudang Pakde</span>
                 </Link>
 
-                <nav aria-label="Navigasi utama" class="order-last col-span-2 flex min-w-0 items-center justify-center gap-1 rounded-full border border-white bg-surface p-1.5 lg:order-none lg:col-span-1 lg:justify-self-center">
-                    <Link :href="route('catalog.index')" :aria-current="isCatalog ? 'page' : undefined" class="inline-flex min-h-11 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-full px-2 text-xs font-semibold sm:gap-2 sm:px-4 sm:text-sm lg:flex-none xl:px-5" :class="isCatalog ? 'bg-ink-900 text-white' : 'text-ink-600 hover:bg-canvas hover:text-ink-900'">
+                <nav ref="navContainer" aria-label="Navigasi utama" class="relative order-last col-span-2 flex min-w-0 items-center justify-center gap-1 rounded-full border border-white bg-surface p-1.5 lg:order-none lg:col-span-1 lg:justify-self-center">
+                    <!-- Sliding active indicator pill -->
+                    <div
+                        aria-hidden="true"
+                        class="pointer-events-none absolute rounded-full bg-ink-900 shadow-sm"
+                        :style="pillStyle"
+                    />
+
+                    <Link
+                        :href="route('catalog.index')"
+                        :aria-current="isCatalog ? 'page' : undefined"
+                        class="relative z-10 inline-flex min-h-11 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-full px-2 text-xs font-semibold transition-colors duration-200 sm:gap-2 sm:px-4 sm:text-sm lg:flex-none xl:px-5"
+                        :class="isCatalog ? 'text-white' : 'text-ink-600 hover:text-ink-900'"
+                        @click="onTabClick"
+                    >
                         <AppIcon name="grid" class="h-[18px] w-[18px] shrink-0" />
-                        Katalog
+                        <span>Katalog</span>
                     </Link>
-                    <Link v-if="page.props.auth?.user" :href="route('listings.mine')" :aria-current="isMine ? 'page' : undefined" class="inline-flex min-h-11 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-full px-2 text-xs font-semibold sm:gap-2 sm:px-3 sm:text-sm lg:flex-none xl:px-5" :class="isMine ? 'bg-ink-900 text-white' : 'text-ink-600 hover:bg-canvas hover:text-ink-900'">
+
+                    <Link
+                        v-if="page.props.auth?.user"
+                        :href="route('listings.mine')"
+                        :aria-current="isMine ? 'page' : undefined"
+                        class="relative z-10 inline-flex min-h-11 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-full px-2 text-xs font-semibold transition-colors duration-200 sm:gap-2 sm:px-3 sm:text-sm lg:flex-none xl:px-5"
+                        :class="isMine ? 'text-white' : 'text-ink-600 hover:text-ink-900'"
+                        @click="onTabClick"
+                    >
                         <AppIcon name="box" class="h-[18px] w-[18px] shrink-0" />
-                        Barang Saya
+                        <span>Barang Saya</span>
                     </Link>
-                    <Link :href="route('listings.create')" :aria-current="isCreate ? 'page' : undefined" class="inline-flex min-h-11 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-full px-2 text-xs font-semibold sm:gap-2 sm:px-4 sm:text-sm lg:flex-none xl:px-5" :class="isCreate ? 'bg-ink-900 text-white' : 'text-ink-600 hover:bg-canvas hover:text-ink-900'">
+
+                    <Link
+                        :href="route('listings.create')"
+                        :aria-current="isCreate ? 'page' : undefined"
+                        class="relative z-10 inline-flex min-h-11 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-full px-2 text-xs font-semibold transition-colors duration-200 sm:gap-2 sm:px-4 sm:text-sm lg:flex-none xl:px-5"
+                        :class="isCreate ? 'text-white' : 'text-ink-600 hover:text-ink-900'"
+                        @click="onTabClick"
+                    >
                         <AppIcon name="plus" class="h-[18px] w-[18px] shrink-0" />
-                        Pasang<span class="hidden xl:inline"> Barang</span>
+                        <span>Pasang<span class="hidden xl:inline"> Barang</span></span>
                     </Link>
                 </nav>
 

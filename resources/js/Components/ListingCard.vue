@@ -101,7 +101,7 @@ const photoCount = computed(() => {
                         title="Hubungi penjual via WhatsApp"
                         aria-label="Hubungi penjual via WhatsApp"
                     >
-                        <AppIcon name="whatsapp" class="h-4.5 w-4.5 shrink-0" />
+                        <AppIcon name="whatsapp" class="h-4 w-4 shrink-0" />
                     </a>
 
                     <button
@@ -112,7 +112,7 @@ const photoCount = computed(() => {
                         :title="listing.status === 'sold' ? 'Barang sudah terjual' : 'Kontak WhatsApp belum tersedia'"
                         aria-label="WhatsApp tidak tersedia"
                     >
-                        <AppIcon name="whatsapp" class="h-4.5 w-4.5 shrink-0" />
+                        <AppIcon name="whatsapp" class="h-4 w-4 shrink-0" />
                     </button>
                 </div>
             </div>
