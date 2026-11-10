@@ -4,6 +4,7 @@ import { Link, router, usePage } from '@inertiajs/vue3';
 import AppIcon from '@/Components/AppIcon.vue';
 import BrandMark from '@/Components/BrandMark.vue';
 import ToastContainer from '@/Components/ToastContainer.vue';
+import FloatingDocsButton from '@/Components/FloatingDocsButton.vue';
 
 // Module-level persistent state so the sliding pill animates seamlessly across page loads
 let lastNavPosition = null;
@@ -135,6 +136,7 @@ const searchCatalog = () => {
 <template>
     <div class="flex min-h-screen flex-col bg-canvas font-sans text-ink-900">
         <ToastContainer />
+        <FloatingDocsButton />
         <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-2 focus:z-50 focus:rounded-xl focus:bg-surface focus:px-4 focus:py-3">Lewati ke konten</a>
         <header class="relative z-20 mx-auto w-full max-w-[1440px] px-3 pb-5 pt-4 sm:px-6 sm:pb-6 sm:pt-6 lg:px-8">
             <div class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:gap-5">
@@ -214,12 +216,15 @@ const searchCatalog = () => {
         </header>
 
         <main id="main-content" class="mx-auto w-full max-w-[1440px] flex-1 px-3 sm:px-6 lg:px-8"><slot /></main>
-        <footer class="mx-auto flex w-full max-w-[1440px] flex-wrap items-center justify-between gap-2 px-5 py-7 text-xs text-ink-500 sm:px-8 lg:px-10">
+        <footer class="mx-auto flex w-full max-w-[1440px] flex-wrap items-center justify-between gap-4 px-5 py-7 text-xs text-ink-500 sm:px-8 lg:px-10">
             <div class="flex items-center gap-2">
                 <BrandMark class="h-5 w-5 shrink-0" />
                 <span class="font-semibold text-ink-600">Gudang Pakde</span>
             </div>
-            <span>Barang bekas, kesempatan baru.</span>
+            <div class="flex items-center gap-4">
+                <Link :href="route('docs.index')" class="font-medium text-ink-600 transition hover:text-ink-900 underline underline-offset-4">Dokumentasi Teknis</Link>
+                <span>Barang bekas, kesempatan baru.</span>
+            </div>
         </footer>
     </div>
 </template>
