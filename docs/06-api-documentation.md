@@ -8,7 +8,8 @@ Use the existing Breeze/Laravel auth routes and session-based auth; inspect `php
 ## Implemented application routes
 | Method | Path | Auth | Request | Success |
 |---|---|---|---|---|
-| GET | `/` | Public | `search?`, `category?`, `condition?`, `page?` | Inertia `Catalog/Index` |
+| GET | `/` | Public | `search?`, `category?`, `condition?`, `location?`, `page?` | Inertia `Catalog/Index` |
+| GET | `/api/locations` | Public | `search?` or `q?`, `province?`, `type=provinces?` | JSON list of Indonesian regencies and provinces |
 | GET | `/listings/{listing}` | Public | Route ID | Inertia `Listings/Show` |
 | GET | `/profile` | Member | None | Inertia `Profile/Edit` with paginated owned listings and account settings |
 | GET | `/my-listings` | Member | `page?` | Inertia `Listings/MyListings` |

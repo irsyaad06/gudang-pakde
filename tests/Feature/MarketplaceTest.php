@@ -261,4 +261,51 @@ class MarketplaceTest extends TestCase
         $this->assertAuthenticatedAs($user);
         $this->assertNotNull($user->fresh());
     }
+
+    public function test_locations_api_and_catalog_location_filter(): void
+    {
+        // 1. Test /api/locations endpoint
+        $res = $this->getJson(route('locations.index', ['search' => 'Bandung']))->assertOk();
+        $res->assertJsonFragment(['city' => 'Kota Bandung', 'province' => 'Jawa Barat']);
+
+        $resProv = $this->getJson(route('locations.index', ['type' => 'provinces']))->assertOk();
+        $this->assertContains('Jawa Barat', $resProv->json());
+
+        // 2. Test catalog location filter
+        $category = $this->category();
+        $owner = User::factory()->create();
+
+        $itemBandung = $owner->listings()->create([
+            'category_id' => $category->id,
+            'title' => 'Sepeda Bandung',
+            'price' => 1000000,
+            'item_condition' => 'good',
+            'description' => 'Lokasi Bandung',
+            'location' => 'Kota Bandung, Jawa Barat',
+            'status' => 'available',
+        ]);
+        $itemSurabaya = $owner->listings()->create([
+            'category_id' => $category->id,
+            'title' => 'Sepeda Surabaya',
+            'price' => 1200000,
+            'item_condition' => 'good',
+            'description' => 'Lokasi Surabaya',
+            'location' => 'Kota Surabaya, Jawa Timur',
+            'status' => 'available',
+        ]);
+
+        $this->get('/?location=Bandung')->assertOk()->assertInertia(fn (Assert $page) => $page
+            ->component('Catalog/Index')
+            ->where('filters.location', 'Bandung')
+            ->has('listings.data', 1)
+            ->where('listings.data.0.id', $itemBandung->id)
+            ->etc());
+
+        $this->get('/?location=Jawa+Timur')->assertOk()->assertInertia(fn (Assert $page) => $page
+            ->component('Catalog/Index')
+            ->where('filters.location', 'Jawa Timur')
+            ->has('listings.data', 1)
+            ->where('listings.data.0.id', $itemSurabaya->id)
+            ->etc());
+    }
 }

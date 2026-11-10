@@ -3,7 +3,10 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\ListingController;
+use App\Http\Controllers\LocationController;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/api/locations', [LocationController::class, 'index'])->name('locations.index');
 Route::get('/', [CatalogController::class, 'index'])->name('catalog.index');
 Route::get('/listings/{listing}', [CatalogController::class, 'show'])->whereNumber('listing')->name('listings.show');
 

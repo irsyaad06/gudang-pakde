@@ -1,0 +1,2610 @@
+{
+    "provinces": [
+        "Aceh",
+        "Sumatera Utara",
+        "Sumatera Barat",
+        "Riau",
+        "Jambi",
+        "Sumatera Selatan",
+        "Bengkulu",
+        "Lampung",
+        "Kepulauan Bangka Belitung",
+        "Kepulauan Riau",
+        "DKI Jakarta",
+        "Jawa Barat",
+        "Jawa Tengah",
+        "DI Yogyakarta",
+        "Jawa Timur",
+        "Banten",
+        "Bali",
+        "Nusa Tenggara Barat",
+        "Nusa Tenggara Timur",
+        "Kalimantan Barat",
+        "Kalimantan Tengah",
+        "Kalimantan Selatan",
+        "Kalimantan Timur",
+        "Kalimantan Utara",
+        "Sulawesi Utara",
+        "Sulawesi Tengah",
+        "Sulawesi Selatan",
+        "Sulawesi Tenggara",
+        "Gorontalo",
+        "Sulawesi Barat",
+        "Maluku",
+        "Maluku Utara",
+        "Papua Barat",
+        "Papua"
+    ],
+    "cities": [
+        {
+            "city": "Kab. Simeulue",
+            "province": "Aceh",
+            "label": "Kab. Simeulue, Aceh"
+        },
+        {
+            "city": "Kab. Aceh Singkil",
+            "province": "Aceh",
+            "label": "Kab. Aceh Singkil, Aceh"
+        },
+        {
+            "city": "Kab. Aceh Selatan",
+            "province": "Aceh",
+            "label": "Kab. Aceh Selatan, Aceh"
+        },
+        {
+            "city": "Kab. Aceh Tenggara",
+            "province": "Aceh",
+            "label": "Kab. Aceh Tenggara, Aceh"
+        },
+        {
+            "city": "Kab. Aceh Timur",
+            "province": "Aceh",
+            "label": "Kab. Aceh Timur, Aceh"
+        },
+        {
+            "city": "Kab. Aceh Tengah",
+            "province": "Aceh",
+            "label": "Kab. Aceh Tengah, Aceh"
+        },
+        {
+            "city": "Kab. Aceh Barat",
+            "province": "Aceh",
+            "label": "Kab. Aceh Barat, Aceh"
+        },
+        {
+            "city": "Kab. Aceh Besar",
+            "province": "Aceh",
+            "label": "Kab. Aceh Besar, Aceh"
+        },
+        {
+            "city": "Kab. Pidie",
+            "province": "Aceh",
+            "label": "Kab. Pidie, Aceh"
+        },
+        {
+            "city": "Kab. Bireuen",
+            "province": "Aceh",
+            "label": "Kab. Bireuen, Aceh"
+        },
+        {
+            "city": "Kab. Aceh Utara",
+            "province": "Aceh",
+            "label": "Kab. Aceh Utara, Aceh"
+        },
+        {
+            "city": "Kab. Aceh Barat Daya",
+            "province": "Aceh",
+            "label": "Kab. Aceh Barat Daya, Aceh"
+        },
+        {
+            "city": "Kab. Gayo Lues",
+            "province": "Aceh",
+            "label": "Kab. Gayo Lues, Aceh"
+        },
+        {
+            "city": "Kab. Aceh Tamiang",
+            "province": "Aceh",
+            "label": "Kab. Aceh Tamiang, Aceh"
+        },
+        {
+            "city": "Kab. Nagan Raya",
+            "province": "Aceh",
+            "label": "Kab. Nagan Raya, Aceh"
+        },
+        {
+            "city": "Kab. Aceh Jaya",
+            "province": "Aceh",
+            "label": "Kab. Aceh Jaya, Aceh"
+        },
+        {
+            "city": "Kab. Bener Meriah",
+            "province": "Aceh",
+            "label": "Kab. Bener Meriah, Aceh"
+        },
+        {
+            "city": "Kab. Pidie Jaya",
+            "province": "Aceh",
+            "label": "Kab. Pidie Jaya, Aceh"
+        },
+        {
+            "city": "Kota Banda Aceh",
+            "province": "Aceh",
+            "label": "Kota Banda Aceh, Aceh"
+        },
+        {
+            "city": "Kota Sabang",
+            "province": "Aceh",
+            "label": "Kota Sabang, Aceh"
+        },
+        {
+            "city": "Kota Langsa",
+            "province": "Aceh",
+            "label": "Kota Langsa, Aceh"
+        },
+        {
+            "city": "Kota Lhokseumawe",
+            "province": "Aceh",
+            "label": "Kota Lhokseumawe, Aceh"
+        },
+        {
+            "city": "Kota Subulussalam",
+            "province": "Aceh",
+            "label": "Kota Subulussalam, Aceh"
+        },
+        {
+            "city": "Kab. Nias",
+            "province": "Sumatera Utara",
+            "label": "Kab. Nias, Sumatera Utara"
+        },
+        {
+            "city": "Kab. Mandailing Natal",
+            "province": "Sumatera Utara",
+            "label": "Kab. Mandailing Natal, Sumatera Utara"
+        },
+        {
+            "city": "Kab. Tapanuli Selatan",
+            "province": "Sumatera Utara",
+            "label": "Kab. Tapanuli Selatan, Sumatera Utara"
+        },
+        {
+            "city": "Kab. Tapanuli Tengah",
+            "province": "Sumatera Utara",
+            "label": "Kab. Tapanuli Tengah, Sumatera Utara"
+        },
+        {
+            "city": "Kab. Tapanuli Utara",
+            "province": "Sumatera Utara",
+            "label": "Kab. Tapanuli Utara, Sumatera Utara"
+        },
+        {
+            "city": "Kab. Toba Samosir",
+            "province": "Sumatera Utara",
+            "label": "Kab. Toba Samosir, Sumatera Utara"
+        },
+        {
+            "city": "Kab. Labuhan Batu",
+            "province": "Sumatera Utara",
+            "label": "Kab. Labuhan Batu, Sumatera Utara"
+        },
+        {
+            "city": "Kab. Asahan",
+            "province": "Sumatera Utara",
+            "label": "Kab. Asahan, Sumatera Utara"
+        },
+        {
+            "city": "Kab. Simalungun",
+            "province": "Sumatera Utara",
+            "label": "Kab. Simalungun, Sumatera Utara"
+        },
+        {
+            "city": "Kab. Dairi",
+            "province": "Sumatera Utara",
+            "label": "Kab. Dairi, Sumatera Utara"
+        },
+        {
+            "city": "Kab. Karo",
+            "province": "Sumatera Utara",
+            "label": "Kab. Karo, Sumatera Utara"
+        },
+        {
+            "city": "Kab. Deli Serdang",
+            "province": "Sumatera Utara",
+            "label": "Kab. Deli Serdang, Sumatera Utara"
+        },
+        {
+            "city": "Kab. Langkat",
+            "province": "Sumatera Utara",
+            "label": "Kab. Langkat, Sumatera Utara"
+        },
+        {
+            "city": "Kab. Nias Selatan",
+            "province": "Sumatera Utara",
+            "label": "Kab. Nias Selatan, Sumatera Utara"
+        },
+        {
+            "city": "Kab. Humbang Hasundutan",
+            "province": "Sumatera Utara",
+            "label": "Kab. Humbang Hasundutan, Sumatera Utara"
+        },
+        {
+            "city": "Kab. Pakpak Bharat",
+            "province": "Sumatera Utara",
+            "label": "Kab. Pakpak Bharat, Sumatera Utara"
+        },
+        {
+            "city": "Kab. Samosir",
+            "province": "Sumatera Utara",
+            "label": "Kab. Samosir, Sumatera Utara"
+        },
+        {
+            "city": "Kab. Serdang Bedagai",
+            "province": "Sumatera Utara",
+            "label": "Kab. Serdang Bedagai, Sumatera Utara"
+        },
+        {
+            "city": "Kab. Batu Bara",
+            "province": "Sumatera Utara",
+            "label": "Kab. Batu Bara, Sumatera Utara"
+        },
+        {
+            "city": "Kab. Padang Lawas Utara",
+            "province": "Sumatera Utara",
+            "label": "Kab. Padang Lawas Utara, Sumatera Utara"
+        },
+        {
+            "city": "Kab. Padang Lawas",
+            "province": "Sumatera Utara",
+            "label": "Kab. Padang Lawas, Sumatera Utara"
+        },
+        {
+            "city": "Kab. Labuhan Batu Selatan",
+            "province": "Sumatera Utara",
+            "label": "Kab. Labuhan Batu Selatan, Sumatera Utara"
+        },
+        {
+            "city": "Kab. Labuhan Batu Utara",
+            "province": "Sumatera Utara",
+            "label": "Kab. Labuhan Batu Utara, Sumatera Utara"
+        },
+        {
+            "city": "Kab. Nias Utara",
+            "province": "Sumatera Utara",
+            "label": "Kab. Nias Utara, Sumatera Utara"
+        },
+        {
+            "city": "Kab. Nias Barat",
+            "province": "Sumatera Utara",
+            "label": "Kab. Nias Barat, Sumatera Utara"
+        },
+        {
+            "city": "Kota Sibolga",
+            "province": "Sumatera Utara",
+            "label": "Kota Sibolga, Sumatera Utara"
+        },
+        {
+            "city": "Kota Tanjung Balai",
+            "province": "Sumatera Utara",
+            "label": "Kota Tanjung Balai, Sumatera Utara"
+        },
+        {
+            "city": "Kota Pematang Siantar",
+            "province": "Sumatera Utara",
+            "label": "Kota Pematang Siantar, Sumatera Utara"
+        },
+        {
+            "city": "Kota Tebing Tinggi",
+            "province": "Sumatera Utara",
+            "label": "Kota Tebing Tinggi, Sumatera Utara"
+        },
+        {
+            "city": "Kota Medan",
+            "province": "Sumatera Utara",
+            "label": "Kota Medan, Sumatera Utara"
+        },
+        {
+            "city": "Kota Binjai",
+            "province": "Sumatera Utara",
+            "label": "Kota Binjai, Sumatera Utara"
+        },
+        {
+            "city": "Kota Padangsidimpuan",
+            "province": "Sumatera Utara",
+            "label": "Kota Padangsidimpuan, Sumatera Utara"
+        },
+        {
+            "city": "Kota Gunungsitoli",
+            "province": "Sumatera Utara",
+            "label": "Kota Gunungsitoli, Sumatera Utara"
+        },
+        {
+            "city": "Kab. Kepulauan Mentawai",
+            "province": "Sumatera Barat",
+            "label": "Kab. Kepulauan Mentawai, Sumatera Barat"
+        },
+        {
+            "city": "Kab. Pesisir Selatan",
+            "province": "Sumatera Barat",
+            "label": "Kab. Pesisir Selatan, Sumatera Barat"
+        },
+        {
+            "city": "Kab. Solok",
+            "province": "Sumatera Barat",
+            "label": "Kab. Solok, Sumatera Barat"
+        },
+        {
+            "city": "Kab. Sijunjung",
+            "province": "Sumatera Barat",
+            "label": "Kab. Sijunjung, Sumatera Barat"
+        },
+        {
+            "city": "Kab. Tanah Datar",
+            "province": "Sumatera Barat",
+            "label": "Kab. Tanah Datar, Sumatera Barat"
+        },
+        {
+            "city": "Kab. Padang Pariaman",
+            "province": "Sumatera Barat",
+            "label": "Kab. Padang Pariaman, Sumatera Barat"
+        },
+        {
+            "city": "Kab. Agam",
+            "province": "Sumatera Barat",
+            "label": "Kab. Agam, Sumatera Barat"
+        },
+        {
+            "city": "Kab. Lima Puluh Kota",
+            "province": "Sumatera Barat",
+            "label": "Kab. Lima Puluh Kota, Sumatera Barat"
+        },
+        {
+            "city": "Kab. Pasaman",
+            "province": "Sumatera Barat",
+            "label": "Kab. Pasaman, Sumatera Barat"
+        },
+        {
+            "city": "Kab. Solok Selatan",
+            "province": "Sumatera Barat",
+            "label": "Kab. Solok Selatan, Sumatera Barat"
+        },
+        {
+            "city": "Kab. Dharmasraya",
+            "province": "Sumatera Barat",
+            "label": "Kab. Dharmasraya, Sumatera Barat"
+        },
+        {
+            "city": "Kab. Pasaman Barat",
+            "province": "Sumatera Barat",
+            "label": "Kab. Pasaman Barat, Sumatera Barat"
+        },
+        {
+            "city": "Kota Padang",
+            "province": "Sumatera Barat",
+            "label": "Kota Padang, Sumatera Barat"
+        },
+        {
+            "city": "Kota Solok",
+            "province": "Sumatera Barat",
+            "label": "Kota Solok, Sumatera Barat"
+        },
+        {
+            "city": "Kota Sawah Lunto",
+            "province": "Sumatera Barat",
+            "label": "Kota Sawah Lunto, Sumatera Barat"
+        },
+        {
+            "city": "Kota Padang Panjang",
+            "province": "Sumatera Barat",
+            "label": "Kota Padang Panjang, Sumatera Barat"
+        },
+        {
+            "city": "Kota Bukittinggi",
+            "province": "Sumatera Barat",
+            "label": "Kota Bukittinggi, Sumatera Barat"
+        },
+        {
+            "city": "Kota Payakumbuh",
+            "province": "Sumatera Barat",
+            "label": "Kota Payakumbuh, Sumatera Barat"
+        },
+        {
+            "city": "Kota Pariaman",
+            "province": "Sumatera Barat",
+            "label": "Kota Pariaman, Sumatera Barat"
+        },
+        {
+            "city": "Kab. Kuantan Singingi",
+            "province": "Riau",
+            "label": "Kab. Kuantan Singingi, Riau"
+        },
+        {
+            "city": "Kab. Indragiri Hulu",
+            "province": "Riau",
+            "label": "Kab. Indragiri Hulu, Riau"
+        },
+        {
+            "city": "Kab. Indragiri Hilir",
+            "province": "Riau",
+            "label": "Kab. Indragiri Hilir, Riau"
+        },
+        {
+            "city": "Kab. Pelalawan",
+            "province": "Riau",
+            "label": "Kab. Pelalawan, Riau"
+        },
+        {
+            "city": "Kab. S I A K",
+            "province": "Riau",
+            "label": "Kab. S I A K, Riau"
+        },
+        {
+            "city": "Kab. Kampar",
+            "province": "Riau",
+            "label": "Kab. Kampar, Riau"
+        },
+        {
+            "city": "Kab. Rokan Hulu",
+            "province": "Riau",
+            "label": "Kab. Rokan Hulu, Riau"
+        },
+        {
+            "city": "Kab. Bengkalis",
+            "province": "Riau",
+            "label": "Kab. Bengkalis, Riau"
+        },
+        {
+            "city": "Kab. Rokan Hilir",
+            "province": "Riau",
+            "label": "Kab. Rokan Hilir, Riau"
+        },
+        {
+            "city": "Kab. Kepulauan Meranti",
+            "province": "Riau",
+            "label": "Kab. Kepulauan Meranti, Riau"
+        },
+        {
+            "city": "Kota Pekanbaru",
+            "province": "Riau",
+            "label": "Kota Pekanbaru, Riau"
+        },
+        {
+            "city": "Kota D U M A I",
+            "province": "Riau",
+            "label": "Kota D U M A I, Riau"
+        },
+        {
+            "city": "Kab. Kerinci",
+            "province": "Jambi",
+            "label": "Kab. Kerinci, Jambi"
+        },
+        {
+            "city": "Kab. Merangin",
+            "province": "Jambi",
+            "label": "Kab. Merangin, Jambi"
+        },
+        {
+            "city": "Kab. Sarolangun",
+            "province": "Jambi",
+            "label": "Kab. Sarolangun, Jambi"
+        },
+        {
+            "city": "Kab. Batang Hari",
+            "province": "Jambi",
+            "label": "Kab. Batang Hari, Jambi"
+        },
+        {
+            "city": "Kab. Muaro Jambi",
+            "province": "Jambi",
+            "label": "Kab. Muaro Jambi, Jambi"
+        },
+        {
+            "city": "Kab. Tanjung Jabung Timur",
+            "province": "Jambi",
+            "label": "Kab. Tanjung Jabung Timur, Jambi"
+        },
+        {
+            "city": "Kab. Tanjung Jabung Barat",
+            "province": "Jambi",
+            "label": "Kab. Tanjung Jabung Barat, Jambi"
+        },
+        {
+            "city": "Kab. Tebo",
+            "province": "Jambi",
+            "label": "Kab. Tebo, Jambi"
+        },
+        {
+            "city": "Kab. Bungo",
+            "province": "Jambi",
+            "label": "Kab. Bungo, Jambi"
+        },
+        {
+            "city": "Kota Jambi",
+            "province": "Jambi",
+            "label": "Kota Jambi, Jambi"
+        },
+        {
+            "city": "Kota Sungai Penuh",
+            "province": "Jambi",
+            "label": "Kota Sungai Penuh, Jambi"
+        },
+        {
+            "city": "Kab. Ogan Komering Ulu",
+            "province": "Sumatera Selatan",
+            "label": "Kab. Ogan Komering Ulu, Sumatera Selatan"
+        },
+        {
+            "city": "Kab. Ogan Komering Ilir",
+            "province": "Sumatera Selatan",
+            "label": "Kab. Ogan Komering Ilir, Sumatera Selatan"
+        },
+        {
+            "city": "Kab. Muara Enim",
+            "province": "Sumatera Selatan",
+            "label": "Kab. Muara Enim, Sumatera Selatan"
+        },
+        {
+            "city": "Kab. Lahat",
+            "province": "Sumatera Selatan",
+            "label": "Kab. Lahat, Sumatera Selatan"
+        },
+        {
+            "city": "Kab. Musi Rawas",
+            "province": "Sumatera Selatan",
+            "label": "Kab. Musi Rawas, Sumatera Selatan"
+        },
+        {
+            "city": "Kab. Musi Banyuasin",
+            "province": "Sumatera Selatan",
+            "label": "Kab. Musi Banyuasin, Sumatera Selatan"
+        },
+        {
+            "city": "Kab. Banyu Asin",
+            "province": "Sumatera Selatan",
+            "label": "Kab. Banyu Asin, Sumatera Selatan"
+        },
+        {
+            "city": "Kab. Ogan Komering Ulu Selatan",
+            "province": "Sumatera Selatan",
+            "label": "Kab. Ogan Komering Ulu Selatan, Sumatera Selatan"
+        },
+        {
+            "city": "Kab. Ogan Komering Ulu Timur",
+            "province": "Sumatera Selatan",
+            "label": "Kab. Ogan Komering Ulu Timur, Sumatera Selatan"
+        },
+        {
+            "city": "Kab. Ogan Ilir",
+            "province": "Sumatera Selatan",
+            "label": "Kab. Ogan Ilir, Sumatera Selatan"
+        },
+        {
+            "city": "Kab. Empat Lawang",
+            "province": "Sumatera Selatan",
+            "label": "Kab. Empat Lawang, Sumatera Selatan"
+        },
+        {
+            "city": "Kab. Penukal Abab Lematang Ilir",
+            "province": "Sumatera Selatan",
+            "label": "Kab. Penukal Abab Lematang Ilir, Sumatera Selatan"
+        },
+        {
+            "city": "Kab. Musi Rawas Utara",
+            "province": "Sumatera Selatan",
+            "label": "Kab. Musi Rawas Utara, Sumatera Selatan"
+        },
+        {
+            "city": "Kota Palembang",
+            "province": "Sumatera Selatan",
+            "label": "Kota Palembang, Sumatera Selatan"
+        },
+        {
+            "city": "Kota Prabumulih",
+            "province": "Sumatera Selatan",
+            "label": "Kota Prabumulih, Sumatera Selatan"
+        },
+        {
+            "city": "Kota Pagar Alam",
+            "province": "Sumatera Selatan",
+            "label": "Kota Pagar Alam, Sumatera Selatan"
+        },
+        {
+            "city": "Kota Lubuklinggau",
+            "province": "Sumatera Selatan",
+            "label": "Kota Lubuklinggau, Sumatera Selatan"
+        },
+        {
+            "city": "Kab. Bengkulu Selatan",
+            "province": "Bengkulu",
+            "label": "Kab. Bengkulu Selatan, Bengkulu"
+        },
+        {
+            "city": "Kab. Rejang Lebong",
+            "province": "Bengkulu",
+            "label": "Kab. Rejang Lebong, Bengkulu"
+        },
+        {
+            "city": "Kab. Bengkulu Utara",
+            "province": "Bengkulu",
+            "label": "Kab. Bengkulu Utara, Bengkulu"
+        },
+        {
+            "city": "Kab. Kaur",
+            "province": "Bengkulu",
+            "label": "Kab. Kaur, Bengkulu"
+        },
+        {
+            "city": "Kab. Seluma",
+            "province": "Bengkulu",
+            "label": "Kab. Seluma, Bengkulu"
+        },
+        {
+            "city": "Kab. Mukomuko",
+            "province": "Bengkulu",
+            "label": "Kab. Mukomuko, Bengkulu"
+        },
+        {
+            "city": "Kab. Lebong",
+            "province": "Bengkulu",
+            "label": "Kab. Lebong, Bengkulu"
+        },
+        {
+            "city": "Kab. Kepahiang",
+            "province": "Bengkulu",
+            "label": "Kab. Kepahiang, Bengkulu"
+        },
+        {
+            "city": "Kab. Bengkulu Tengah",
+            "province": "Bengkulu",
+            "label": "Kab. Bengkulu Tengah, Bengkulu"
+        },
+        {
+            "city": "Kota Bengkulu",
+            "province": "Bengkulu",
+            "label": "Kota Bengkulu, Bengkulu"
+        },
+        {
+            "city": "Kab. Lampung Barat",
+            "province": "Lampung",
+            "label": "Kab. Lampung Barat, Lampung"
+        },
+        {
+            "city": "Kab. Tanggamus",
+            "province": "Lampung",
+            "label": "Kab. Tanggamus, Lampung"
+        },
+        {
+            "city": "Kab. Lampung Selatan",
+            "province": "Lampung",
+            "label": "Kab. Lampung Selatan, Lampung"
+        },
+        {
+            "city": "Kab. Lampung Timur",
+            "province": "Lampung",
+            "label": "Kab. Lampung Timur, Lampung"
+        },
+        {
+            "city": "Kab. Lampung Tengah",
+            "province": "Lampung",
+            "label": "Kab. Lampung Tengah, Lampung"
+        },
+        {
+            "city": "Kab. Lampung Utara",
+            "province": "Lampung",
+            "label": "Kab. Lampung Utara, Lampung"
+        },
+        {
+            "city": "Kab. Way Kanan",
+            "province": "Lampung",
+            "label": "Kab. Way Kanan, Lampung"
+        },
+        {
+            "city": "Kab. Tulangbawang",
+            "province": "Lampung",
+            "label": "Kab. Tulangbawang, Lampung"
+        },
+        {
+            "city": "Kab. Pesawaran",
+            "province": "Lampung",
+            "label": "Kab. Pesawaran, Lampung"
+        },
+        {
+            "city": "Kab. Pringsewu",
+            "province": "Lampung",
+            "label": "Kab. Pringsewu, Lampung"
+        },
+        {
+            "city": "Kab. Mesuji",
+            "province": "Lampung",
+            "label": "Kab. Mesuji, Lampung"
+        },
+        {
+            "city": "Kab. Tulang Bawang Barat",
+            "province": "Lampung",
+            "label": "Kab. Tulang Bawang Barat, Lampung"
+        },
+        {
+            "city": "Kab. Pesisir Barat",
+            "province": "Lampung",
+            "label": "Kab. Pesisir Barat, Lampung"
+        },
+        {
+            "city": "Kota Bandar Lampung",
+            "province": "Lampung",
+            "label": "Kota Bandar Lampung, Lampung"
+        },
+        {
+            "city": "Kota Metro",
+            "province": "Lampung",
+            "label": "Kota Metro, Lampung"
+        },
+        {
+            "city": "Kab. Bangka",
+            "province": "Kepulauan Bangka Belitung",
+            "label": "Kab. Bangka, Kepulauan Bangka Belitung"
+        },
+        {
+            "city": "Kab. Belitung",
+            "province": "Kepulauan Bangka Belitung",
+            "label": "Kab. Belitung, Kepulauan Bangka Belitung"
+        },
+        {
+            "city": "Kab. Bangka Barat",
+            "province": "Kepulauan Bangka Belitung",
+            "label": "Kab. Bangka Barat, Kepulauan Bangka Belitung"
+        },
+        {
+            "city": "Kab. Bangka Tengah",
+            "province": "Kepulauan Bangka Belitung",
+            "label": "Kab. Bangka Tengah, Kepulauan Bangka Belitung"
+        },
+        {
+            "city": "Kab. Bangka Selatan",
+            "province": "Kepulauan Bangka Belitung",
+            "label": "Kab. Bangka Selatan, Kepulauan Bangka Belitung"
+        },
+        {
+            "city": "Kab. Belitung Timur",
+            "province": "Kepulauan Bangka Belitung",
+            "label": "Kab. Belitung Timur, Kepulauan Bangka Belitung"
+        },
+        {
+            "city": "Kota Pangkal Pinang",
+            "province": "Kepulauan Bangka Belitung",
+            "label": "Kota Pangkal Pinang, Kepulauan Bangka Belitung"
+        },
+        {
+            "city": "Kab. Karimun",
+            "province": "Kepulauan Riau",
+            "label": "Kab. Karimun, Kepulauan Riau"
+        },
+        {
+            "city": "Kab. Bintan",
+            "province": "Kepulauan Riau",
+            "label": "Kab. Bintan, Kepulauan Riau"
+        },
+        {
+            "city": "Kab. Natuna",
+            "province": "Kepulauan Riau",
+            "label": "Kab. Natuna, Kepulauan Riau"
+        },
+        {
+            "city": "Kab. Lingga",
+            "province": "Kepulauan Riau",
+            "label": "Kab. Lingga, Kepulauan Riau"
+        },
+        {
+            "city": "Kab. Kepulauan Anambas",
+            "province": "Kepulauan Riau",
+            "label": "Kab. Kepulauan Anambas, Kepulauan Riau"
+        },
+        {
+            "city": "Kota B A T A M",
+            "province": "Kepulauan Riau",
+            "label": "Kota B A T A M, Kepulauan Riau"
+        },
+        {
+            "city": "Kota Tanjung Pinang",
+            "province": "Kepulauan Riau",
+            "label": "Kota Tanjung Pinang, Kepulauan Riau"
+        },
+        {
+            "city": "Kab. Kepulauan Seribu",
+            "province": "DKI Jakarta",
+            "label": "Kab. Kepulauan Seribu, DKI Jakarta"
+        },
+        {
+            "city": "Kota Jakarta Selatan",
+            "province": "DKI Jakarta",
+            "label": "Kota Jakarta Selatan, DKI Jakarta"
+        },
+        {
+            "city": "Kota Jakarta Timur",
+            "province": "DKI Jakarta",
+            "label": "Kota Jakarta Timur, DKI Jakarta"
+        },
+        {
+            "city": "Kota Jakarta Pusat",
+            "province": "DKI Jakarta",
+            "label": "Kota Jakarta Pusat, DKI Jakarta"
+        },
+        {
+            "city": "Kota Jakarta Barat",
+            "province": "DKI Jakarta",
+            "label": "Kota Jakarta Barat, DKI Jakarta"
+        },
+        {
+            "city": "Kota Jakarta Utara",
+            "province": "DKI Jakarta",
+            "label": "Kota Jakarta Utara, DKI Jakarta"
+        },
+        {
+            "city": "Kab. Bogor",
+            "province": "Jawa Barat",
+            "label": "Kab. Bogor, Jawa Barat"
+        },
+        {
+            "city": "Kab. Sukabumi",
+            "province": "Jawa Barat",
+            "label": "Kab. Sukabumi, Jawa Barat"
+        },
+        {
+            "city": "Kab. Cianjur",
+            "province": "Jawa Barat",
+            "label": "Kab. Cianjur, Jawa Barat"
+        },
+        {
+            "city": "Kab. Bandung",
+            "province": "Jawa Barat",
+            "label": "Kab. Bandung, Jawa Barat"
+        },
+        {
+            "city": "Kab. Garut",
+            "province": "Jawa Barat",
+            "label": "Kab. Garut, Jawa Barat"
+        },
+        {
+            "city": "Kab. Tasikmalaya",
+            "province": "Jawa Barat",
+            "label": "Kab. Tasikmalaya, Jawa Barat"
+        },
+        {
+            "city": "Kab. Ciamis",
+            "province": "Jawa Barat",
+            "label": "Kab. Ciamis, Jawa Barat"
+        },
+        {
+            "city": "Kab. Kuningan",
+            "province": "Jawa Barat",
+            "label": "Kab. Kuningan, Jawa Barat"
+        },
+        {
+            "city": "Kab. Cirebon",
+            "province": "Jawa Barat",
+            "label": "Kab. Cirebon, Jawa Barat"
+        },
+        {
+            "city": "Kab. Majalengka",
+            "province": "Jawa Barat",
+            "label": "Kab. Majalengka, Jawa Barat"
+        },
+        {
+            "city": "Kab. Sumedang",
+            "province": "Jawa Barat",
+            "label": "Kab. Sumedang, Jawa Barat"
+        },
+        {
+            "city": "Kab. Indramayu",
+            "province": "Jawa Barat",
+            "label": "Kab. Indramayu, Jawa Barat"
+        },
+        {
+            "city": "Kab. Subang",
+            "province": "Jawa Barat",
+            "label": "Kab. Subang, Jawa Barat"
+        },
+        {
+            "city": "Kab. Purwakarta",
+            "province": "Jawa Barat",
+            "label": "Kab. Purwakarta, Jawa Barat"
+        },
+        {
+            "city": "Kab. Karawang",
+            "province": "Jawa Barat",
+            "label": "Kab. Karawang, Jawa Barat"
+        },
+        {
+            "city": "Kab. Bekasi",
+            "province": "Jawa Barat",
+            "label": "Kab. Bekasi, Jawa Barat"
+        },
+        {
+            "city": "Kab. Bandung Barat",
+            "province": "Jawa Barat",
+            "label": "Kab. Bandung Barat, Jawa Barat"
+        },
+        {
+            "city": "Kab. Pangandaran",
+            "province": "Jawa Barat",
+            "label": "Kab. Pangandaran, Jawa Barat"
+        },
+        {
+            "city": "Kota Bogor",
+            "province": "Jawa Barat",
+            "label": "Kota Bogor, Jawa Barat"
+        },
+        {
+            "city": "Kota Sukabumi",
+            "province": "Jawa Barat",
+            "label": "Kota Sukabumi, Jawa Barat"
+        },
+        {
+            "city": "Kota Bandung",
+            "province": "Jawa Barat",
+            "label": "Kota Bandung, Jawa Barat"
+        },
+        {
+            "city": "Kota Cirebon",
+            "province": "Jawa Barat",
+            "label": "Kota Cirebon, Jawa Barat"
+        },
+        {
+            "city": "Kota Bekasi",
+            "province": "Jawa Barat",
+            "label": "Kota Bekasi, Jawa Barat"
+        },
+        {
+            "city": "Kota Depok",
+            "province": "Jawa Barat",
+            "label": "Kota Depok, Jawa Barat"
+        },
+        {
+            "city": "Kota Cimahi",
+            "province": "Jawa Barat",
+            "label": "Kota Cimahi, Jawa Barat"
+        },
+        {
+            "city": "Kota Tasikmalaya",
+            "province": "Jawa Barat",
+            "label": "Kota Tasikmalaya, Jawa Barat"
+        },
+        {
+            "city": "Kota Banjar",
+            "province": "Jawa Barat",
+            "label": "Kota Banjar, Jawa Barat"
+        },
+        {
+            "city": "Kab. Cilacap",
+            "province": "Jawa Tengah",
+            "label": "Kab. Cilacap, Jawa Tengah"
+        },
+        {
+            "city": "Kab. Banyumas",
+            "province": "Jawa Tengah",
+            "label": "Kab. Banyumas, Jawa Tengah"
+        },
+        {
+            "city": "Kab. Purbalingga",
+            "province": "Jawa Tengah",
+            "label": "Kab. Purbalingga, Jawa Tengah"
+        },
+        {
+            "city": "Kab. Banjarnegara",
+            "province": "Jawa Tengah",
+            "label": "Kab. Banjarnegara, Jawa Tengah"
+        },
+        {
+            "city": "Kab. Kebumen",
+            "province": "Jawa Tengah",
+            "label": "Kab. Kebumen, Jawa Tengah"
+        },
+        {
+            "city": "Kab. Purworejo",
+            "province": "Jawa Tengah",
+            "label": "Kab. Purworejo, Jawa Tengah"
+        },
+        {
+            "city": "Kab. Wonosobo",
+            "province": "Jawa Tengah",
+            "label": "Kab. Wonosobo, Jawa Tengah"
+        },
+        {
+            "city": "Kab. Magelang",
+            "province": "Jawa Tengah",
+            "label": "Kab. Magelang, Jawa Tengah"
+        },
+        {
+            "city": "Kab. Boyolali",
+            "province": "Jawa Tengah",
+            "label": "Kab. Boyolali, Jawa Tengah"
+        },
+        {
+            "city": "Kab. Klaten",
+            "province": "Jawa Tengah",
+            "label": "Kab. Klaten, Jawa Tengah"
+        },
+        {
+            "city": "Kab. Sukoharjo",
+            "province": "Jawa Tengah",
+            "label": "Kab. Sukoharjo, Jawa Tengah"
+        },
+        {
+            "city": "Kab. Wonogiri",
+            "province": "Jawa Tengah",
+            "label": "Kab. Wonogiri, Jawa Tengah"
+        },
+        {
+            "city": "Kab. Karanganyar",
+            "province": "Jawa Tengah",
+            "label": "Kab. Karanganyar, Jawa Tengah"
+        },
+        {
+            "city": "Kab. Sragen",
+            "province": "Jawa Tengah",
+            "label": "Kab. Sragen, Jawa Tengah"
+        },
+        {
+            "city": "Kab. Grobogan",
+            "province": "Jawa Tengah",
+            "label": "Kab. Grobogan, Jawa Tengah"
+        },
+        {
+            "city": "Kab. Blora",
+            "province": "Jawa Tengah",
+            "label": "Kab. Blora, Jawa Tengah"
+        },
+        {
+            "city": "Kab. Rembang",
+            "province": "Jawa Tengah",
+            "label": "Kab. Rembang, Jawa Tengah"
+        },
+        {
+            "city": "Kab. Pati",
+            "province": "Jawa Tengah",
+            "label": "Kab. Pati, Jawa Tengah"
+        },
+        {
+            "city": "Kab. Kudus",
+            "province": "Jawa Tengah",
+            "label": "Kab. Kudus, Jawa Tengah"
+        },
+        {
+            "city": "Kab. Jepara",
+            "province": "Jawa Tengah",
+            "label": "Kab. Jepara, Jawa Tengah"
+        },
+        {
+            "city": "Kab. Demak",
+            "province": "Jawa Tengah",
+            "label": "Kab. Demak, Jawa Tengah"
+        },
+        {
+            "city": "Kab. Semarang",
+            "province": "Jawa Tengah",
+            "label": "Kab. Semarang, Jawa Tengah"
+        },
+        {
+            "city": "Kab. Temanggung",
+            "province": "Jawa Tengah",
+            "label": "Kab. Temanggung, Jawa Tengah"
+        },
+        {
+            "city": "Kab. Kendal",
+            "province": "Jawa Tengah",
+            "label": "Kab. Kendal, Jawa Tengah"
+        },
+        {
+            "city": "Kab. Batang",
+            "province": "Jawa Tengah",
+            "label": "Kab. Batang, Jawa Tengah"
+        },
+        {
+            "city": "Kab. Pekalongan",
+            "province": "Jawa Tengah",
+            "label": "Kab. Pekalongan, Jawa Tengah"
+        },
+        {
+            "city": "Kab. Pemalang",
+            "province": "Jawa Tengah",
+            "label": "Kab. Pemalang, Jawa Tengah"
+        },
+        {
+            "city": "Kab. Tegal",
+            "province": "Jawa Tengah",
+            "label": "Kab. Tegal, Jawa Tengah"
+        },
+        {
+            "city": "Kab. Brebes",
+            "province": "Jawa Tengah",
+            "label": "Kab. Brebes, Jawa Tengah"
+        },
+        {
+            "city": "Kota Magelang",
+            "province": "Jawa Tengah",
+            "label": "Kota Magelang, Jawa Tengah"
+        },
+        {
+            "city": "Kota Surakarta",
+            "province": "Jawa Tengah",
+            "label": "Kota Surakarta, Jawa Tengah"
+        },
+        {
+            "city": "Kota Salatiga",
+            "province": "Jawa Tengah",
+            "label": "Kota Salatiga, Jawa Tengah"
+        },
+        {
+            "city": "Kota Semarang",
+            "province": "Jawa Tengah",
+            "label": "Kota Semarang, Jawa Tengah"
+        },
+        {
+            "city": "Kota Pekalongan",
+            "province": "Jawa Tengah",
+            "label": "Kota Pekalongan, Jawa Tengah"
+        },
+        {
+            "city": "Kota Tegal",
+            "province": "Jawa Tengah",
+            "label": "Kota Tegal, Jawa Tengah"
+        },
+        {
+            "city": "Kab. Kulon Progo",
+            "province": "DI Yogyakarta",
+            "label": "Kab. Kulon Progo, DI Yogyakarta"
+        },
+        {
+            "city": "Kab. Bantul",
+            "province": "DI Yogyakarta",
+            "label": "Kab. Bantul, DI Yogyakarta"
+        },
+        {
+            "city": "Kab. Gunung Kidul",
+            "province": "DI Yogyakarta",
+            "label": "Kab. Gunung Kidul, DI Yogyakarta"
+        },
+        {
+            "city": "Kab. Sleman",
+            "province": "DI Yogyakarta",
+            "label": "Kab. Sleman, DI Yogyakarta"
+        },
+        {
+            "city": "Kota Yogyakarta",
+            "province": "DI Yogyakarta",
+            "label": "Kota Yogyakarta, DI Yogyakarta"
+        },
+        {
+            "city": "Kab. Pacitan",
+            "province": "Jawa Timur",
+            "label": "Kab. Pacitan, Jawa Timur"
+        },
+        {
+            "city": "Kab. Ponorogo",
+            "province": "Jawa Timur",
+            "label": "Kab. Ponorogo, Jawa Timur"
+        },
+        {
+            "city": "Kab. Trenggalek",
+            "province": "Jawa Timur",
+            "label": "Kab. Trenggalek, Jawa Timur"
+        },
+        {
+            "city": "Kab. Tulungagung",
+            "province": "Jawa Timur",
+            "label": "Kab. Tulungagung, Jawa Timur"
+        },
+        {
+            "city": "Kab. Blitar",
+            "province": "Jawa Timur",
+            "label": "Kab. Blitar, Jawa Timur"
+        },
+        {
+            "city": "Kab. Kediri",
+            "province": "Jawa Timur",
+            "label": "Kab. Kediri, Jawa Timur"
+        },
+        {
+            "city": "Kab. Malang",
+            "province": "Jawa Timur",
+            "label": "Kab. Malang, Jawa Timur"
+        },
+        {
+            "city": "Kab. Lumajang",
+            "province": "Jawa Timur",
+            "label": "Kab. Lumajang, Jawa Timur"
+        },
+        {
+            "city": "Kab. Jember",
+            "province": "Jawa Timur",
+            "label": "Kab. Jember, Jawa Timur"
+        },
+        {
+            "city": "Kab. Banyuwangi",
+            "province": "Jawa Timur",
+            "label": "Kab. Banyuwangi, Jawa Timur"
+        },
+        {
+            "city": "Kab. Bondowoso",
+            "province": "Jawa Timur",
+            "label": "Kab. Bondowoso, Jawa Timur"
+        },
+        {
+            "city": "Kab. Situbondo",
+            "province": "Jawa Timur",
+            "label": "Kab. Situbondo, Jawa Timur"
+        },
+        {
+            "city": "Kab. Probolinggo",
+            "province": "Jawa Timur",
+            "label": "Kab. Probolinggo, Jawa Timur"
+        },
+        {
+            "city": "Kab. Pasuruan",
+            "province": "Jawa Timur",
+            "label": "Kab. Pasuruan, Jawa Timur"
+        },
+        {
+            "city": "Kab. Sidoarjo",
+            "province": "Jawa Timur",
+            "label": "Kab. Sidoarjo, Jawa Timur"
+        },
+        {
+            "city": "Kab. Mojokerto",
+            "province": "Jawa Timur",
+            "label": "Kab. Mojokerto, Jawa Timur"
+        },
+        {
+            "city": "Kab. Jombang",
+            "province": "Jawa Timur",
+            "label": "Kab. Jombang, Jawa Timur"
+        },
+        {
+            "city": "Kab. Nganjuk",
+            "province": "Jawa Timur",
+            "label": "Kab. Nganjuk, Jawa Timur"
+        },
+        {
+            "city": "Kab. Madiun",
+            "province": "Jawa Timur",
+            "label": "Kab. Madiun, Jawa Timur"
+        },
+        {
+            "city": "Kab. Magetan",
+            "province": "Jawa Timur",
+            "label": "Kab. Magetan, Jawa Timur"
+        },
+        {
+            "city": "Kab. Ngawi",
+            "province": "Jawa Timur",
+            "label": "Kab. Ngawi, Jawa Timur"
+        },
+        {
+            "city": "Kab. Bojonegoro",
+            "province": "Jawa Timur",
+            "label": "Kab. Bojonegoro, Jawa Timur"
+        },
+        {
+            "city": "Kab. Tuban",
+            "province": "Jawa Timur",
+            "label": "Kab. Tuban, Jawa Timur"
+        },
+        {
+            "city": "Kab. Lamongan",
+            "province": "Jawa Timur",
+            "label": "Kab. Lamongan, Jawa Timur"
+        },
+        {
+            "city": "Kab. Gresik",
+            "province": "Jawa Timur",
+            "label": "Kab. Gresik, Jawa Timur"
+        },
+        {
+            "city": "Kab. Bangkalan",
+            "province": "Jawa Timur",
+            "label": "Kab. Bangkalan, Jawa Timur"
+        },
+        {
+            "city": "Kab. Sampang",
+            "province": "Jawa Timur",
+            "label": "Kab. Sampang, Jawa Timur"
+        },
+        {
+            "city": "Kab. Pamekasan",
+            "province": "Jawa Timur",
+            "label": "Kab. Pamekasan, Jawa Timur"
+        },
+        {
+            "city": "Kab. Sumenep",
+            "province": "Jawa Timur",
+            "label": "Kab. Sumenep, Jawa Timur"
+        },
+        {
+            "city": "Kota Kediri",
+            "province": "Jawa Timur",
+            "label": "Kota Kediri, Jawa Timur"
+        },
+        {
+            "city": "Kota Blitar",
+            "province": "Jawa Timur",
+            "label": "Kota Blitar, Jawa Timur"
+        },
+        {
+            "city": "Kota Malang",
+            "province": "Jawa Timur",
+            "label": "Kota Malang, Jawa Timur"
+        },
+        {
+            "city": "Kota Probolinggo",
+            "province": "Jawa Timur",
+            "label": "Kota Probolinggo, Jawa Timur"
+        },
+        {
+            "city": "Kota Pasuruan",
+            "province": "Jawa Timur",
+            "label": "Kota Pasuruan, Jawa Timur"
+        },
+        {
+            "city": "Kota Mojokerto",
+            "province": "Jawa Timur",
+            "label": "Kota Mojokerto, Jawa Timur"
+        },
+        {
+            "city": "Kota Madiun",
+            "province": "Jawa Timur",
+            "label": "Kota Madiun, Jawa Timur"
+        },
+        {
+            "city": "Kota Surabaya",
+            "province": "Jawa Timur",
+            "label": "Kota Surabaya, Jawa Timur"
+        },
+        {
+            "city": "Kota Batu",
+            "province": "Jawa Timur",
+            "label": "Kota Batu, Jawa Timur"
+        },
+        {
+            "city": "Kab. Pandeglang",
+            "province": "Banten",
+            "label": "Kab. Pandeglang, Banten"
+        },
+        {
+            "city": "Kab. Lebak",
+            "province": "Banten",
+            "label": "Kab. Lebak, Banten"
+        },
+        {
+            "city": "Kab. Tangerang",
+            "province": "Banten",
+            "label": "Kab. Tangerang, Banten"
+        },
+        {
+            "city": "Kab. Serang",
+            "province": "Banten",
+            "label": "Kab. Serang, Banten"
+        },
+        {
+            "city": "Kota Tangerang",
+            "province": "Banten",
+            "label": "Kota Tangerang, Banten"
+        },
+        {
+            "city": "Kota Cilegon",
+            "province": "Banten",
+            "label": "Kota Cilegon, Banten"
+        },
+        {
+            "city": "Kota Serang",
+            "province": "Banten",
+            "label": "Kota Serang, Banten"
+        },
+        {
+            "city": "Kota Tangerang Selatan",
+            "province": "Banten",
+            "label": "Kota Tangerang Selatan, Banten"
+        },
+        {
+            "city": "Kab. Jembrana",
+            "province": "Bali",
+            "label": "Kab. Jembrana, Bali"
+        },
+        {
+            "city": "Kab. Tabanan",
+            "province": "Bali",
+            "label": "Kab. Tabanan, Bali"
+        },
+        {
+            "city": "Kab. Badung",
+            "province": "Bali",
+            "label": "Kab. Badung, Bali"
+        },
+        {
+            "city": "Kab. Gianyar",
+            "province": "Bali",
+            "label": "Kab. Gianyar, Bali"
+        },
+        {
+            "city": "Kab. Klungkung",
+            "province": "Bali",
+            "label": "Kab. Klungkung, Bali"
+        },
+        {
+            "city": "Kab. Bangli",
+            "province": "Bali",
+            "label": "Kab. Bangli, Bali"
+        },
+        {
+            "city": "Kab. Karang Asem",
+            "province": "Bali",
+            "label": "Kab. Karang Asem, Bali"
+        },
+        {
+            "city": "Kab. Buleleng",
+            "province": "Bali",
+            "label": "Kab. Buleleng, Bali"
+        },
+        {
+            "city": "Kota Denpasar",
+            "province": "Bali",
+            "label": "Kota Denpasar, Bali"
+        },
+        {
+            "city": "Kab. Lombok Barat",
+            "province": "Nusa Tenggara Barat",
+            "label": "Kab. Lombok Barat, Nusa Tenggara Barat"
+        },
+        {
+            "city": "Kab. Lombok Tengah",
+            "province": "Nusa Tenggara Barat",
+            "label": "Kab. Lombok Tengah, Nusa Tenggara Barat"
+        },
+        {
+            "city": "Kab. Lombok Timur",
+            "province": "Nusa Tenggara Barat",
+            "label": "Kab. Lombok Timur, Nusa Tenggara Barat"
+        },
+        {
+            "city": "Kab. Sumbawa",
+            "province": "Nusa Tenggara Barat",
+            "label": "Kab. Sumbawa, Nusa Tenggara Barat"
+        },
+        {
+            "city": "Kab. Dompu",
+            "province": "Nusa Tenggara Barat",
+            "label": "Kab. Dompu, Nusa Tenggara Barat"
+        },
+        {
+            "city": "Kab. Bima",
+            "province": "Nusa Tenggara Barat",
+            "label": "Kab. Bima, Nusa Tenggara Barat"
+        },
+        {
+            "city": "Kab. Sumbawa Barat",
+            "province": "Nusa Tenggara Barat",
+            "label": "Kab. Sumbawa Barat, Nusa Tenggara Barat"
+        },
+        {
+            "city": "Kab. Lombok Utara",
+            "province": "Nusa Tenggara Barat",
+            "label": "Kab. Lombok Utara, Nusa Tenggara Barat"
+        },
+        {
+            "city": "Kota Mataram",
+            "province": "Nusa Tenggara Barat",
+            "label": "Kota Mataram, Nusa Tenggara Barat"
+        },
+        {
+            "city": "Kota Bima",
+            "province": "Nusa Tenggara Barat",
+            "label": "Kota Bima, Nusa Tenggara Barat"
+        },
+        {
+            "city": "Kab. Sumba Barat",
+            "province": "Nusa Tenggara Timur",
+            "label": "Kab. Sumba Barat, Nusa Tenggara Timur"
+        },
+        {
+            "city": "Kab. Sumba Timur",
+            "province": "Nusa Tenggara Timur",
+            "label": "Kab. Sumba Timur, Nusa Tenggara Timur"
+        },
+        {
+            "city": "Kab. Kupang",
+            "province": "Nusa Tenggara Timur",
+            "label": "Kab. Kupang, Nusa Tenggara Timur"
+        },
+        {
+            "city": "Kab. Timor Tengah Selatan",
+            "province": "Nusa Tenggara Timur",
+            "label": "Kab. Timor Tengah Selatan, Nusa Tenggara Timur"
+        },
+        {
+            "city": "Kab. Timor Tengah Utara",
+            "province": "Nusa Tenggara Timur",
+            "label": "Kab. Timor Tengah Utara, Nusa Tenggara Timur"
+        },
+        {
+            "city": "Kab. Belu",
+            "province": "Nusa Tenggara Timur",
+            "label": "Kab. Belu, Nusa Tenggara Timur"
+        },
+        {
+            "city": "Kab. Alor",
+            "province": "Nusa Tenggara Timur",
+            "label": "Kab. Alor, Nusa Tenggara Timur"
+        },
+        {
+            "city": "Kab. Lembata",
+            "province": "Nusa Tenggara Timur",
+            "label": "Kab. Lembata, Nusa Tenggara Timur"
+        },
+        {
+            "city": "Kab. Flores Timur",
+            "province": "Nusa Tenggara Timur",
+            "label": "Kab. Flores Timur, Nusa Tenggara Timur"
+        },
+        {
+            "city": "Kab. Sikka",
+            "province": "Nusa Tenggara Timur",
+            "label": "Kab. Sikka, Nusa Tenggara Timur"
+        },
+        {
+            "city": "Kab. Ende",
+            "province": "Nusa Tenggara Timur",
+            "label": "Kab. Ende, Nusa Tenggara Timur"
+        },
+        {
+            "city": "Kab. Ngada",
+            "province": "Nusa Tenggara Timur",
+            "label": "Kab. Ngada, Nusa Tenggara Timur"
+        },
+        {
+            "city": "Kab. Manggarai",
+            "province": "Nusa Tenggara Timur",
+            "label": "Kab. Manggarai, Nusa Tenggara Timur"
+        },
+        {
+            "city": "Kab. Rote Ndao",
+            "province": "Nusa Tenggara Timur",
+            "label": "Kab. Rote Ndao, Nusa Tenggara Timur"
+        },
+        {
+            "city": "Kab. Manggarai Barat",
+            "province": "Nusa Tenggara Timur",
+            "label": "Kab. Manggarai Barat, Nusa Tenggara Timur"
+        },
+        {
+            "city": "Kab. Sumba Tengah",
+            "province": "Nusa Tenggara Timur",
+            "label": "Kab. Sumba Tengah, Nusa Tenggara Timur"
+        },
+        {
+            "city": "Kab. Sumba Barat Daya",
+            "province": "Nusa Tenggara Timur",
+            "label": "Kab. Sumba Barat Daya, Nusa Tenggara Timur"
+        },
+        {
+            "city": "Kab. Nagekeo",
+            "province": "Nusa Tenggara Timur",
+            "label": "Kab. Nagekeo, Nusa Tenggara Timur"
+        },
+        {
+            "city": "Kab. Manggarai Timur",
+            "province": "Nusa Tenggara Timur",
+            "label": "Kab. Manggarai Timur, Nusa Tenggara Timur"
+        },
+        {
+            "city": "Kab. Sabu Raijua",
+            "province": "Nusa Tenggara Timur",
+            "label": "Kab. Sabu Raijua, Nusa Tenggara Timur"
+        },
+        {
+            "city": "Kab. Malaka",
+            "province": "Nusa Tenggara Timur",
+            "label": "Kab. Malaka, Nusa Tenggara Timur"
+        },
+        {
+            "city": "Kota Kupang",
+            "province": "Nusa Tenggara Timur",
+            "label": "Kota Kupang, Nusa Tenggara Timur"
+        },
+        {
+            "city": "Kab. Sambas",
+            "province": "Kalimantan Barat",
+            "label": "Kab. Sambas, Kalimantan Barat"
+        },
+        {
+            "city": "Kab. Bengkayang",
+            "province": "Kalimantan Barat",
+            "label": "Kab. Bengkayang, Kalimantan Barat"
+        },
+        {
+            "city": "Kab. Landak",
+            "province": "Kalimantan Barat",
+            "label": "Kab. Landak, Kalimantan Barat"
+        },
+        {
+            "city": "Kab. Mempawah",
+            "province": "Kalimantan Barat",
+            "label": "Kab. Mempawah, Kalimantan Barat"
+        },
+        {
+            "city": "Kab. Sanggau",
+            "province": "Kalimantan Barat",
+            "label": "Kab. Sanggau, Kalimantan Barat"
+        },
+        {
+            "city": "Kab. Ketapang",
+            "province": "Kalimantan Barat",
+            "label": "Kab. Ketapang, Kalimantan Barat"
+        },
+        {
+            "city": "Kab. Sintang",
+            "province": "Kalimantan Barat",
+            "label": "Kab. Sintang, Kalimantan Barat"
+        },
+        {
+            "city": "Kab. Kapuas Hulu",
+            "province": "Kalimantan Barat",
+            "label": "Kab. Kapuas Hulu, Kalimantan Barat"
+        },
+        {
+            "city": "Kab. Sekadau",
+            "province": "Kalimantan Barat",
+            "label": "Kab. Sekadau, Kalimantan Barat"
+        },
+        {
+            "city": "Kab. Melawi",
+            "province": "Kalimantan Barat",
+            "label": "Kab. Melawi, Kalimantan Barat"
+        },
+        {
+            "city": "Kab. Kayong Utara",
+            "province": "Kalimantan Barat",
+            "label": "Kab. Kayong Utara, Kalimantan Barat"
+        },
+        {
+            "city": "Kab. Kubu Raya",
+            "province": "Kalimantan Barat",
+            "label": "Kab. Kubu Raya, Kalimantan Barat"
+        },
+        {
+            "city": "Kota Pontianak",
+            "province": "Kalimantan Barat",
+            "label": "Kota Pontianak, Kalimantan Barat"
+        },
+        {
+            "city": "Kota Singkawang",
+            "province": "Kalimantan Barat",
+            "label": "Kota Singkawang, Kalimantan Barat"
+        },
+        {
+            "city": "Kab. Kotawaringin Barat",
+            "province": "Kalimantan Tengah",
+            "label": "Kab. Kotawaringin Barat, Kalimantan Tengah"
+        },
+        {
+            "city": "Kab. Kotawaringin Timur",
+            "province": "Kalimantan Tengah",
+            "label": "Kab. Kotawaringin Timur, Kalimantan Tengah"
+        },
+        {
+            "city": "Kab. Kapuas",
+            "province": "Kalimantan Tengah",
+            "label": "Kab. Kapuas, Kalimantan Tengah"
+        },
+        {
+            "city": "Kab. Barito Selatan",
+            "province": "Kalimantan Tengah",
+            "label": "Kab. Barito Selatan, Kalimantan Tengah"
+        },
+        {
+            "city": "Kab. Barito Utara",
+            "province": "Kalimantan Tengah",
+            "label": "Kab. Barito Utara, Kalimantan Tengah"
+        },
+        {
+            "city": "Kab. Sukamara",
+            "province": "Kalimantan Tengah",
+            "label": "Kab. Sukamara, Kalimantan Tengah"
+        },
+        {
+            "city": "Kab. Lamandau",
+            "province": "Kalimantan Tengah",
+            "label": "Kab. Lamandau, Kalimantan Tengah"
+        },
+        {
+            "city": "Kab. Seruyan",
+            "province": "Kalimantan Tengah",
+            "label": "Kab. Seruyan, Kalimantan Tengah"
+        },
+        {
+            "city": "Kab. Katingan",
+            "province": "Kalimantan Tengah",
+            "label": "Kab. Katingan, Kalimantan Tengah"
+        },
+        {
+            "city": "Kab. Pulang Pisau",
+            "province": "Kalimantan Tengah",
+            "label": "Kab. Pulang Pisau, Kalimantan Tengah"
+        },
+        {
+            "city": "Kab. Gunung Mas",
+            "province": "Kalimantan Tengah",
+            "label": "Kab. Gunung Mas, Kalimantan Tengah"
+        },
+        {
+            "city": "Kab. Barito Timur",
+            "province": "Kalimantan Tengah",
+            "label": "Kab. Barito Timur, Kalimantan Tengah"
+        },
+        {
+            "city": "Kab. Murung Raya",
+            "province": "Kalimantan Tengah",
+            "label": "Kab. Murung Raya, Kalimantan Tengah"
+        },
+        {
+            "city": "Kota Palangka Raya",
+            "province": "Kalimantan Tengah",
+            "label": "Kota Palangka Raya, Kalimantan Tengah"
+        },
+        {
+            "city": "Kab. Tanah Laut",
+            "province": "Kalimantan Selatan",
+            "label": "Kab. Tanah Laut, Kalimantan Selatan"
+        },
+        {
+            "city": "Kab. Kota Baru",
+            "province": "Kalimantan Selatan",
+            "label": "Kab. Kota Baru, Kalimantan Selatan"
+        },
+        {
+            "city": "Kab. Banjar",
+            "province": "Kalimantan Selatan",
+            "label": "Kab. Banjar, Kalimantan Selatan"
+        },
+        {
+            "city": "Kab. Barito Kuala",
+            "province": "Kalimantan Selatan",
+            "label": "Kab. Barito Kuala, Kalimantan Selatan"
+        },
+        {
+            "city": "Kab. Tapin",
+            "province": "Kalimantan Selatan",
+            "label": "Kab. Tapin, Kalimantan Selatan"
+        },
+        {
+            "city": "Kab. Hulu Sungai Selatan",
+            "province": "Kalimantan Selatan",
+            "label": "Kab. Hulu Sungai Selatan, Kalimantan Selatan"
+        },
+        {
+            "city": "Kab. Hulu Sungai Tengah",
+            "province": "Kalimantan Selatan",
+            "label": "Kab. Hulu Sungai Tengah, Kalimantan Selatan"
+        },
+        {
+            "city": "Kab. Hulu Sungai Utara",
+            "province": "Kalimantan Selatan",
+            "label": "Kab. Hulu Sungai Utara, Kalimantan Selatan"
+        },
+        {
+            "city": "Kab. Tabalong",
+            "province": "Kalimantan Selatan",
+            "label": "Kab. Tabalong, Kalimantan Selatan"
+        },
+        {
+            "city": "Kab. Tanah Bumbu",
+            "province": "Kalimantan Selatan",
+            "label": "Kab. Tanah Bumbu, Kalimantan Selatan"
+        },
+        {
+            "city": "Kab. Balangan",
+            "province": "Kalimantan Selatan",
+            "label": "Kab. Balangan, Kalimantan Selatan"
+        },
+        {
+            "city": "Kota Banjarmasin",
+            "province": "Kalimantan Selatan",
+            "label": "Kota Banjarmasin, Kalimantan Selatan"
+        },
+        {
+            "city": "Kota Banjar Baru",
+            "province": "Kalimantan Selatan",
+            "label": "Kota Banjar Baru, Kalimantan Selatan"
+        },
+        {
+            "city": "Kab. Paser",
+            "province": "Kalimantan Timur",
+            "label": "Kab. Paser, Kalimantan Timur"
+        },
+        {
+            "city": "Kab. Kutai Barat",
+            "province": "Kalimantan Timur",
+            "label": "Kab. Kutai Barat, Kalimantan Timur"
+        },
+        {
+            "city": "Kab. Kutai Kartanegara",
+            "province": "Kalimantan Timur",
+            "label": "Kab. Kutai Kartanegara, Kalimantan Timur"
+        },
+        {
+            "city": "Kab. Kutai Timur",
+            "province": "Kalimantan Timur",
+            "label": "Kab. Kutai Timur, Kalimantan Timur"
+        },
+        {
+            "city": "Kab. Berau",
+            "province": "Kalimantan Timur",
+            "label": "Kab. Berau, Kalimantan Timur"
+        },
+        {
+            "city": "Kab. Penajam Paser Utara",
+            "province": "Kalimantan Timur",
+            "label": "Kab. Penajam Paser Utara, Kalimantan Timur"
+        },
+        {
+            "city": "Kab. Mahakam Hulu",
+            "province": "Kalimantan Timur",
+            "label": "Kab. Mahakam Hulu, Kalimantan Timur"
+        },
+        {
+            "city": "Kota Balikpapan",
+            "province": "Kalimantan Timur",
+            "label": "Kota Balikpapan, Kalimantan Timur"
+        },
+        {
+            "city": "Kota Samarinda",
+            "province": "Kalimantan Timur",
+            "label": "Kota Samarinda, Kalimantan Timur"
+        },
+        {
+            "city": "Kota Bontang",
+            "province": "Kalimantan Timur",
+            "label": "Kota Bontang, Kalimantan Timur"
+        },
+        {
+            "city": "Kab. Malinau",
+            "province": "Kalimantan Utara",
+            "label": "Kab. Malinau, Kalimantan Utara"
+        },
+        {
+            "city": "Kab. Bulungan",
+            "province": "Kalimantan Utara",
+            "label": "Kab. Bulungan, Kalimantan Utara"
+        },
+        {
+            "city": "Kab. Tana Tidung",
+            "province": "Kalimantan Utara",
+            "label": "Kab. Tana Tidung, Kalimantan Utara"
+        },
+        {
+            "city": "Kab. Nunukan",
+            "province": "Kalimantan Utara",
+            "label": "Kab. Nunukan, Kalimantan Utara"
+        },
+        {
+            "city": "Kota Tarakan",
+            "province": "Kalimantan Utara",
+            "label": "Kota Tarakan, Kalimantan Utara"
+        },
+        {
+            "city": "Kab. Bolaang Mongondow",
+            "province": "Sulawesi Utara",
+            "label": "Kab. Bolaang Mongondow, Sulawesi Utara"
+        },
+        {
+            "city": "Kab. Minahasa",
+            "province": "Sulawesi Utara",
+            "label": "Kab. Minahasa, Sulawesi Utara"
+        },
+        {
+            "city": "Kab. Kepulauan Sangihe",
+            "province": "Sulawesi Utara",
+            "label": "Kab. Kepulauan Sangihe, Sulawesi Utara"
+        },
+        {
+            "city": "Kab. Kepulauan Talaud",
+            "province": "Sulawesi Utara",
+            "label": "Kab. Kepulauan Talaud, Sulawesi Utara"
+        },
+        {
+            "city": "Kab. Minahasa Selatan",
+            "province": "Sulawesi Utara",
+            "label": "Kab. Minahasa Selatan, Sulawesi Utara"
+        },
+        {
+            "city": "Kab. Minahasa Utara",
+            "province": "Sulawesi Utara",
+            "label": "Kab. Minahasa Utara, Sulawesi Utara"
+        },
+        {
+            "city": "Kab. Bolaang Mongondow Utara",
+            "province": "Sulawesi Utara",
+            "label": "Kab. Bolaang Mongondow Utara, Sulawesi Utara"
+        },
+        {
+            "city": "Kab. Siau Tagulandang Biaro",
+            "province": "Sulawesi Utara",
+            "label": "Kab. Siau Tagulandang Biaro, Sulawesi Utara"
+        },
+        {
+            "city": "Kab. Minahasa Tenggara",
+            "province": "Sulawesi Utara",
+            "label": "Kab. Minahasa Tenggara, Sulawesi Utara"
+        },
+        {
+            "city": "Kab. Bolaang Mongondow Selatan",
+            "province": "Sulawesi Utara",
+            "label": "Kab. Bolaang Mongondow Selatan, Sulawesi Utara"
+        },
+        {
+            "city": "Kab. Bolaang Mongondow Timur",
+            "province": "Sulawesi Utara",
+            "label": "Kab. Bolaang Mongondow Timur, Sulawesi Utara"
+        },
+        {
+            "city": "Kota Manado",
+            "province": "Sulawesi Utara",
+            "label": "Kota Manado, Sulawesi Utara"
+        },
+        {
+            "city": "Kota Bitung",
+            "province": "Sulawesi Utara",
+            "label": "Kota Bitung, Sulawesi Utara"
+        },
+        {
+            "city": "Kota Tomohon",
+            "province": "Sulawesi Utara",
+            "label": "Kota Tomohon, Sulawesi Utara"
+        },
+        {
+            "city": "Kota Kotamobagu",
+            "province": "Sulawesi Utara",
+            "label": "Kota Kotamobagu, Sulawesi Utara"
+        },
+        {
+            "city": "Kab. Banggai Kepulauan",
+            "province": "Sulawesi Tengah",
+            "label": "Kab. Banggai Kepulauan, Sulawesi Tengah"
+        },
+        {
+            "city": "Kab. Banggai",
+            "province": "Sulawesi Tengah",
+            "label": "Kab. Banggai, Sulawesi Tengah"
+        },
+        {
+            "city": "Kab. Morowali",
+            "province": "Sulawesi Tengah",
+            "label": "Kab. Morowali, Sulawesi Tengah"
+        },
+        {
+            "city": "Kab. Poso",
+            "province": "Sulawesi Tengah",
+            "label": "Kab. Poso, Sulawesi Tengah"
+        },
+        {
+            "city": "Kab. Donggala",
+            "province": "Sulawesi Tengah",
+            "label": "Kab. Donggala, Sulawesi Tengah"
+        },
+        {
+            "city": "Kab. Toli-toli",
+            "province": "Sulawesi Tengah",
+            "label": "Kab. Toli-toli, Sulawesi Tengah"
+        },
+        {
+            "city": "Kab. Buol",
+            "province": "Sulawesi Tengah",
+            "label": "Kab. Buol, Sulawesi Tengah"
+        },
+        {
+            "city": "Kab. Parigi Moutong",
+            "province": "Sulawesi Tengah",
+            "label": "Kab. Parigi Moutong, Sulawesi Tengah"
+        },
+        {
+            "city": "Kab. Tojo Una-una",
+            "province": "Sulawesi Tengah",
+            "label": "Kab. Tojo Una-una, Sulawesi Tengah"
+        },
+        {
+            "city": "Kab. Sigi",
+            "province": "Sulawesi Tengah",
+            "label": "Kab. Sigi, Sulawesi Tengah"
+        },
+        {
+            "city": "Kab. Banggai Laut",
+            "province": "Sulawesi Tengah",
+            "label": "Kab. Banggai Laut, Sulawesi Tengah"
+        },
+        {
+            "city": "Kab. Morowali Utara",
+            "province": "Sulawesi Tengah",
+            "label": "Kab. Morowali Utara, Sulawesi Tengah"
+        },
+        {
+            "city": "Kota Palu",
+            "province": "Sulawesi Tengah",
+            "label": "Kota Palu, Sulawesi Tengah"
+        },
+        {
+            "city": "Kab. Kepulauan Selayar",
+            "province": "Sulawesi Selatan",
+            "label": "Kab. Kepulauan Selayar, Sulawesi Selatan"
+        },
+        {
+            "city": "Kab. Bulukumba",
+            "province": "Sulawesi Selatan",
+            "label": "Kab. Bulukumba, Sulawesi Selatan"
+        },
+        {
+            "city": "Kab. Bantaeng",
+            "province": "Sulawesi Selatan",
+            "label": "Kab. Bantaeng, Sulawesi Selatan"
+        },
+        {
+            "city": "Kab. Jeneponto",
+            "province": "Sulawesi Selatan",
+            "label": "Kab. Jeneponto, Sulawesi Selatan"
+        },
+        {
+            "city": "Kab. Takalar",
+            "province": "Sulawesi Selatan",
+            "label": "Kab. Takalar, Sulawesi Selatan"
+        },
+        {
+            "city": "Kab. Gowa",
+            "province": "Sulawesi Selatan",
+            "label": "Kab. Gowa, Sulawesi Selatan"
+        },
+        {
+            "city": "Kab. Sinjai",
+            "province": "Sulawesi Selatan",
+            "label": "Kab. Sinjai, Sulawesi Selatan"
+        },
+        {
+            "city": "Kab. Maros",
+            "province": "Sulawesi Selatan",
+            "label": "Kab. Maros, Sulawesi Selatan"
+        },
+        {
+            "city": "Kab. Pangkajene Dan Kepulauan",
+            "province": "Sulawesi Selatan",
+            "label": "Kab. Pangkajene Dan Kepulauan, Sulawesi Selatan"
+        },
+        {
+            "city": "Kab. Barru",
+            "province": "Sulawesi Selatan",
+            "label": "Kab. Barru, Sulawesi Selatan"
+        },
+        {
+            "city": "Kab. Bone",
+            "province": "Sulawesi Selatan",
+            "label": "Kab. Bone, Sulawesi Selatan"
+        },
+        {
+            "city": "Kab. Soppeng",
+            "province": "Sulawesi Selatan",
+            "label": "Kab. Soppeng, Sulawesi Selatan"
+        },
+        {
+            "city": "Kab. Wajo",
+            "province": "Sulawesi Selatan",
+            "label": "Kab. Wajo, Sulawesi Selatan"
+        },
+        {
+            "city": "Kab. Sidenreng Rappang",
+            "province": "Sulawesi Selatan",
+            "label": "Kab. Sidenreng Rappang, Sulawesi Selatan"
+        },
+        {
+            "city": "Kab. Pinrang",
+            "province": "Sulawesi Selatan",
+            "label": "Kab. Pinrang, Sulawesi Selatan"
+        },
+        {
+            "city": "Kab. Enrekang",
+            "province": "Sulawesi Selatan",
+            "label": "Kab. Enrekang, Sulawesi Selatan"
+        },
+        {
+            "city": "Kab. Luwu",
+            "province": "Sulawesi Selatan",
+            "label": "Kab. Luwu, Sulawesi Selatan"
+        },
+        {
+            "city": "Kab. Tana Toraja",
+            "province": "Sulawesi Selatan",
+            "label": "Kab. Tana Toraja, Sulawesi Selatan"
+        },
+        {
+            "city": "Kab. Luwu Utara",
+            "province": "Sulawesi Selatan",
+            "label": "Kab. Luwu Utara, Sulawesi Selatan"
+        },
+        {
+            "city": "Kab. Luwu Timur",
+            "province": "Sulawesi Selatan",
+            "label": "Kab. Luwu Timur, Sulawesi Selatan"
+        },
+        {
+            "city": "Kab. Toraja Utara",
+            "province": "Sulawesi Selatan",
+            "label": "Kab. Toraja Utara, Sulawesi Selatan"
+        },
+        {
+            "city": "Kota Makassar",
+            "province": "Sulawesi Selatan",
+            "label": "Kota Makassar, Sulawesi Selatan"
+        },
+        {
+            "city": "Kota Parepare",
+            "province": "Sulawesi Selatan",
+            "label": "Kota Parepare, Sulawesi Selatan"
+        },
+        {
+            "city": "Kota Palopo",
+            "province": "Sulawesi Selatan",
+            "label": "Kota Palopo, Sulawesi Selatan"
+        },
+        {
+            "city": "Kab. Buton",
+            "province": "Sulawesi Tenggara",
+            "label": "Kab. Buton, Sulawesi Tenggara"
+        },
+        {
+            "city": "Kab. Muna",
+            "province": "Sulawesi Tenggara",
+            "label": "Kab. Muna, Sulawesi Tenggara"
+        },
+        {
+            "city": "Kab. Konawe",
+            "province": "Sulawesi Tenggara",
+            "label": "Kab. Konawe, Sulawesi Tenggara"
+        },
+        {
+            "city": "Kab. Kolaka",
+            "province": "Sulawesi Tenggara",
+            "label": "Kab. Kolaka, Sulawesi Tenggara"
+        },
+        {
+            "city": "Kab. Konawe Selatan",
+            "province": "Sulawesi Tenggara",
+            "label": "Kab. Konawe Selatan, Sulawesi Tenggara"
+        },
+        {
+            "city": "Kab. Bombana",
+            "province": "Sulawesi Tenggara",
+            "label": "Kab. Bombana, Sulawesi Tenggara"
+        },
+        {
+            "city": "Kab. Wakatobi",
+            "province": "Sulawesi Tenggara",
+            "label": "Kab. Wakatobi, Sulawesi Tenggara"
+        },
+        {
+            "city": "Kab. Kolaka Utara",
+            "province": "Sulawesi Tenggara",
+            "label": "Kab. Kolaka Utara, Sulawesi Tenggara"
+        },
+        {
+            "city": "Kab. Buton Utara",
+            "province": "Sulawesi Tenggara",
+            "label": "Kab. Buton Utara, Sulawesi Tenggara"
+        },
+        {
+            "city": "Kab. Konawe Utara",
+            "province": "Sulawesi Tenggara",
+            "label": "Kab. Konawe Utara, Sulawesi Tenggara"
+        },
+        {
+            "city": "Kab. Kolaka Timur",
+            "province": "Sulawesi Tenggara",
+            "label": "Kab. Kolaka Timur, Sulawesi Tenggara"
+        },
+        {
+            "city": "Kab. Konawe Kepulauan",
+            "province": "Sulawesi Tenggara",
+            "label": "Kab. Konawe Kepulauan, Sulawesi Tenggara"
+        },
+        {
+            "city": "Kab. Muna Barat",
+            "province": "Sulawesi Tenggara",
+            "label": "Kab. Muna Barat, Sulawesi Tenggara"
+        },
+        {
+            "city": "Kab. Buton Tengah",
+            "province": "Sulawesi Tenggara",
+            "label": "Kab. Buton Tengah, Sulawesi Tenggara"
+        },
+        {
+            "city": "Kab. Buton Selatan",
+            "province": "Sulawesi Tenggara",
+            "label": "Kab. Buton Selatan, Sulawesi Tenggara"
+        },
+        {
+            "city": "Kota Kendari",
+            "province": "Sulawesi Tenggara",
+            "label": "Kota Kendari, Sulawesi Tenggara"
+        },
+        {
+            "city": "Kota Baubau",
+            "province": "Sulawesi Tenggara",
+            "label": "Kota Baubau, Sulawesi Tenggara"
+        },
+        {
+            "city": "Kab. Boalemo",
+            "province": "Gorontalo",
+            "label": "Kab. Boalemo, Gorontalo"
+        },
+        {
+            "city": "Kab. Gorontalo",
+            "province": "Gorontalo",
+            "label": "Kab. Gorontalo, Gorontalo"
+        },
+        {
+            "city": "Kab. Pohuwato",
+            "province": "Gorontalo",
+            "label": "Kab. Pohuwato, Gorontalo"
+        },
+        {
+            "city": "Kab. Bone Bolango",
+            "province": "Gorontalo",
+            "label": "Kab. Bone Bolango, Gorontalo"
+        },
+        {
+            "city": "Kab. Gorontalo Utara",
+            "province": "Gorontalo",
+            "label": "Kab. Gorontalo Utara, Gorontalo"
+        },
+        {
+            "city": "Kota Gorontalo",
+            "province": "Gorontalo",
+            "label": "Kota Gorontalo, Gorontalo"
+        },
+        {
+            "city": "Kab. Majene",
+            "province": "Sulawesi Barat",
+            "label": "Kab. Majene, Sulawesi Barat"
+        },
+        {
+            "city": "Kab. Polewali Mandar",
+            "province": "Sulawesi Barat",
+            "label": "Kab. Polewali Mandar, Sulawesi Barat"
+        },
+        {
+            "city": "Kab. Mamasa",
+            "province": "Sulawesi Barat",
+            "label": "Kab. Mamasa, Sulawesi Barat"
+        },
+        {
+            "city": "Kab. Mamuju",
+            "province": "Sulawesi Barat",
+            "label": "Kab. Mamuju, Sulawesi Barat"
+        },
+        {
+            "city": "Kab. Mamuju Utara",
+            "province": "Sulawesi Barat",
+            "label": "Kab. Mamuju Utara, Sulawesi Barat"
+        },
+        {
+            "city": "Kab. Mamuju Tengah",
+            "province": "Sulawesi Barat",
+            "label": "Kab. Mamuju Tengah, Sulawesi Barat"
+        },
+        {
+            "city": "Kab. Maluku Tenggara Barat",
+            "province": "Maluku",
+            "label": "Kab. Maluku Tenggara Barat, Maluku"
+        },
+        {
+            "city": "Kab. Maluku Tenggara",
+            "province": "Maluku",
+            "label": "Kab. Maluku Tenggara, Maluku"
+        },
+        {
+            "city": "Kab. Maluku Tengah",
+            "province": "Maluku",
+            "label": "Kab. Maluku Tengah, Maluku"
+        },
+        {
+            "city": "Kab. Buru",
+            "province": "Maluku",
+            "label": "Kab. Buru, Maluku"
+        },
+        {
+            "city": "Kab. Kepulauan Aru",
+            "province": "Maluku",
+            "label": "Kab. Kepulauan Aru, Maluku"
+        },
+        {
+            "city": "Kab. Seram Bagian Barat",
+            "province": "Maluku",
+            "label": "Kab. Seram Bagian Barat, Maluku"
+        },
+        {
+            "city": "Kab. Seram Bagian Timur",
+            "province": "Maluku",
+            "label": "Kab. Seram Bagian Timur, Maluku"
+        },
+        {
+            "city": "Kab. Maluku Barat Daya",
+            "province": "Maluku",
+            "label": "Kab. Maluku Barat Daya, Maluku"
+        },
+        {
+            "city": "Kab. Buru Selatan",
+            "province": "Maluku",
+            "label": "Kab. Buru Selatan, Maluku"
+        },
+        {
+            "city": "Kota Ambon",
+            "province": "Maluku",
+            "label": "Kota Ambon, Maluku"
+        },
+        {
+            "city": "Kota Tual",
+            "province": "Maluku",
+            "label": "Kota Tual, Maluku"
+        },
+        {
+            "city": "Kab. Halmahera Barat",
+            "province": "Maluku Utara",
+            "label": "Kab. Halmahera Barat, Maluku Utara"
+        },
+        {
+            "city": "Kab. Halmahera Tengah",
+            "province": "Maluku Utara",
+            "label": "Kab. Halmahera Tengah, Maluku Utara"
+        },
+        {
+            "city": "Kab. Kepulauan Sula",
+            "province": "Maluku Utara",
+            "label": "Kab. Kepulauan Sula, Maluku Utara"
+        },
+        {
+            "city": "Kab. Halmahera Selatan",
+            "province": "Maluku Utara",
+            "label": "Kab. Halmahera Selatan, Maluku Utara"
+        },
+        {
+            "city": "Kab. Halmahera Utara",
+            "province": "Maluku Utara",
+            "label": "Kab. Halmahera Utara, Maluku Utara"
+        },
+        {
+            "city": "Kab. Halmahera Timur",
+            "province": "Maluku Utara",
+            "label": "Kab. Halmahera Timur, Maluku Utara"
+        },
+        {
+            "city": "Kab. Pulau Morotai",
+            "province": "Maluku Utara",
+            "label": "Kab. Pulau Morotai, Maluku Utara"
+        },
+        {
+            "city": "Kab. Pulau Taliabu",
+            "province": "Maluku Utara",
+            "label": "Kab. Pulau Taliabu, Maluku Utara"
+        },
+        {
+            "city": "Kota Ternate",
+            "province": "Maluku Utara",
+            "label": "Kota Ternate, Maluku Utara"
+        },
+        {
+            "city": "Kota Tidore Kepulauan",
+            "province": "Maluku Utara",
+            "label": "Kota Tidore Kepulauan, Maluku Utara"
+        },
+        {
+            "city": "Kab. Fakfak",
+            "province": "Papua Barat",
+            "label": "Kab. Fakfak, Papua Barat"
+        },
+        {
+            "city": "Kab. Kaimana",
+            "province": "Papua Barat",
+            "label": "Kab. Kaimana, Papua Barat"
+        },
+        {
+            "city": "Kab. Teluk Wondama",
+            "province": "Papua Barat",
+            "label": "Kab. Teluk Wondama, Papua Barat"
+        },
+        {
+            "city": "Kab. Teluk Bintuni",
+            "province": "Papua Barat",
+            "label": "Kab. Teluk Bintuni, Papua Barat"
+        },
+        {
+            "city": "Kab. Manokwari",
+            "province": "Papua Barat",
+            "label": "Kab. Manokwari, Papua Barat"
+        },
+        {
+            "city": "Kab. Sorong Selatan",
+            "province": "Papua Barat",
+            "label": "Kab. Sorong Selatan, Papua Barat"
+        },
+        {
+            "city": "Kab. Sorong",
+            "province": "Papua Barat",
+            "label": "Kab. Sorong, Papua Barat"
+        },
+        {
+            "city": "Kab. Raja Ampat",
+            "province": "Papua Barat",
+            "label": "Kab. Raja Ampat, Papua Barat"
+        },
+        {
+            "city": "Kab. Tambrauw",
+            "province": "Papua Barat",
+            "label": "Kab. Tambrauw, Papua Barat"
+        },
+        {
+            "city": "Kab. Maybrat",
+            "province": "Papua Barat",
+            "label": "Kab. Maybrat, Papua Barat"
+        },
+        {
+            "city": "Kab. Manokwari Selatan",
+            "province": "Papua Barat",
+            "label": "Kab. Manokwari Selatan, Papua Barat"
+        },
+        {
+            "city": "Kab. Pegunungan Arfak",
+            "province": "Papua Barat",
+            "label": "Kab. Pegunungan Arfak, Papua Barat"
+        },
+        {
+            "city": "Kota Sorong",
+            "province": "Papua Barat",
+            "label": "Kota Sorong, Papua Barat"
+        },
+        {
+            "city": "Kab. Merauke",
+            "province": "Papua",
+            "label": "Kab. Merauke, Papua"
+        },
+        {
+            "city": "Kab. Jayawijaya",
+            "province": "Papua",
+            "label": "Kab. Jayawijaya, Papua"
+        },
+        {
+            "city": "Kab. Jayapura",
+            "province": "Papua",
+            "label": "Kab. Jayapura, Papua"
+        },
+        {
+            "city": "Kab. Nabire",
+            "province": "Papua",
+            "label": "Kab. Nabire, Papua"
+        },
+        {
+            "city": "Kab. Kepulauan Yapen",
+            "province": "Papua",
+            "label": "Kab. Kepulauan Yapen, Papua"
+        },
+        {
+            "city": "Kab. Biak Numfor",
+            "province": "Papua",
+            "label": "Kab. Biak Numfor, Papua"
+        },
+        {
+            "city": "Kab. Paniai",
+            "province": "Papua",
+            "label": "Kab. Paniai, Papua"
+        },
+        {
+            "city": "Kab. Puncak Jaya",
+            "province": "Papua",
+            "label": "Kab. Puncak Jaya, Papua"
+        },
+        {
+            "city": "Kab. Mimika",
+            "province": "Papua",
+            "label": "Kab. Mimika, Papua"
+        },
+        {
+            "city": "Kab. Boven Digoel",
+            "province": "Papua",
+            "label": "Kab. Boven Digoel, Papua"
+        },
+        {
+            "city": "Kab. Mappi",
+            "province": "Papua",
+            "label": "Kab. Mappi, Papua"
+        },
+        {
+            "city": "Kab. Asmat",
+            "province": "Papua",
+            "label": "Kab. Asmat, Papua"
+        },
+        {
+            "city": "Kab. Yahukimo",
+            "province": "Papua",
+            "label": "Kab. Yahukimo, Papua"
+        },
+        {
+            "city": "Kab. Pegunungan Bintang",
+            "province": "Papua",
+            "label": "Kab. Pegunungan Bintang, Papua"
+        },
+        {
+            "city": "Kab. Tolikara",
+            "province": "Papua",
+            "label": "Kab. Tolikara, Papua"
+        },
+        {
+            "city": "Kab. Sarmi",
+            "province": "Papua",
+            "label": "Kab. Sarmi, Papua"
+        },
+        {
+            "city": "Kab. Keerom",
+            "province": "Papua",
+            "label": "Kab. Keerom, Papua"
+        },
+        {
+            "city": "Kab. Waropen",
+            "province": "Papua",
+            "label": "Kab. Waropen, Papua"
+        },
+        {
+            "city": "Kab. Supiori",
+            "province": "Papua",
+            "label": "Kab. Supiori, Papua"
+        },
+        {
+            "city": "Kab. Mamberamo Raya",
+            "province": "Papua",
+            "label": "Kab. Mamberamo Raya, Papua"
+        },
+        {
+            "city": "Kab. Nduga",
+            "province": "Papua",
+            "label": "Kab. Nduga, Papua"
+        },
+        {
+            "city": "Kab. Lanny Jaya",
+            "province": "Papua",
+            "label": "Kab. Lanny Jaya, Papua"
+        },
+        {
+            "city": "Kab. Mamberamo Tengah",
+            "province": "Papua",
+            "label": "Kab. Mamberamo Tengah, Papua"
+        },
+        {
+            "city": "Kab. Yalimo",
+            "province": "Papua",
+            "label": "Kab. Yalimo, Papua"
+        },
+        {
+            "city": "Kab. Puncak",
+            "province": "Papua",
+            "label": "Kab. Puncak, Papua"
+        },
+        {
+            "city": "Kab. Dogiyai",
+            "province": "Papua",
+            "label": "Kab. Dogiyai, Papua"
+        },
+        {
+            "city": "Kab. Intan Jaya",
+            "province": "Papua",
+            "label": "Kab. Intan Jaya, Papua"
+        },
+        {
+            "city": "Kab. Deiyai",
+            "province": "Papua",
+            "label": "Kab. Deiyai, Papua"
+        },
+        {
+            "city": "Kota Jayapura",
+            "province": "Papua",
+            "label": "Kota Jayapura, Papua"
+        }
+    ]
+}

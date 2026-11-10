@@ -17,11 +17,13 @@ class CatalogController extends Controller
             'search' => ['nullable', 'string', 'max:200'],
             'category' => ['nullable', 'string', 'max:120'],
             'condition' => ['nullable', Rule::in(['new', 'like_new', 'good', 'fair'])],
+            'location' => ['nullable', 'string', 'max:200'],
         ]);
 
         $search = trim($filters['search'] ?? '');
         $category = $filters['category'] ?? null;
         $condition = $filters['condition'] ?? null;
+        $location = trim($filters['location'] ?? '');
 
         $listings = Listing::query()
             ->with(['category', 'images'])
@@ -31,13 +33,23 @@ class CatalogController extends Controller
             }))
             ->when($category, fn ($query) => $query->whereHas('category', fn ($query) => $query->where('slug', $category)))
             ->when($condition, fn ($query) => $query->where('item_condition', $condition))
+            ->when($location !== '', fn ($query) => $query->where('location', 'like', '%'.$location.'%'))
             ->latest()->paginate(12)->withQueryString()
             ->through(fn (Listing $listing) => $listing->cardData());
+
+        $activeFilters = [
+            'search' => $search,
+            'category' => $category,
+            'condition' => $condition,
+        ];
+        if ($location !== '') {
+            $activeFilters['location'] = $location;
+        }
 
         return Inertia::render('Catalog/Index', [
             'listings' => $listings,
             'categories' => Category::query()->orderBy('name')->get(['id', 'name', 'slug']),
-            'filters' => ['search' => $search, 'category' => $category, 'condition' => $condition],
+            'filters' => $activeFilters,
         ]);
     }
 
