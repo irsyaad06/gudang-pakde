@@ -11,6 +11,11 @@ const menuOpen = ref(false);
 const headerSearch = ref(page.props.filters?.search || '');
 const accountButton = ref(null);
 const navContainer = ref(null);
+const isScrolled = ref(false);
+
+const handleScroll = () => {
+    isScrolled.value = typeof window !== 'undefined' && window.scrollY > 8;
+};
 
 // Active tab evaluation
 const isCatalog = computed(() => page.component === 'Catalog/Index' || page.component === 'Listings/Show');
@@ -155,6 +160,11 @@ onMounted(() => {
         }
     });
 
+    if (typeof window !== 'undefined') {
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        handleScroll();
+    }
+
     if (typeof ResizeObserver !== 'undefined' && navContainer.value) {
         resizeObserver = new ResizeObserver(() => {
             if (currentActiveTab.value) {
@@ -166,6 +176,9 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
+    if (typeof window !== 'undefined') {
+        window.removeEventListener('scroll', handleScroll);
+    }
     if (resizeObserver) {
         resizeObserver.disconnect();
     }
@@ -173,6 +186,7 @@ onBeforeUnmount(() => {
 
 watch(() => page.url, () => {
     menuOpen.value = false;
+    handleScroll();
     nextTick(() => {
         if (currentActiveTab.value) {
             animateToTab(currentActiveTab.value, true);
@@ -201,8 +215,22 @@ const searchCatalog = () => {
         <ToastContainer />
         <FloatingDocsButton />
         <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-2 focus:z-50 focus:rounded-xl focus:bg-surface focus:px-4 focus:py-3">Lewati ke konten</a>
-        <header class="relative z-20 mx-auto w-full max-w-[1440px] px-3 pb-5 pt-4 sm:px-6 sm:pb-6 sm:pt-6 lg:px-8">
-            <div class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:gap-5">
+        <header class="sticky top-0 z-30 w-full">
+            <!-- Feathered gradient blur background layer behind navbar (fades to opacity 0 at bottom) -->
+            <div
+                aria-hidden="true"
+                class="pointer-events-none absolute inset-x-0 -top-2 -bottom-7 z-0 transition-opacity duration-300 ease-out"
+                :class="isScrolled ? 'opacity-100' : 'opacity-0'"
+                style="
+                    backdrop-filter: blur(18px);
+                    -webkit-backdrop-filter: blur(18px);
+                    background: linear-gradient(to bottom, rgba(243, 243, 245, 0.94) 0%, rgba(243, 243, 245, 0.7) 50%, rgba(243, 243, 245, 0) 100%);
+                    mask-image: linear-gradient(to bottom, black 0%, black 50%, transparent 100%);
+                    -webkit-mask-image: linear-gradient(to bottom, black 0%, black 50%, transparent 100%);
+                "
+            />
+            <div class="relative z-10 mx-auto w-full max-w-[1440px] px-3 pb-4 pt-3.5 sm:px-6 sm:pb-5 sm:pt-4 lg:px-8">
+                <div class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:gap-5">
                 <Link :href="route('catalog.index')" class="inline-flex min-h-16 w-fit items-center gap-2.5 rounded-full border border-white bg-surface px-4 pr-5 sm:gap-3 sm:px-5 sm:pr-7" aria-label="Gudang Pakde — katalog">
                     <BrandMark class="h-10 w-10 shrink-0" />
                     <span class="text-[15px] font-bold tracking-tight sm:text-lg">Gudang Pakde</span>
@@ -278,6 +306,7 @@ const searchCatalog = () => {
                         </template>
                     </nav>
                 </div>
+            </div>
             </div>
         </header>
 
