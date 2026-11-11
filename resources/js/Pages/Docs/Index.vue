@@ -1,5 +1,5 @@
 <script setup>
-import { computed, nextTick, ref } from 'vue';
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue';
 import { Head, Link } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import AppIcon from '@/Components/AppIcon.vue';
@@ -79,9 +79,86 @@ const navItems = [
     { id: 'routes', title: 'Route Web & Keamanan', subtitle: 'Endpoint, authorization & policy', icon: 'shield-check' },
 ];
 
+// Scrollspy handling
+let isProgrammaticScroll = false;
+let programmaticScrollTimeout = null;
+let isScrollTicking = false;
+
+const syncMobileNav = (id) => {
+    if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+        const activeNavEl = document.querySelector(`[data-nav-id="${id}"]`);
+        if (activeNavEl) {
+            activeNavEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+        }
+    }
+};
+
+const updateActiveSectionOnScroll = () => {
+    if (isProgrammaticScroll || typeof window === 'undefined') return;
+
+    const scrollY = window.scrollY;
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+
+    // If reached bottom of document, activate the last section
+    if (windowHeight + scrollY >= documentHeight - 60) {
+        if (navItems.length > 0) {
+            const lastId = navItems[navItems.length - 1].id;
+            if (activeSection.value !== lastId) {
+                activeSection.value = lastId;
+                syncMobileNav(lastId);
+            }
+        }
+        return;
+    }
+
+    // Focal point below top sticky navbar (~80px navbar + margin)
+    const focalPoint = 160;
+
+    for (let i = navItems.length - 1; i >= 0; i--) {
+        const id = navItems[i].id;
+        const el = document.getElementById(id);
+        if (el) {
+            const rect = el.getBoundingClientRect();
+            if (rect.top <= focalPoint) {
+                if (activeSection.value !== id) {
+                    activeSection.value = id;
+                    syncMobileNav(id);
+                }
+                return;
+            }
+        }
+    }
+
+    if (navItems.length > 0 && activeSection.value !== navItems[0].id) {
+        activeSection.value = navItems[0].id;
+        syncMobileNav(navItems[0].id);
+    }
+};
+
+const handleWindowScroll = () => {
+    if (!isScrollTicking) {
+        window.requestAnimationFrame(() => {
+            updateActiveSectionOnScroll();
+            isScrollTicking = false;
+        });
+        isScrollTicking = true;
+    }
+};
+
 const scrollToSection = (id) => {
+    isProgrammaticScroll = true;
     activeSection.value = id;
     cardOpenState.value[id] = true;
+    syncMobileNav(id);
+
+    if (programmaticScrollTimeout) {
+        clearTimeout(programmaticScrollTimeout);
+    }
+    programmaticScrollTimeout = setTimeout(() => {
+        isProgrammaticScroll = false;
+    }, 850);
+
     nextTick(() => {
         const el = document.getElementById(id);
         if (el) {
@@ -89,6 +166,24 @@ const scrollToSection = (id) => {
         }
     });
 };
+
+onMounted(() => {
+    if (typeof window !== 'undefined') {
+        window.addEventListener('scroll', handleWindowScroll, { passive: true });
+        nextTick(() => {
+            updateActiveSectionOnScroll();
+        });
+    }
+});
+
+onBeforeUnmount(() => {
+    if (typeof window !== 'undefined') {
+        window.removeEventListener('scroll', handleWindowScroll);
+    }
+    if (programmaticScrollTimeout) {
+        clearTimeout(programmaticScrollTimeout);
+    }
+});
 </script>
 
 <template>
@@ -139,7 +234,7 @@ const scrollToSection = (id) => {
             <div class="flex flex-col gap-6 lg:flex-row lg:items-start">
                 <!-- Collapsible Sidebar -->
                 <aside
-                    class="sticky top-6 z-10 shrink-0 transition-all duration-300 ease-in-out"
+                    class="sticky top-20 z-10 shrink-0 transition-all duration-300 ease-in-out lg:top-24"
                     :class="isSidebarCollapsed ? 'lg:w-20' : 'lg:w-72'"
                 >
                     <nav class="rounded-3xl border border-neutral-200/80 bg-white p-3 shadow-sm sm:p-4" aria-label="Navigasi Dokumentasi">
@@ -164,6 +259,7 @@ const scrollToSection = (id) => {
                             <button
                                 v-for="item in navItems"
                                 :key="item.id"
+                                :data-nav-id="item.id"
                                 type="button"
                                 class="group flex items-center gap-3 rounded-2xl px-3 py-2.5 text-left transition-all"
                                 :class="[
@@ -241,7 +337,7 @@ const scrollToSection = (id) => {
                     </div>
 
                     <!-- SECTION 1: OVERVIEW -->
-                    <section id="overview" class="rounded-3xl border border-neutral-200/80 bg-white p-6 shadow-sm transition-all sm:p-8">
+                    <section id="overview" class="rounded-3xl border border-neutral-200/80 bg-white p-6 shadow-sm transition-all sm:p-8 scroll-mt-24">
                         <button
                             type="button"
                             class="flex w-full items-center justify-between gap-4 text-left transition select-none group"
@@ -361,7 +457,7 @@ const scrollToSection = (id) => {
                     </section>
 
                     <!-- SECTION 2: APPLICATION ARCHITECTURE & 100K DAU -->
-                    <section id="architecture" class="rounded-3xl border border-neutral-200/80 bg-white p-6 shadow-sm transition-all sm:p-8">
+                    <section id="architecture" class="rounded-3xl border border-neutral-200/80 bg-white p-6 shadow-sm transition-all sm:p-8 scroll-mt-24">
                         <button
                             type="button"
                             class="flex w-full items-center justify-between gap-4 text-left transition select-none group"
@@ -473,7 +569,7 @@ const scrollToSection = (id) => {
                     </section>
 
                     <!-- SECTION 3: INFRASTRUCTURE ARCHITECTURE -->
-                    <section id="infrastructure" class="rounded-3xl border border-neutral-200/80 bg-white p-6 shadow-sm transition-all sm:p-8">
+                    <section id="infrastructure" class="rounded-3xl border border-neutral-200/80 bg-white p-6 shadow-sm transition-all sm:p-8 scroll-mt-24">
                         <button
                             type="button"
                             class="flex w-full items-center justify-between gap-4 text-left transition select-none group"
@@ -573,7 +669,7 @@ const scrollToSection = (id) => {
                     </section>
 
                     <!-- SECTION 4: DATABASE DESIGN & ERD -->
-                    <section id="database" class="rounded-3xl border border-neutral-200/80 bg-white p-6 shadow-sm transition-all sm:p-8">
+                    <section id="database" class="rounded-3xl border border-neutral-200/80 bg-white p-6 shadow-sm transition-all sm:p-8 scroll-mt-24">
                         <button
                             type="button"
                             class="flex w-full items-center justify-between gap-4 text-left transition select-none group"
@@ -710,7 +806,7 @@ const scrollToSection = (id) => {
                     </section>
 
                     <!-- SECTION 5: TECH STACK & DESIGN DECISIONS -->
-                    <section id="techstack" class="rounded-3xl border border-neutral-200/80 bg-white p-6 shadow-sm transition-all sm:p-8">
+                    <section id="techstack" class="rounded-3xl border border-neutral-200/80 bg-white p-6 shadow-sm transition-all sm:p-8 scroll-mt-24">
                         <button
                             type="button"
                             class="flex w-full items-center justify-between gap-4 text-left transition select-none group"
@@ -797,7 +893,7 @@ const scrollToSection = (id) => {
                     </section>
 
                     <!-- SECTION 6: HOW TO INSTALL LOCALLY -->
-                    <section id="install" class="rounded-3xl border border-neutral-200/80 bg-white p-6 shadow-sm transition-all sm:p-8">
+                    <section id="install" class="rounded-3xl border border-neutral-200/80 bg-white p-6 shadow-sm transition-all sm:p-8 scroll-mt-24">
                         <button
                             type="button"
                             class="flex w-full items-center justify-between gap-4 text-left transition select-none group"
@@ -1061,7 +1157,7 @@ const scrollToSection = (id) => {
                     </section>
 
                     <!-- SECTION 7: WEB ROUTES & SECURITY -->
-                    <section id="routes" class="rounded-3xl border border-neutral-200/80 bg-white p-6 shadow-sm transition-all sm:p-8">
+                    <section id="routes" class="rounded-3xl border border-neutral-200/80 bg-white p-6 shadow-sm transition-all sm:p-8 scroll-mt-24">
                         <button
                             type="button"
                             class="flex w-full items-center justify-between gap-4 text-left transition select-none group"
