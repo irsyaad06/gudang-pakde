@@ -393,32 +393,32 @@ onBeforeUnmount(() => {
                         <div class="text-xs font-semibold text-ink-500 uppercase tracking-wider">
                             Pilih Fokus Tampilan Dokumen:
                         </div>
-                        <div class="inline-flex rounded-2xl border border-neutral-200/80 bg-neutral-100/90 p-1 text-xs">
+                        <div class="grid grid-cols-1 gap-1.5 w-full rounded-2xl border border-neutral-200/80 bg-neutral-100/90 p-1 text-xs sm:inline-flex sm:w-auto sm:grid-cols-none sm:flex-row sm:items-center">
                             <button
                                 type="button"
-                                class="flex items-center gap-2 rounded-xl px-3.5 py-2 font-semibold transition"
+                                class="flex items-center justify-center sm:justify-start gap-2 rounded-xl px-3.5 py-2.5 sm:py-2 font-semibold transition"
                                 :class="activeDocMode === 'all' ? 'bg-white text-ink-900 shadow-xs' : 'text-ink-600 hover:text-ink-900'"
                                 @click="setDocMode('all')"
                             >
-                                <AppIcon name="grid" class="h-3.5 w-3.5" />
+                                <AppIcon name="grid" class="h-3.5 w-3.5 shrink-0" />
                                 <span>Semua Dokumentasi</span>
                             </button>
                             <button
                                 type="button"
-                                class="flex items-center gap-2 rounded-xl px-3.5 py-2 font-semibold transition"
+                                class="flex items-center justify-center sm:justify-start gap-2 rounded-xl px-3.5 py-2.5 sm:py-2 font-semibold transition"
                                 :class="activeDocMode === 'rancangan' ? 'bg-blue-600 text-white shadow-xs' : 'text-ink-600 hover:text-ink-900'"
                                 @click="setDocMode('rancangan')"
                             >
-                                <AppIcon name="layers" class="h-3.5 w-3.5" />
+                                <AppIcon name="layers" class="h-3.5 w-3.5 shrink-0" />
                                 <span>Rancangan Arsitektur (100k DAU)</span>
                             </button>
                             <button
                                 type="button"
-                                class="flex items-center gap-2 rounded-xl px-3.5 py-2 font-semibold transition"
+                                class="flex items-center justify-center sm:justify-start gap-2 rounded-xl px-3.5 py-2.5 sm:py-2 font-semibold transition"
                                 :class="activeDocMode === 'technical' ? 'bg-emerald-600 text-white shadow-xs' : 'text-ink-600 hover:text-ink-900'"
                                 @click="setDocMode('technical')"
                             >
-                                <AppIcon name="file-text" class="h-3.5 w-3.5" />
+                                <AppIcon name="file-text" class="h-3.5 w-3.5 shrink-0" />
                                 <span>Technical Documentation</span>
                             </button>
                         </div>
