@@ -27,3 +27,4 @@ class DocsTest extends TestCase
         );
     }
 }
+

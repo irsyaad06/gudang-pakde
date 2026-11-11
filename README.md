@@ -1,52 +1,174 @@
 # Gudang Pakde
 
-Marketplace barang bekas untuk komunitas — GITS Fullstack Developer mini-project.
+Marketplace barang bekas khusus komunitas — **GITS Fullstack Developer Mini-Project Assignment**.
 
-## Stack
-Laravel 13 · Vue 3 · Inertia.js · Tailwind CSS · MySQL 8.x (InnoDB). Architecture: modular monolith.
+Repository: [https://github.com/irsyaad06/gudang-pakde.git](https://github.com/irsyaad06/gudang-pakde.git)
 
-## Documentation
-- [`AGENTS.md`](AGENTS.md): coding-agent rules and reading order
-- [`docs/01-requirements.md`](docs/01-requirements.md): features, scope, acceptance
-- [`docs/02-tech-stack-decisions.md`](docs/02-tech-stack-decisions.md): choices and trade-offs
-- [`docs/03-application-architecture.md`](docs/03-application-architecture.md): modules and request flow
-- [`docs/04-infrastructure-architecture.md`](docs/04-infrastructure-architecture.md): design for 100K DAU
-- [`docs/05-database-design.md`](docs/05-database-design.md): schema and ERD
-- [`docs/06-api-documentation.md`](docs/06-api-documentation.md): Inertia route contracts
-- [`docs/07-scaling-and-security.md`](docs/07-scaling-and-security.md): performance and security
-- [`docs/08-deployment-and-operations.md`](docs/08-deployment-and-operations.md): setup and operations
-- [`docs/09-ui-ux-design-system.md`](docs/09-ui-ux-design-system.md): UI tokens, components, responsive behavior
-- [`docs/10-page-specifications.md`](docs/10-page-specifications.md): page wireframes, user journeys, acceptance
+---
 
-## Menjalankan lokal
+## Tech Stack
+- **Backend:** Laravel 13 (PHP 8.2+ / PHP 8.4)
+- **Frontend:** Vue 3 (Composition API) + Inertia.js
+- **Styling & UI:** Tailwind CSS v4 (Sellora-inspired clean surface design system)
+- **Database:** MySQL 8.x (InnoDB, utf8mb4)
+- **Pattern:** Modular Monolith (Single deployment unit, ACID database transactions, zero inter-service network overhead)
 
-Prasyarat: PHP/Composer, Node.js/npm, dan MySQL 8.x. Salin `.env.example` ke `.env`, atur `APP_NAME="Gudang Pakde"`, `DB_CONNECTION=mysql` beserta `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, dan `DB_PASSWORD` untuk database MySQL lokal yang sudah dibuat. Jangan gunakan kredensial produksi di repository.
+---
 
+## Dokumentasi Lengkap & Arsitektur In-App
+Aplikasi ini dilengkapi dengan **Halaman Dokumentasi Interaktif In-App** di [`/dokumentasi`](http://127.0.0.1:8000/dokumentasi) yang dapat diakses secara langsung melalui tombol melayang (floating document button) di pojok kanan bawah aplikasi.
+
+Dokumentasi tertulis juga tersedia pada folder `docs/`:
+- [`AGENTS.md`](AGENTS.md): Aturan pengerjaan dan standar coding agent
+- [`docs/01-requirements.md`](docs/01-requirements.md): Spesifikasi fitur dan kriteria penerimaan MVP
+- [`docs/02-tech-stack-decisions.md`](docs/02-tech-stack-decisions.md): Keputusan teknologi dan pertimbangan trade-off
+- [`docs/03-application-architecture.md`](docs/03-application-architecture.md): Arsitektur aplikasi, alur data, dan request lifecycle
+- [`docs/04-infrastructure-architecture.md`](docs/04-infrastructure-architecture.md): Desain infrastruktur produksi untuk 100.000 DAU
+- [`docs/05-database-design.md`](docs/05-database-design.md): Skema database, indeks performa, dan diagram relasi (ERD)
+- [`docs/06-api-documentation.md`](docs/06-api-documentation.md): Kontrak route web dan endpoint Inertia
+- [`docs/07-scaling-and-security.md`](docs/07-scaling-and-security.md): Keamanan data, proteksi CSRF/XSS, dan strategi scaling
+- [`docs/08-deployment-and-operations.md`](docs/08-deployment-and-operations.md): Panduan deployment, CI/CD, dan operasional
+- [`docs/09-ui-ux-design-system.md`](docs/09-ui-ux-design-system.md): Token visual UI, komponen, dan responsivitas
+- [`docs/10-page-specifications.md`](docs/10-page-specifications.md): Wireframe halaman dan alur pengalaman pengguna
+
+---
+
+## Fitur Utama yang Telah Diimplementasikan (100% Selesai)
+
+1. **Autentikasi Pengguna:** Registrasi, Login, dan Logout berbasis sesi dengan proteksi CSRF dan password hashing bcrypt.
+2. **Profil & Barang Saya:** Manajemen informasi profil (nama, email, nomor WhatsApp internasional `+62`), serta tab riwayat listing barang pribadi dilengkapi indikator jumlah dilihat (*views count*).
+3. **Katalog Barang Komunitas:** Grid responsif (1 kolom di HP, 2 di tablet, 3-4 di desktop) dengan gambar, harga terformat ribuan titik, kondisi barang, lokasi kota/provinsi, dan badge status barang.
+4. **Pencarian & Multi-Filter:** Pencarian kata kunci real-time, filter kategori, filter kondisi (Baru, Seperti Baru, Bagus, Cukup), serta dropdown wilayah Indonesia (34 provinsi & 514 kota).
+5. **Urutan Sortir Cerdas:** Secara default memprioritaskan barang yang **Tersedia**, lalu barang yang **Paling Banyak Dilihat**, dan barang yang **Terbaru** (`views_count DESC, created_at DESC`).
+6. **Detail Barang & Galeri Multi-Foto:** Galeri interaktif dengan thumbnail switcher (hingga 5 foto per barang), deskripsi lengkap, kartu penjual, alamat lokasi, dan tombol WhatsApp kontak penjual.
+7. **Pasang Iklan Barang:** Form pasang barang dengan validasi server-side, pemformat otomatis titik ribuan live (`1230000` -> `1.230.000`), integrasi API wilayah Indonesia, dan upload multi-foto (JPEG/PNG/WebP, max 2MB/foto).
+8. **Kelola Listing & Keamanan Kebijakan:** Edit data barang, hapus foto individual, tambah foto baru, dan hapus listing dengan otorisasi ketat `ListingPolicy` (403 Forbidden bila bukan pemilik).
+9. **Toggle Status Barang:** Penjual dapat mengubah status dari *Tersedia* ke *Terjual* dalam 1-klik dengan badge merah otomatis.
+10. **Kontak WhatsApp Click-to-Chat:** Tombol bulat dengan ikon WhatsApp dan efek hover `#25D366` yang otomatis membuka chat dengan pesan pre-filled berisi nama barang dan tautan listing.
+11. **Toast Notification:** Notifikasi toast melayang di pojok kanan atas untuk semua aksi berhasil maupun gagal.
+12. **Navigasi Sliding Pill:** Indikator tab aktif dengan animasi pergeseran halus (*smooth sliding transition*).
+
+---
+
+## Panduan Menjalankan Aplikasi Secara Lokal
+
+### Prasyarat
+- PHP >= 8.2 (Disarankan PHP 8.4)
+- Composer 2.x
+- Node.js >= 20.x & npm
+- MySQL Server 8.x
+- Git
+
+### Langkah Instalasi (macOS & Linux)
 ```bash
+# 1. Clone repository
+git clone https://github.com/irsyaad06/gudang-pakde.git
+cd gudang-pakde
+
+# 2. Instal dependensi backend dan frontend
 composer install
 npm install
+
+# 3. Konfigurasi file environment
 cp .env.example .env
 php artisan key:generate
-# Atur DB_* di .env lalu buat database MySQL lokal
+
+# 4. Buat database MySQL lokal (misal: gudang_pakde) dan sesuaikan DB_* di file .env
+# DB_CONNECTION=mysql
+# DB_HOST=127.0.0.1
+# DB_PORT=3306
+# DB_DATABASE=gudang_pakde
+# DB_USERNAME=root
+# DB_PASSWORD=
+
+# 5. Jalankan migrasi database dan seeder
 php artisan migrate --seed
+
+# 6. Buat symlink storage foto barang
 php artisan storage:link
+
+# 7. Jalankan automated test
 php artisan test
+
+# 8. Kompilasi asset frontend
 npm run build
+
+# 9. Jalankan server pengembangan
 php artisan serve
+# Pada terminal lain:
+npm run dev
 ```
 
-Untuk mengembangkan UI, jalankan `npm run dev` di terminal lain. Pengujian menggunakan SQLite in-memory sebagaimana diatur pada `phpunit.xml`; aplikasi lokal menggunakan driver yang dikonfigurasi di `.env`. Nomor WhatsApp penjual diatur melalui Profil dengan format internasional `62...` atau `+62...`; nomor wajib sebelum memasang barang. Barang terjual tetap tampil, tetapi tidak bisa dihubungi melalui CTA. Akun dengan riwayat barang (termasuk soft-deleted) tidak dapat dihapus.
+### Langkah Instalasi (Microsoft Windows)
+```cmd
+:: 1. Clone repository
+git clone https://github.com/irsyaad06/gudang-pakde.git
+cd gudang-pakde
 
-## Status
+:: 2. Instal dependensi backend dan frontend
+composer install
+npm install
 
-FR-01–FR-09 telah diimplementasikan pada aplikasi Laravel/Inertia, dengan satu foto per barang dan kategori dari seeder. Route dan props aktual didokumentasikan di [`docs/06-api-documentation.md`](docs/06-api-documentation.md). Desain infrastruktur 100K DAU hanya dokumentasi, belum di-deploy atau dibenchmark. Migrasi dan seeder berhasil dijalankan di MySQL lokal terkonfigurasi. UI kini mengikuti arah visual Sellora yang diberikan pengguna: panel putih pada canvas abu-abu, navigasi pill, CTA charcoal, dan aksen ungu. Review Chrome untuk katalog, detail, create/edit, Barang Saya, profil, login/register sudah dilakukan pada 360/768/1440 px. Screenshot dan hasil ukur lokal berada di `storage/app/ui-review/sellora-*.png` dan `sellora-measurements.json` (artefak development yang tidak dilacak Git). Belum ada publikasi demo atau screenshot ke GitHub.
+:: 3. Konfigurasi file environment
+copy .env.example .env
+php artisan key:generate
 
-## Dataset demo (opsional, hanya lokal/testing)
+:: 4. Buat database MySQL lokal (misal: gudang_pakde) dan sesuaikan DB_* di file .env
 
-Setelah migrasi dan `php artisan storage:link`, jalankan **secara eksplisit** di lingkungan lokal/testing:
+:: 5. Jalankan migrasi dan seeder
+php artisan migrate --seed
 
-```bash
-php artisan db:seed --class=DemoListingSeeder
+:: 6. Buat symlink storage foto barang
+php artisan storage:link
+
+:: 7. Jalankan automated test
+php artisan test
+
+:: 8. Kompilasi asset frontend
+npm run build
+
+:: 9. Jalankan server backend dan frontend
+php artisan serve
+:: Buka command prompt/terminal kedua:
+npm run dev
 ```
 
-Perintah ini tidak termasuk `migrate --seed`: membuat satu akun sintetis `demo-seller@gudang-pakde.example.test`, enam contoh barang dari lima kategori, dan menyalin ilustrasi ke public disk (`storage/app/public/demo/gudang-pakde/`). Aman diulang tanpa menghapus/mengubah barang atau foto pengguna; perubahan dan penghapusan barang demo juga dipertahankan. Seeder menolak lingkungan selain `local`/`testing`. Gambar di `public/demo/*.svg` adalah **ilustrasi vektor orisinal yang dibuat untuk repository ini**, bukan foto barang nyata atau aset pihak ketiga; tidak memakai hotlink. Harga/kondisi/deskripsi adalah contoh fiktif, bukan penawaran sungguhan. Akun demo tidak memiliki nomor telepon, sehingga tombol WhatsApp **tidak aktif**; sandi dibuat acak saat seeding dan tidak dibagikan sebagai kredensial login. SVG hanya dipakai oleh seeder, bukan sebagai format upload pengguna (upload tetap JPEG/PNG/WebP). Jangan jalankan seeder pada database yang tidak dimaksudkan untuk demo.
+Akses aplikasi di browser melalui: `http://127.0.0.1:8000`
+
+---
+
+## Status Pengujian Otomatis (Automated Tests)
+Aplikasi dilengkapi dengan rangkaian pengujian fitur otomatis (Feature Tests) menyeluruh yang mencakup:
+- Autentikasi Pengguna & Sesi
+- Otorisasi Kebijakan `ListingPolicy` (Hak Akses Pemilik vs Pengguna Lain)
+- Katalog, Pencarian Kata Kunci, Filter Kategori, Filter Kondisi, dan Filter Wilayah
+- Prioritas Urutan Sortir (`available`, `views_count DESC`, `created_at DESC`)
+- Increment Penghitung Dilihat (`views_count`)
+- Upload Multi-Foto & Symlink Storage
+- API Wilayah Indonesia (`/api/locations`)
+- Halaman Dokumentasi Interaktif (`/dokumentasi`)
+
+Hasil eksekusi `php artisan test`:
+```text
+PASS  Tests\Feature\Auth\AuthenticationTest
+PASS  Tests\Feature\Auth\EmailVerificationTest
+PASS  Tests\Feature\Auth\PasswordConfirmationTest
+PASS  Tests\Feature\Auth\PasswordResetTest
+PASS  Tests\Feature\Auth\PasswordUpdateTest
+PASS  Tests\Feature\Auth\RegistrationTest
+PASS  Tests\Feature\DemoListingSeederTest
+PASS  Tests\Feature\DocsTest
+PASS  Tests\Feature\ExampleTest
+PASS  Tests\Feature\MarketplaceTest
+PASS  Tests\Feature\ProfileTest
+
+Tests:    41 passed (492 assertions)
+Duration: 1.98s
+```
+
+---
+
+## Akun Demo
+- **Email:** `pakde@gudangpakde.id`
+- **Password:** `password`
+- Seeder opsional: `php artisan db:seed --class=DemoListingSeeder` (membuat listing demo dengan ilustrasi vektor orisinal).
