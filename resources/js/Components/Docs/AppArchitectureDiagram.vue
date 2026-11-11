@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import AppIcon from '@/Components/AppIcon.vue';
+import SvgPanZoomViewer from '@/Components/Docs/SvgPanZoomViewer.vue';
 
 const copiedMermaid = ref(false);
 
@@ -59,7 +60,7 @@ const copyMermaid = () => {
     });
 };
 
-const activeTab = ref('visual'); // 'visual' | 'mermaid'
+const activeTab = ref('svg'); // 'svg' | 'flow' | 'mermaid'
 </script>
 
 <template>
@@ -76,16 +77,24 @@ const activeTab = ref('visual'); // 'visual' | 'mermaid'
                 </div>
             </div>
 
-            <!-- Tabs: Visual vs Mermaid -->
+            <!-- Tabs: SVG Pan/Zoom vs Component Flow vs Mermaid -->
             <div class="flex items-center gap-1.5">
                 <div class="inline-flex rounded-xl border border-neutral-200 bg-white p-1 text-xs">
                     <button
                         type="button"
-                        class="rounded-lg px-2.5 py-1 font-semibold transition"
-                        :class="activeTab === 'visual' ? 'bg-ink-900 text-white shadow-xs' : 'text-ink-600 hover:text-ink-900'"
-                        @click="activeTab = 'visual'"
+                        class="rounded-lg px-2.5 py-1 font-semibold transition flex items-center gap-1.5"
+                        :class="activeTab === 'svg' ? 'bg-blue-600 text-white shadow-xs' : 'text-ink-600 hover:text-ink-900'"
+                        @click="activeTab = 'svg'"
                     >
-                        Tampilan Visual
+                        <span>Diagram SVG (Zoom & Geser)</span>
+                    </button>
+                    <button
+                        type="button"
+                        class="rounded-lg px-2.5 py-1 font-semibold transition"
+                        :class="activeTab === 'flow' ? 'bg-ink-900 text-white shadow-xs' : 'text-ink-600 hover:text-ink-900'"
+                        @click="activeTab = 'flow'"
+                    >
+                        Alur Komponen
                     </button>
                     <button
                         type="button"
@@ -109,8 +118,17 @@ const activeTab = ref('visual'); // 'visual' | 'mermaid'
             </div>
         </div>
 
-        <!-- Tab 1: Visual Interactive Diagram -->
-        <div v-show="activeTab === 'visual'" class="p-4 sm:p-6 bg-gradient-to-b from-neutral-50/50 to-white">
+        <!-- Tab 1: Interactive SVG Pan and Zoom Viewer -->
+        <div v-show="activeTab === 'svg'" class="p-3 sm:p-5">
+            <SvgPanZoomViewer
+                src="/images/Diagram%20Arsitektur.svg"
+                alt="Diagram Arsitektur Aplikasi Gudang Pakde"
+                title="Diagram Arsitektur Aplikasi — Interaktif (Dapat Di-Zoom & Digeser)"
+            />
+        </div>
+
+        <!-- Tab 2: Structured Flow Cards -->
+        <div v-show="activeTab === 'flow'" class="p-4 sm:p-6 bg-gradient-to-b from-neutral-50/50 to-white">
             <div class="space-y-4">
                 <!-- 1. Client Tier -->
                 <div class="rounded-2xl border-2 border-indigo-200/80 bg-indigo-50/40 p-4 transition hover:border-indigo-300">
@@ -272,7 +290,7 @@ const activeTab = ref('visual'); // 'visual' | 'mermaid'
             </div>
         </div>
 
-        <!-- Tab 2: Raw Mermaid Code -->
+        <!-- Tab 3: Raw Mermaid Code -->
         <div v-show="activeTab === 'mermaid'" class="p-4 sm:p-5 bg-neutral-900 text-neutral-200">
             <div class="flex items-center justify-between pb-3 border-b border-neutral-800">
                 <span class="font-mono text-xs text-neutral-400">mermaid: application-architecture.mmd</span>
