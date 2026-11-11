@@ -1,11 +1,15 @@
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import AppIcon from '@/Components/AppIcon.vue';
 
 const props = defineProps({
+    rawSvg: {
+        type: String,
+        default: '',
+    },
     src: {
         type: String,
-        required: true,
+        default: '',
     },
     alt: {
         type: String,
@@ -18,43 +22,128 @@ const props = defineProps({
 });
 
 const containerRef = ref(null);
-const imageRef = ref(null);
+const svgHostRef = ref(null);
 
 const scale = ref(1);
 const translateX = ref(0);
 const translateY = ref(0);
 const isDragging = ref(false);
 const isFullscreen = ref(false);
+const isLoading = ref(true);
+const loadError = ref(null);
+const hasInitialFit = ref(false);
+
+const naturalWidth = ref(1274);
+const naturalHeight = ref(2128);
+const processedSvg = ref('');
 
 const dragStart = { x: 0, y: 0 };
 let lastTouchDistance = null;
+let resizeObserver = null;
 
-// Zoom in / out increments
-const minScale = 0.25;
+const minScale = 0.15;
 const maxScale = 5;
 
 const zoomPercentage = computed(() => {
     return Math.round(scale.value * 100);
 });
 
+// Process and namespace SVG string
+const processSvgString = (rawText) => {
+    if (!rawText || typeof rawText !== 'string') return '';
+
+    // Generate unique ID prefix to prevent CSS & ID collisions
+    const uniqueId = `diag_${Math.random().toString(36).substring(2, 9)}`;
+    let text = rawText.replaceAll('export-svg', uniqueId);
+
+    // Parse viewBox to determine natural dimensions
+    const vbMatch = text.match(/viewBox\s*=\s*["']([^"']+)["']/i);
+    if (vbMatch) {
+        const parts = vbMatch[1].trim().split(/[\s,]+/);
+        if (parts.length === 4) {
+            naturalWidth.value = parseFloat(parts[2]) || naturalWidth.value;
+            naturalHeight.value = parseFloat(parts[3]) || naturalHeight.value;
+        }
+    }
+
+    // Clean restrictive attributes so the SVG expands to 100% of the transform wrapper
+    text = text.replace(/<svg\b([^>]*)>/i, (match, attrs) => {
+        let cleaned = attrs
+            .replace(/\bwidth\s*=\s*["'][^"']*["']/gi, '')
+            .replace(/\bheight\s*=\s*["'][^"']*["']/gi, '')
+            .replace(/\bstyle\s*=\s*["'][^"']*["']/gi, '');
+        return `<svg ${cleaned.trim()} width="100%" height="100%" style="display: block; width: 100%; height: 100%;">`;
+    });
+
+    return text;
+};
+
 // Fit diagram to view
 const fitToView = () => {
-    if (!containerRef.value || !imageRef.value) return;
+    if (!containerRef.value) return;
     const container = containerRef.value;
-    const img = imageRef.value;
 
     const containerWidth = container.clientWidth;
     const containerHeight = container.clientHeight;
-    const imgWidth = img.naturalWidth || 1200;
-    const imgHeight = img.naturalHeight || 1600;
 
-    const scaleX = (containerWidth - 40) / imgWidth;
-    const scaleY = (containerHeight - 40) / imgHeight;
-    const initialScale = Math.min(Math.max(Math.min(scaleX, scaleY), 0.3), 1.2);
+    if (!containerWidth || !containerHeight) {
+        requestAnimationFrame(() => {
+            fitToView();
+        });
+        return;
+    }
 
-    scale.value = initialScale;
-    translateX.value = (containerWidth - imgWidth * initialScale) / 2;
-    translateY.value = Math.max((containerHeight - imgHeight * initialScale) / 2, 20);
+    const w = naturalWidth.value || 1274;
+    const h = naturalHeight.value || 2128;
+
+    // Scale so width fits with 48px padding
+    const scaleX = (containerWidth - 48) / w;
+    const scaleY = (containerHeight - 48) / h;
+
+    // Use scaleX or balanced scale
+    const targetScale = Math.min(Math.max(scaleX, minScale), 1.0);
+    scale.value = Number(targetScale.toFixed(2));
+
+    translateX.value = Math.max((containerWidth - w * targetScale) / 2, 20);
+    translateY.value = 24;
+    hasInitialFit.value = true;
+};
+
+// Initialize or load SVG
+const initSvg = async () => {
+    isLoading.value = true;
+    loadError.value = null;
+
+    if (props.rawSvg) {
+        processedSvg.value = processSvgString(props.rawSvg);
+        isLoading.value = false;
+        nextTick(() => {
+            fitToView();
+        });
+        return;
+    }
+
+    if (props.src) {
+        try {
+            const url = encodeURI(props.src);
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`Gagal memuat file SVG (${response.status} ${response.statusText})`);
+            }
+            const text = await response.text();
+            processedSvg.value = processSvgString(text);
+            isLoading.value = false;
+            nextTick(() => {
+                fitToView();
+            });
+        } catch (err) {
+            console.error('Error fetching SVG:', err);
+            loadError.value = err.message || 'Gagal mengambil data SVG';
+            isLoading.value = false;
+        }
+    } else {
+        isLoading.value = false;
+    }
 };
 
 const resetZoom = () => {
@@ -79,7 +168,7 @@ const adjustZoomCenter = (newScale) => {
 
     translateX.value = centerX - (centerX - translateX.value) * (newScale / scale.value);
     translateY.value = centerY - (centerY - translateY.value) * (newScale / scale.value);
-    scale.value = newScale;
+    scale.value = Number(newScale.toFixed(3));
 };
 
 // Mouse Wheel Zoom centered on cursor
@@ -96,12 +185,11 @@ const handleWheel = (e) => {
 
     translateX.value = mouseX - (mouseX - translateX.value) * (newScale / scale.value);
     translateY.value = mouseY - (mouseY - translateY.value) * (newScale / scale.value);
-    scale.value = newScale;
+    scale.value = Number(newScale.toFixed(3));
 };
 
 // Mouse Drag Events
 const handleMouseDown = (e) => {
-    // Only left click drags
     if (e.button !== 0) return;
     isDragging.value = true;
     dragStart.x = e.clientX - translateX.value;
@@ -129,7 +217,6 @@ const handleTouchStart = (e) => {
         dragStart.x = e.touches[0].clientX - translateX.value;
         dragStart.y = e.touches[0].clientY - translateY.value;
     } else if (e.touches.length === 2) {
-        // Pinch zoom start
         isDragging.value = false;
         const dx = e.touches[0].clientX - e.touches[1].clientX;
         const dy = e.touches[0].clientY - e.touches[1].clientY;
@@ -156,7 +243,7 @@ const handleTouchMove = (e) => {
             const midY = (e.touches[0].clientY + e.touches[1].clientY) / 2 - container.getBoundingClientRect().top;
             translateX.value = midX - (midX - translateX.value) * (newScale / scale.value);
             translateY.value = midY - (midY - translateY.value) * (newScale / scale.value);
-            scale.value = newScale;
+            scale.value = Number(newScale.toFixed(3));
         }
     }
 };
@@ -183,11 +270,32 @@ const handleKeyDown = (e) => {
     }
 };
 
+watch(() => props.rawSvg, () => {
+    initSvg();
+});
+
+watch(() => props.src, () => {
+    initSvg();
+});
+
 onMounted(() => {
     window.addEventListener('keydown', handleKeyDown);
+    initSvg();
+
+    if (typeof ResizeObserver !== 'undefined' && containerRef.value) {
+        resizeObserver = new ResizeObserver((entries) => {
+            for (const entry of entries) {
+                if (entry.contentRect.width > 0 && !hasInitialFit.value) {
+                    fitToView();
+                }
+            }
+        });
+        resizeObserver.observe(containerRef.value);
+    }
 });
 
 onBeforeUnmount(() => {
+    if (resizeObserver) resizeObserver.disconnect();
     window.removeEventListener('keydown', handleKeyDown);
     window.removeEventListener('mousemove', handleMouseMove);
     window.removeEventListener('mouseup', handleMouseUp);
@@ -200,12 +308,12 @@ onBeforeUnmount(() => {
         :class="[
             isFullscreen
                 ? 'fixed inset-0 z-50 flex flex-col bg-neutral-950/95 p-3 sm:p-6 backdrop-blur-md'
-                : 'relative w-full rounded-2xl border border-neutral-200/90 bg-neutral-50/50 shadow-xs overflow-hidden'
+                : 'relative w-full rounded-2xl border border-neutral-200/90 bg-white shadow-xs overflow-hidden'
         ]"
     >
         <!-- Viewer Header Toolbar -->
         <div
-            class="flex flex-wrap items-center justify-between gap-2.5 border-b border-neutral-200/80 bg-white/90 px-3.5 py-2.5 backdrop-blur-xs text-xs"
+            class="flex flex-wrap items-center justify-between gap-2.5 border-b border-neutral-200/80 bg-white/95 px-3.5 py-2.5 backdrop-blur-xs text-xs"
             :class="{ 'rounded-t-2xl': !isFullscreen, 'rounded-2xl shadow-lg border-neutral-700 bg-neutral-900/90 text-white': isFullscreen }"
         >
             <div class="flex items-center gap-2 min-w-0">
@@ -226,13 +334,13 @@ onBeforeUnmount(() => {
                 <!-- Zoom Out Button -->
                 <button
                     type="button"
-                    class="inline-flex h-8 w-8 items-center justify-center rounded-lg border transition"
+                    class="inline-flex h-8 w-8 items-center justify-center rounded-lg border transition font-bold"
                     :class="isFullscreen ? 'border-neutral-700 bg-neutral-800 text-neutral-200 hover:bg-neutral-700' : 'border-neutral-200 bg-white text-ink-700 hover:bg-neutral-50'"
                     @click="zoomOut"
                     title="Zoom Out (-)"
                     aria-label="Zoom Out"
                 >
-                    <span class="text-base font-bold leading-none">−</span>
+                    <span class="text-base leading-none">−</span>
                 </button>
 
                 <!-- Zoom Level Display -->
@@ -249,13 +357,13 @@ onBeforeUnmount(() => {
                 <!-- Zoom In Button -->
                 <button
                     type="button"
-                    class="inline-flex h-8 w-8 items-center justify-center rounded-lg border transition"
+                    class="inline-flex h-8 w-8 items-center justify-center rounded-lg border transition font-bold"
                     :class="isFullscreen ? 'border-neutral-700 bg-neutral-800 text-neutral-200 hover:bg-neutral-700' : 'border-neutral-200 bg-white text-ink-700 hover:bg-neutral-50'"
                     @click="zoomIn"
                     title="Zoom In (+)"
                     aria-label="Zoom In"
                 >
-                    <span class="text-base font-bold leading-none">+</span>
+                    <span class="text-base leading-none">+</span>
                 </button>
 
                 <!-- Reset / Fit Button -->
@@ -269,8 +377,9 @@ onBeforeUnmount(() => {
                     <span>Reset</span>
                 </button>
 
-                <!-- Open in New Tab -->
+                <!-- Open original file in new tab if src available -->
                 <a
+                    v-if="src"
                     :href="src"
                     target="_blank"
                     rel="noreferrer"
@@ -299,31 +408,53 @@ onBeforeUnmount(() => {
             ref="containerRef"
             class="relative w-full select-none overflow-hidden touch-none"
             :class="[
-                isFullscreen ? 'flex-1 mt-3 rounded-2xl bg-neutral-900 border border-neutral-800' : 'h-[520px] sm:h-[620px] lg:h-[720px] bg-neutral-100/60',
+                isFullscreen ? 'flex-1 mt-3 rounded-2xl bg-neutral-900 border border-neutral-800' : 'h-[620px] sm:h-[720px] lg:h-[820px] bg-neutral-50',
                 isDragging ? 'cursor-grabbing' : 'cursor-grab'
             ]"
-            style="background-image: radial-gradient(#cbd5e1 1px, transparent 1px); background-size: 20px 20px;"
+            style="background-image: radial-gradient(#cbd5e1 1.2px, transparent 1.2px); background-size: 20px 20px;"
             @mousedown="handleMouseDown"
             @wheel="handleWheel"
             @touchstart.passive="handleTouchStart"
             @touchmove="handleTouchMove"
             @touchend="handleTouchEnd"
         >
-            <!-- Transformable Image Layer -->
+            <!-- Loading State -->
+            <div v-if="isLoading" class="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-white/80 backdrop-blur-xs z-20">
+                <div class="h-8 w-8 animate-spin rounded-full border-3 border-neutral-300 border-t-blue-600"></div>
+                <div class="text-xs font-semibold text-ink-600">Memuat diagram vektor...</div>
+            </div>
+
+            <!-- Error State -->
+            <div v-if="loadError" class="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-white/95 p-6 z-20">
+                <div class="rounded-full bg-rose-100 p-3 text-rose-600">
+                    <AppIcon name="close" class="h-6 w-6" />
+                </div>
+                <div class="text-sm font-bold text-ink-900">Gagal Memuat Diagram SVG</div>
+                <div class="text-xs text-ink-500 max-w-md text-center">{{ loadError }}</div>
+                <button
+                    type="button"
+                    class="rounded-xl bg-ink-900 px-4 py-2 text-xs font-semibold text-white shadow-xs transition hover:bg-ink-800"
+                    @click="initSvg"
+                >
+                    Coba Lagi
+                </button>
+            </div>
+
+            <!-- Transformable SVG Layer -->
             <div
-                class="absolute left-0 top-0 transition-transform origin-top-left will-change-transform"
+                v-show="!isLoading && !loadError && processedSvg"
+                ref="svgHostRef"
+                class="absolute left-0 top-0 origin-top-left will-change-transform"
                 :style="{
+                    width: `${naturalWidth}px`,
+                    height: `${naturalHeight}px`,
                     transform: `translate(${translateX}px, ${translateY}px) scale(${scale})`,
                     transition: isDragging ? 'none' : 'transform 80ms ease-out',
                 }"
             >
-                <img
-                    ref="imageRef"
-                    :src="src"
-                    :alt="alt"
-                    class="pointer-events-none select-none max-w-none shadow-md rounded-xl bg-white p-2"
-                    draggable="false"
-                    @load="fitToView"
+                <div
+                    v-html="processedSvg"
+                    class="w-full h-full pointer-events-none select-none rounded-2xl shadow-xl border border-neutral-200/90 bg-white overflow-hidden"
                 />
             </div>
 

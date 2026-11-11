@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import AppIcon from '@/Components/AppIcon.vue';
 import SvgPanZoomViewer from '@/Components/Docs/SvgPanZoomViewer.vue';
+import infraSvgRaw from './diagrams/Diagram Infrastruktur.svg?raw';
 
 const copiedMermaid = ref(false);
 
@@ -141,6 +142,7 @@ const activeTab = ref('svg'); // 'svg' | 'flow' | 'mermaid'
         <!-- Tab 1: Interactive SVG Pan and Zoom Viewer -->
         <div v-show="activeTab === 'svg'" class="p-3 sm:p-5">
             <SvgPanZoomViewer
+                :raw-svg="infraSvgRaw"
                 src="/images/Diagram%20Infrastruktur.svg"
                 alt="Diagram Infrastruktur Cloud Gudang Pakde"
                 title="Diagram Infrastruktur Cloud 100k DAU — Interaktif (Dapat Di-Zoom & Digeser)"
