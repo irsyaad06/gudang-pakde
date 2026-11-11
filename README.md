@@ -16,9 +16,23 @@ Repository: [https://github.com/irsyaad06/gudang-pakde.git](https://github.com/i
 ---
 
 ## Dokumentasi Lengkap & Arsitektur In-App
-Aplikasi ini dilengkapi dengan **Halaman Dokumentasi Interaktif In-App** di [`/dokumentasi`](http://127.0.0.1:8000/dokumentasi) yang dapat diakses secara langsung melalui tombol melayang (floating document button) di pojok kanan bawah aplikasi.
+Aplikasi ini dilengkapi dengan **Halaman Dokumentasi Interaktif In-App** di [`/dokumentasi`](http://127.0.0.1:8000/dokumentasi) yang dapat diakses secara langsung melalui tombol melayang (*floating document button*) di pojok kanan bawah aplikasi.
 
-Dokumentasi tertulis juga tersedia pada folder `docs/`:
+Dokumentasi terbagi menjadi **2 Kategori Induk (*Parent Groups*)** sesuai spesifikasi assignment GITS:
+1. 🏗️ **Rancangan Arsitektur Aplikasi & Infrastruktur (Skala 100.000 DAU)** — *Poin 2 Assignment*:
+   - **Kalkulasi Beban & Kapasitas Matematis:** Estimasi ~3 juta request/hari, rata-rata ~35 RPS, peak hours 150–200 RPS, dan storage 15–25 GB/hari.
+   - **Diagram Arsitektur Aplikasi:** Visual alur pengguna, Vue 3 + Inertia SPA, Edge CDN, Ingress ALB, Modular Monolith Laravel 13, Database/Cache, Storage S3, dan WhatsApp *click-to-chat*. Disertai kode Mermaid `.mmd`.
+   - **Diagram Infrastruktur Cloud:** Topologi cloud Multi-AZ AWS VPC terisolasi (Cloudflare WAF, ALB, ECS Fargate 3–20 tasks, RDS MySQL Primary & Read Replica, ElastiCache Redis, S3, dan Datadog). Disertai kode Mermaid `.mmd`.
+   - **Strategi Scaling, Reliability & Keamanan:** Auto-scaling, RDS connection pooling, caching bertingkat, rate limiting, isolasi subnet tertutup, dan Disaster Recovery (RPO < 5 mnt, RTO < 30 mnt).
+2. 📘 **Technical Documentation** — *Poin 3 Assignment*:
+   - **Ikhtisar Proyek & Matriks Fitur:** Latar belakang masalah komunitas dan pemenuhan 9 fitur MVP (100% Selesai).
+   - **Panduan Setup & Instalasi Lokal:** Langkah instalasi macOS & Windows lengkap dengan akun demo seeder.
+   - **Desain Database & ERD:** Diagram relasi 4 entitas utama, foreign keys, cascade deletes, dan strategi *composite indexing* performa tinggi (`idx_listings_catalog` dan `idx_listings_user`).
+   - **Keputusan Tech Stack:** Alasan pemilihan stack dan komparasi vs decoupled SPA (Next.js + REST API).
+   - **Dokumentasi Route Web & Keamanan:** Tabel kontrak HTTP endpoint, middleware guard, dan matriks izin `ListingPolicy`.
+   - **Deployment & Operasional:** CI/CD pipeline, optimasi cache produksi, structured logging, dan health check `/up`.
+
+Dokumentasi teknis spesifik juga tersedia pada folder `docs/`:
 - [`AGENTS.md`](AGENTS.md): Aturan pengerjaan dan standar coding agent
 - [`docs/01-requirements.md`](docs/01-requirements.md): Spesifikasi fitur dan kriteria penerimaan MVP
 - [`docs/02-tech-stack-decisions.md`](docs/02-tech-stack-decisions.md): Keputusan teknologi dan pertimbangan trade-off
