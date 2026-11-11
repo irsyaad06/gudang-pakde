@@ -321,7 +321,7 @@ const field = 'mt-2 block min-h-12 w-full rounded-2xl border-border bg-white px-
                 <div class="mb-7"><p class="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">Detail barang</p><h2 id="listing-details-heading" class="mt-2 text-xl font-semibold tracking-tight">Ceritakan tentang barangmu.</h2><p class="mt-2 text-sm leading-relaxed text-ink-600">Informasi yang lengkap membantu pembeli. Kolom bertanda * wajib diisi.</p></div>
                 <p v-if="form.errors.phone" role="alert" class="mb-6 rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-danger">{{ form.errors.phone }} <Link id="listing-phone-link" :href="route('profile.edit')" class="inline-flex min-h-11 items-center font-semibold underline">Perbarui profil</Link></p>
                 <div class="space-y-5">
-                    <div><label for="listing-title" class="block text-sm font-semibold">Nama barang *</label><input id="listing-title" v-model="form.title" type="text" required maxlength="200" autocomplete="off" placeholder="Contoh: Sepeda lipat 20 inci" :class="field" :aria-invalid="!!form.errors.title" :aria-describedby="form.errors.title ? 'listing-title-error' : undefined" /><InputError id="listing-title-error" :message="form.errors.title" class="mt-2" /></div>
+                    <div><label for="listing-title" class="block text-sm font-semibold">Nama barang *</label><input id="listing-title" v-model="form.title" type="text" required maxlength="200" autocomplete="off" placeholder="Masukkan nama barang (contoh: Sepeda lipat 20 inci)" :class="field" :aria-invalid="!!form.errors.title" :aria-describedby="form.errors.title ? 'listing-title-error' : undefined" /><InputError id="listing-title-error" :message="form.errors.title" class="mt-2" /></div>
                     <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
                         <div>
                             <label for="listing-category" class="block text-sm font-semibold">Kategori *</label>
@@ -374,7 +374,7 @@ const field = 'mt-2 block min-h-12 w-full rounded-2xl border-border bg-white px-
                                 inputmode="numeric"
                                 required
                                 autocomplete="off"
-                                placeholder="1.250.000"
+                                placeholder="Masukkan nominal harga (contoh: 1.250.000)"
                                 class="min-h-12 min-w-0 flex-1 rounded-r-2xl border-0 bg-transparent px-4 text-sm text-ink-900 placeholder:text-ink-500 focus:ring-0 disabled:cursor-not-allowed disabled:opacity-60"
                                 :aria-invalid="!!form.errors.price"
                                 :aria-describedby="form.errors.price ? 'listing-price-error' : undefined"
@@ -399,7 +399,7 @@ const field = 'mt-2 block min-h-12 w-full rounded-2xl border-border bg-white px-
                         />
                         <InputError id="listing-location-error" :message="form.errors.location" class="mt-2" />
                     </div>
-                    <div><label for="listing-description" class="block text-sm font-semibold">Deskripsi *</label><textarea id="listing-description" v-model="form.description" rows="5" maxlength="10000" required placeholder="Jelaskan kondisi, ukuran, kelengkapan, dan hal lain yang perlu diketahui pembeli…" :class="field" :aria-invalid="!!form.errors.description" :aria-describedby="form.errors.description ? 'listing-description-help listing-description-error' : 'listing-description-help'"></textarea><p id="listing-description-help" class="mt-2 text-xs leading-relaxed text-ink-500">Ceritakan kondisi barang dengan jujur, termasuk kekurangannya.</p><InputError id="listing-description-error" :message="form.errors.description" class="mt-2" /></div>
+                    <div><label for="listing-description" class="block text-sm font-semibold">Deskripsi *</label><textarea id="listing-description" v-model="form.description" rows="5" maxlength="10000" required placeholder="Jelaskan kondisi fisik, kelengkapan, minus, dan hal lain yang perlu diketahui pembeli…" :class="field" :aria-invalid="!!form.errors.description" :aria-describedby="form.errors.description ? 'listing-description-help listing-description-error' : 'listing-description-help'"></textarea><p id="listing-description-help" class="mt-2 text-xs leading-relaxed text-ink-500">Ceritakan kondisi barang dengan jujur, termasuk kekurangannya.</p><InputError id="listing-description-error" :message="form.errors.description" class="mt-2" /></div>
                 </div>
             </section>
         </div>

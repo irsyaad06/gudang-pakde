@@ -25,7 +25,7 @@ const submit = () => form.post(route('login'), {
         <form id="login-form" class="mt-5 space-y-3.5 sm:mt-6" @submit.prevent="submit">
             <div>
                 <InputLabel for="login-email" value="Email" />
-                <TextInput id="login-email" v-model="form.email" type="email" class="mt-1.5 block w-full" required autofocus autocomplete="username" :aria-invalid="!!form.errors.email" :aria-describedby="form.errors.email ? 'login-email-error' : undefined" />
+                <TextInput id="login-email" v-model="form.email" type="email" class="mt-1.5 block w-full" placeholder="Gunakan email berakhiran @" required autofocus autocomplete="username" :aria-invalid="!!form.errors.email" :aria-describedby="form.errors.email ? 'login-email-error' : undefined" />
                 <InputError id="login-email-error" :message="form.errors.email" class="mt-1" />
             </div>
             <div>
@@ -33,7 +33,7 @@ const submit = () => form.post(route('login'), {
                     <InputLabel for="login-password" value="Kata sandi" />
                     <Link v-if="canResetPassword" :href="route('password.request')" class="inline-flex items-center rounded-lg text-xs font-medium text-ink-600 hover:text-ink-900 hover:underline">Lupa kata sandi?</Link>
                 </div>
-                <TextInput id="login-password" v-model="form.password" type="password" class="mt-1.5 block w-full" required autocomplete="current-password" :aria-invalid="!!form.errors.password" :aria-describedby="form.errors.password ? 'login-password-error' : undefined" />
+                <TextInput id="login-password" v-model="form.password" type="password" class="mt-1.5 block w-full" placeholder="Masukkan kata sandi akun Anda" required autocomplete="current-password" :aria-invalid="!!form.errors.password" :aria-describedby="form.errors.password ? 'login-password-error' : undefined" />
                 <InputError id="login-password-error" :message="form.errors.password" class="mt-1" />
             </div>
             <label class="inline-flex min-h-7 items-center gap-2 text-xs text-ink-600 sm:text-sm">

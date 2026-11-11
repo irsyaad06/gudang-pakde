@@ -285,7 +285,7 @@ const searchCatalog = () => {
                 <div class="relative flex min-h-16 items-center gap-2 justify-self-end rounded-full border border-white bg-surface p-2 lg:pl-4" @keydown.esc.stop.prevent="closeMenu" @focusout="!$event.currentTarget.contains($event.relatedTarget) && (menuOpen = false)">
                     <form role="search" aria-label="Cari di katalog" class="hidden items-center rounded-lg border-r border-border pr-3 focus-within:ring-2 focus-within:ring-focus lg:flex" @submit.prevent="searchCatalog">
                         <label for="header-search" class="sr-only">Cari barang</label>
-                        <input id="header-search" v-model="headerSearch" type="search" name="search" maxlength="200" placeholder="Cari barang..." class="min-h-11 w-24 min-w-0 rounded-lg border-0 bg-transparent px-1 text-sm placeholder:text-ink-500 focus:ring-0 xl:w-36" />
+                        <input id="header-search" v-model="headerSearch" type="search" name="search" maxlength="200" placeholder="Cari nama barang..." class="min-h-11 w-24 min-w-0 rounded-lg border-0 bg-transparent px-1 text-sm placeholder:text-ink-500 focus:ring-0 xl:w-36" />
                         <button type="submit" aria-label="Cari barang" class="inline-flex h-11 w-9 shrink-0 items-center justify-center rounded-full text-ink-600 hover:text-ink-900"><AppIcon name="search" class="h-5 w-5" /></button>
                     </form>
                     <button ref="accountButton" type="button" class="inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-1 text-sm font-semibold sm:pr-2" :aria-expanded="menuOpen" aria-controls="account-navigation" aria-label="Menu akun" @click="menuOpen = !menuOpen">

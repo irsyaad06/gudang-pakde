@@ -70,8 +70,8 @@ const submit = () => {
         <header class="border-b border-border pb-6"><h2 id="profile-information-heading" class="text-xl font-semibold tracking-tight text-ink-900">Informasi profil</h2><p class="mt-2 text-sm leading-relaxed text-ink-600">Identitas dan kontak yang digunakan untuk akun dan barangmu.</p></header>
         <form id="profile-information" class="mt-6 space-y-5" @submit.prevent="submit">
             <div class="grid gap-5 sm:grid-cols-2">
-                <div><InputLabel for="profile-name" value="Nama" /><TextInput id="profile-name" v-model="form.name" type="text" required autocomplete="name" class="mt-2 block w-full" :aria-invalid="!!form.errors.name" :aria-describedby="form.errors.name ? 'profile-name-error' : undefined" /><InputError id="profile-name-error" :message="form.errors.name" class="mt-2" /></div>
-                <div><InputLabel for="profile-email" value="Email" /><TextInput id="profile-email" v-model="form.email" type="email" required autocomplete="username" class="mt-2 block w-full" :aria-invalid="!!form.errors.email" :aria-describedby="form.errors.email ? 'profile-email-error' : undefined" /><InputError id="profile-email-error" :message="form.errors.email" class="mt-2" /></div>
+                <div><InputLabel for="profile-name" value="Nama" /><TextInput id="profile-name" v-model="form.name" type="text" placeholder="Masukkan Nama Lengkap Anda" required autocomplete="name" class="mt-2 block w-full" :aria-invalid="!!form.errors.name" :aria-describedby="form.errors.name ? 'profile-name-error' : undefined" /><InputError id="profile-name-error" :message="form.errors.name" class="mt-2" /></div>
+                <div><InputLabel for="profile-email" value="Email" /><TextInput id="profile-email" v-model="form.email" type="email" placeholder="Gunakan email berakhiran @" required autocomplete="username" class="mt-2 block w-full" :aria-invalid="!!form.errors.email" :aria-describedby="form.errors.email ? 'profile-email-error' : undefined" /><InputError id="profile-email-error" :message="form.errors.email" class="mt-2" /></div>
             </div>
             <div>
                 <InputLabel for="profile-phone" value="Nomor WhatsApp" />
@@ -88,7 +88,7 @@ const submit = () => {
                         type="tel"
                         inputmode="numeric"
                         autocomplete="tel"
-                        placeholder="81234567890"
+                        placeholder="Contoh: 81234567890 (tanpa angka 0)"
                         class="min-h-12 min-w-0 flex-1 rounded-r-2xl border-0 bg-transparent px-4 text-sm text-ink-900 placeholder:text-ink-500 focus:ring-0 disabled:cursor-not-allowed disabled:opacity-60"
                         :aria-invalid="!!form.errors.phone"
                         :aria-describedby="form.errors.phone ? 'profile-phone-help profile-phone-error' : 'profile-phone-help'"
