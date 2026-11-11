@@ -27,7 +27,7 @@ const submit = () => form.post(route('register'), {
             </div>
             <div>
                 <InputLabel for="register-email" value="Email" />
-                <TextInput id="register-email" v-model="form.email" type="email" class="mt-1 block w-full" placeholder="Gunakan email berakhiran @" required autocomplete="username" :aria-invalid="!!form.errors.email" :aria-describedby="form.errors.email ? 'register-email-error' : undefined" />
+                <TextInput id="register-email" v-model="form.email" type="email" class="mt-1 block w-full" placeholder="nama@email.com" required autocomplete="username" :aria-invalid="!!form.errors.email" :aria-describedby="form.errors.email ? 'register-email-error' : undefined" />
                 <InputError id="register-email-error" :message="form.errors.email" class="mt-1" />
             </div>
             <div>

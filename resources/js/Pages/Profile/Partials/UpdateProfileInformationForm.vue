@@ -71,7 +71,7 @@ const submit = () => {
         <form id="profile-information" class="mt-6 space-y-5" @submit.prevent="submit">
             <div class="grid gap-5 sm:grid-cols-2">
                 <div><InputLabel for="profile-name" value="Nama" /><TextInput id="profile-name" v-model="form.name" type="text" placeholder="Masukkan Nama Lengkap Anda" required autocomplete="name" class="mt-2 block w-full" :aria-invalid="!!form.errors.name" :aria-describedby="form.errors.name ? 'profile-name-error' : undefined" /><InputError id="profile-name-error" :message="form.errors.name" class="mt-2" /></div>
-                <div><InputLabel for="profile-email" value="Email" /><TextInput id="profile-email" v-model="form.email" type="email" placeholder="Gunakan email berakhiran @" required autocomplete="username" class="mt-2 block w-full" :aria-invalid="!!form.errors.email" :aria-describedby="form.errors.email ? 'profile-email-error' : undefined" /><InputError id="profile-email-error" :message="form.errors.email" class="mt-2" /></div>
+                <div><InputLabel for="profile-email" value="Email" /><TextInput id="profile-email" v-model="form.email" type="email" placeholder="nama@email.com" required autocomplete="username" class="mt-2 block w-full" :aria-invalid="!!form.errors.email" :aria-describedby="form.errors.email ? 'profile-email-error' : undefined" /><InputError id="profile-email-error" :message="form.errors.email" class="mt-2" /></div>
             </div>
             <div>
                 <InputLabel for="profile-phone" value="Nomor WhatsApp" />

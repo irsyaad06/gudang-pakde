@@ -25,7 +25,7 @@ const submit = () => form.post(route('login'), {
         <form id="login-form" class="mt-5 space-y-3.5 sm:mt-6" @submit.prevent="submit">
             <div>
                 <InputLabel for="login-email" value="Email" />
-                <TextInput id="login-email" v-model="form.email" type="email" class="mt-1.5 block w-full" placeholder="Gunakan email berakhiran @" required autofocus autocomplete="username" :aria-invalid="!!form.errors.email" :aria-describedby="form.errors.email ? 'login-email-error' : undefined" />
+                <TextInput id="login-email" v-model="form.email" type="email" class="mt-1.5 block w-full" placeholder="nama@email.com" required autofocus autocomplete="username" :aria-invalid="!!form.errors.email" :aria-describedby="form.errors.email ? 'login-email-error' : undefined" />
                 <InputError id="login-email-error" :message="form.errors.email" class="mt-1" />
             </div>
             <div>
