@@ -6,101 +6,160 @@ import BrandMark from '@/Components/BrandMark.vue';
 import ToastContainer from '@/Components/ToastContainer.vue';
 import FloatingDocsButton from '@/Components/FloatingDocsButton.vue';
 
-// Module-level persistent state so the sliding pill animates seamlessly across page loads
-let lastNavPosition = null;
-try {
-    const saved = sessionStorage.getItem('gudang_pakde_nav_pill');
-    if (saved) lastNavPosition = JSON.parse(saved);
-} catch (e) {}
-
 const page = usePage();
 const menuOpen = ref(false);
 const headerSearch = ref(page.props.filters?.search || '');
+const accountButton = ref(null);
+const navContainer = ref(null);
+
+// Active tab evaluation
 const isCatalog = computed(() => page.component === 'Catalog/Index' || page.component === 'Listings/Show');
 const isMine = computed(() => ['Listings/MyListings', 'Listings/Edit'].includes(page.component));
 const isCreate = computed(() => page.component === 'Listings/Create');
-const accountButton = ref(null);
 
-const navContainer = ref(null);
+const currentActiveTab = computed(() => {
+    if (isCatalog.value) return 'catalog';
+    if (isMine.value) return 'mine';
+    if (isCreate.value) return 'create';
+    return null;
+});
+
+// Retrieve previous tab snapshot from sessionStorage (valid if navigated within 3 seconds)
+let prevNav = null;
+try {
+    const raw = sessionStorage.getItem('gudang_pakde_nav_prev');
+    if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Date.now() - parsed.time < 3000) {
+            prevNav = parsed;
+        }
+    }
+} catch (e) {}
+
+const hasTabTransition = prevNav && prevNav.tab && currentActiveTab.value && prevNav.tab !== currentActiveTab.value;
+
+// visualActiveTab controls which tab has white text, cross-fading in sync with the sliding pill
+const visualActiveTab = ref(
+    hasTabTransition ? prevNav.tab : currentActiveTab.value
+);
+
 const pillStyle = ref(
-    lastNavPosition
+    hasTabTransition
         ? {
-              left: `${lastNavPosition.left}px`,
-              width: `${lastNavPosition.width}px`,
-              top: `${lastNavPosition.top}px`,
-              height: `${lastNavPosition.height}px`,
+              left: `${prevNav.left}px`,
+              width: `${prevNav.width}px`,
+              top: `${prevNav.top}px`,
+              height: `${prevNav.height}px`,
               opacity: 1,
               transition: 'none',
           }
         : { opacity: 0 }
 );
 
-const updatePill = (withTransition = true) => {
+const saveNavSnapshot = (tab, el) => {
+    if (!el) return;
+    try {
+        sessionStorage.setItem(
+            'gudang_pakde_nav_prev',
+            JSON.stringify({
+                tab,
+                left: el.offsetLeft,
+                width: el.offsetWidth,
+                top: el.offsetTop,
+                height: el.offsetHeight,
+                time: Date.now(),
+            })
+        );
+    } catch (e) {}
+};
+
+const animateToTab = (tabName, withTransition = true) => {
     if (!navContainer.value) return;
-    const activeEl = navContainer.value.querySelector('[aria-current="page"]');
-    if (!activeEl) {
+    if (!tabName) {
+        visualActiveTab.value = null;
         pillStyle.value = { ...pillStyle.value, opacity: 0 };
         return;
     }
 
-    const pos = {
-        left: activeEl.offsetLeft,
-        width: activeEl.offsetWidth,
-        top: activeEl.offsetTop,
-        height: activeEl.offsetHeight,
-    };
+    const targetEl = navContainer.value.querySelector(`[data-tab="${tabName}"]`);
+    if (!targetEl) return;
 
+    visualActiveTab.value = tabName;
     pillStyle.value = {
-        left: `${pos.left}px`,
-        width: `${pos.width}px`,
-        top: `${pos.top}px`,
-        height: `${pos.height}px`,
+        left: `${targetEl.offsetLeft}px`,
+        width: `${targetEl.offsetWidth}px`,
+        top: `${targetEl.offsetTop}px`,
+        height: `${targetEl.offsetHeight}px`,
         opacity: 1,
-        transition: withTransition ? 'all 320ms cubic-bezier(0.4, 0, 0.2, 1)' : 'none',
+        transition: withTransition ? 'all 420ms cubic-bezier(0.25, 1, 0.5, 1)' : 'none',
     };
 
-    lastNavPosition = pos;
-    try {
-        sessionStorage.setItem('gudang_pakde_nav_pill', JSON.stringify(pos));
-    } catch (e) {}
+    saveNavSnapshot(tabName, targetEl);
 };
 
-const onTabClick = (event) => {
-    const el = event?.currentTarget;
-    if (!el) return;
-    const pos = {
-        left: el.offsetLeft,
-        width: el.offsetWidth,
-        top: el.offsetTop,
-        height: el.offsetHeight,
-    };
-    pillStyle.value = {
-        left: `${pos.left}px`,
-        width: `${pos.width}px`,
-        top: `${pos.top}px`,
-        height: `${pos.height}px`,
-        opacity: 1,
-        transition: 'all 320ms cubic-bezier(0.4, 0, 0.2, 1)',
-    };
-    lastNavPosition = pos;
-    try {
-        sessionStorage.setItem('gudang_pakde_nav_pill', JSON.stringify(pos));
-    } catch (e) {}
+const onTabClick = (tabName, event) => {
+    if (!navContainer.value) return;
+
+    // Save snapshot of current tab before page unmounts
+    const currentTab = visualActiveTab.value || currentActiveTab.value;
+    const currentEl = navContainer.value.querySelector(`[data-tab="${currentTab}"]`);
+    if (currentEl) {
+        saveNavSnapshot(currentTab, currentEl);
+    }
+
+    // Immediately start sliding the pill in the current view
+    animateToTab(tabName, true);
 };
 
 let resizeObserver = null;
 
 onMounted(() => {
     nextTick(() => {
-        const hadPrevious = !!lastNavPosition;
-        requestAnimationFrame(() => {
-            updatePill(hadPrevious);
-        });
+        if (!navContainer.value) return;
+
+        const targetTab = currentActiveTab.value;
+        if (!targetTab) {
+            pillStyle.value = { ...pillStyle.value, opacity: 0 };
+            return;
+        }
+
+        const targetEl = navContainer.value.querySelector(`[data-tab="${targetTab}"]`);
+        if (!targetEl) return;
+
+        if (hasTabTransition) {
+            // Step 1: Ensure initial position corresponds to previous tab in new DOM
+            const fromEl = navContainer.value.querySelector(`[data-tab="${prevNav.tab}"]`);
+            if (fromEl) {
+                pillStyle.value = {
+                    left: `${fromEl.offsetLeft}px`,
+                    width: `${fromEl.offsetWidth}px`,
+                    top: `${fromEl.offsetTop}px`,
+                    height: `${fromEl.offsetHeight}px`,
+                    opacity: 1,
+                    transition: 'none',
+                };
+            }
+
+            // Force reflow
+            void navContainer.value.offsetHeight;
+
+            // Step 2: In the next animation frame, smoothly slide to the target tab
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    animateToTab(targetTab, true);
+                });
+            });
+        } else {
+            // Initial direct placement
+            animateToTab(targetTab, false);
+        }
     });
 
     if (typeof ResizeObserver !== 'undefined' && navContainer.value) {
         resizeObserver = new ResizeObserver(() => {
-            updatePill(false);
+            if (currentActiveTab.value) {
+                animateToTab(currentActiveTab.value, false);
+            }
         });
         resizeObserver.observe(navContainer.value);
     }
@@ -114,7 +173,11 @@ onBeforeUnmount(() => {
 
 watch(() => page.url, () => {
     menuOpen.value = false;
-    nextTick(() => updatePill(true));
+    nextTick(() => {
+        if (currentActiveTab.value) {
+            animateToTab(currentActiveTab.value, true);
+        }
+    });
 });
 watch(() => page.props.filters?.search, (search) => { headerSearch.value = search || ''; });
 
@@ -156,9 +219,10 @@ const searchCatalog = () => {
                     <Link
                         :href="route('catalog.index')"
                         :aria-current="isCatalog ? 'page' : undefined"
-                        class="relative z-10 inline-flex min-h-11 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-full px-2 text-xs font-semibold transition-colors duration-200 sm:gap-2 sm:px-4 sm:text-sm lg:flex-none xl:px-5"
-                        :class="isCatalog ? 'text-white' : 'text-ink-600 hover:text-ink-900'"
-                        @click="onTabClick"
+                        data-tab="catalog"
+                        class="relative z-10 inline-flex min-h-11 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-full px-2 text-xs font-semibold transition-colors duration-300 sm:gap-2 sm:px-4 sm:text-sm lg:flex-none xl:px-5"
+                        :class="visualActiveTab === 'catalog' ? 'text-white' : 'text-ink-600 hover:text-ink-900'"
+                        @click="onTabClick('catalog', $event)"
                     >
                         <AppIcon name="grid" class="h-[18px] w-[18px] shrink-0" />
                         <span>Katalog</span>
@@ -168,9 +232,10 @@ const searchCatalog = () => {
                         v-if="page.props.auth?.user"
                         :href="route('listings.mine')"
                         :aria-current="isMine ? 'page' : undefined"
-                        class="relative z-10 inline-flex min-h-11 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-full px-2 text-xs font-semibold transition-colors duration-200 sm:gap-2 sm:px-3 sm:text-sm lg:flex-none xl:px-5"
-                        :class="isMine ? 'text-white' : 'text-ink-600 hover:text-ink-900'"
-                        @click="onTabClick"
+                        data-tab="mine"
+                        class="relative z-10 inline-flex min-h-11 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-full px-2 text-xs font-semibold transition-colors duration-300 sm:gap-2 sm:px-3 sm:text-sm lg:flex-none xl:px-5"
+                        :class="visualActiveTab === 'mine' ? 'text-white' : 'text-ink-600 hover:text-ink-900'"
+                        @click="onTabClick('mine', $event)"
                     >
                         <AppIcon name="box" class="h-[18px] w-[18px] shrink-0" />
                         <span>Barang Saya</span>
@@ -179,9 +244,10 @@ const searchCatalog = () => {
                     <Link
                         :href="route('listings.create')"
                         :aria-current="isCreate ? 'page' : undefined"
-                        class="relative z-10 inline-flex min-h-11 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-full px-2 text-xs font-semibold transition-colors duration-200 sm:gap-2 sm:px-4 sm:text-sm lg:flex-none xl:px-5"
-                        :class="isCreate ? 'text-white' : 'text-ink-600 hover:text-ink-900'"
-                        @click="onTabClick"
+                        data-tab="create"
+                        class="relative z-10 inline-flex min-h-11 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-full px-2 text-xs font-semibold transition-colors duration-300 sm:gap-2 sm:px-4 sm:text-sm lg:flex-none xl:px-5"
+                        :class="visualActiveTab === 'create' ? 'text-white' : 'text-ink-600 hover:text-ink-900'"
+                        @click="onTabClick('create', $event)"
                     >
                         <AppIcon name="plus" class="h-[18px] w-[18px] shrink-0" />
                         <span>Pasang<span class="hidden xl:inline"> Barang</span></span>
