@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import AppIcon from '@/Components/AppIcon.vue';
 import StatusBadge from '@/Components/StatusBadge.vue';
@@ -7,6 +7,7 @@ import ConditionBadge from '@/Components/ConditionBadge.vue';
 import { formatPrice } from '@/Utils/listing.js';
 
 const props = defineProps({ listing: { type: Object, required: true } });
+const imageLoaded = ref(false);
 
 const photoCount = computed(() => {
     return props.listing.images_count ?? props.listing.images?.length ?? (props.listing.image_url ? 1 : 0);
@@ -22,15 +23,26 @@ const photoCount = computed(() => {
             <Link
                 :href="route('listings.show', listing.id)"
                 :aria-label="`Lihat detail ${listing.title}`"
-                class="block aspect-[4/3] overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-brand-600"
+                class="relative block aspect-[4/3] overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-brand-600"
             >
+                <!-- Skeleton Shimmer Placeholder while image is loading -->
+                <div
+                    v-if="listing.image_url && !imageLoaded"
+                    class="absolute inset-0 z-0 flex items-center justify-center bg-neutral-100"
+                >
+                    <div class="pointer-events-none absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/60 to-transparent" />
+                    <AppIcon name="image" class="h-7 w-7 text-neutral-300" />
+                </div>
+
                 <img
                     v-if="listing.image_url"
                     :src="listing.image_url"
                     :alt="`Foto ${listing.title}`"
-                    class="h-full w-full object-contain p-2 sm:p-3 transition-transform duration-500 ease-out group-hover:scale-105"
+                    class="h-full w-full object-contain p-2 sm:p-3 transition-all duration-300 ease-out group-hover:scale-105"
+                    :class="imageLoaded ? 'opacity-100' : 'opacity-0'"
                     loading="lazy"
                     decoding="async"
+                    @load="imageLoaded = true"
                 />
                 <div v-else class="flex h-full flex-col items-center justify-center gap-2 p-4 text-center text-xs text-ink-500">
                     <AppIcon name="image" class="h-8 w-8" />

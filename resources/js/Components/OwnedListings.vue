@@ -16,6 +16,10 @@ const toast = useToast();
 const pendingId = ref(null);
 const deleting = ref(null);
 const dialogId = useId();
+const loadedImages = ref(new Set());
+const onImageLoad = (id) => {
+    loadedImages.value.add(id);
+};
 const setStatus = (listing) => {
     if (pendingId.value !== null) return;
     pendingId.value = listing.id;
@@ -42,8 +46,26 @@ const remove = () => {
     <div v-if="listings.data?.length" class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
         <article v-for="listing in listings.data" :key="listing.id" class="flex min-w-0 flex-col overflow-hidden rounded-3xl border border-border bg-surface p-3 shadow-sm" :aria-busy="pendingId === listing.id">
             <div class="relative overflow-hidden rounded-2xl bg-photo">
-                <Link :href="route('listings.show', listing.id)" :aria-label="`Lihat ${listing.title}`" class="block aspect-[4/3] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-brand-600">
-                    <img v-if="listing.image_url" :src="listing.image_url" :alt="`Foto ${listing.title}`" loading="lazy" class="h-full w-full object-cover" />
+                <Link :href="route('listings.show', listing.id)" :aria-label="`Lihat ${listing.title}`" class="relative block aspect-[4/3] overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-brand-600">
+                    <!-- Skeleton Shimmer Placeholder while image is loading -->
+                    <div
+                        v-if="listing.image_url && !loadedImages.has(listing.id)"
+                        class="absolute inset-0 z-0 flex items-center justify-center bg-neutral-100"
+                    >
+                        <div class="pointer-events-none absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/60 to-transparent" />
+                        <AppIcon name="image" class="h-7 w-7 text-neutral-300" />
+                    </div>
+
+                    <img
+                        v-if="listing.image_url"
+                        :src="listing.image_url"
+                        :alt="`Foto ${listing.title}`"
+                        loading="lazy"
+                        decoding="async"
+                        class="h-full w-full object-cover transition-opacity duration-300"
+                        :class="loadedImages.has(listing.id) ? 'opacity-100' : 'opacity-0'"
+                        @load="onImageLoad(listing.id)"
+                    />
                     <span v-else class="flex h-full flex-col items-center justify-center gap-3 p-4 text-center text-sm text-ink-500"><AppIcon name="image" class="h-8 w-8" />Foto belum tersedia</span>
                 </Link>
                 <div class="pointer-events-none absolute left-3 top-3"><StatusBadge :status="listing.status" /></div>

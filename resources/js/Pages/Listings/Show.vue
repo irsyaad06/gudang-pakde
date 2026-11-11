@@ -20,12 +20,21 @@ const galleryImages = computed(() => {
 });
 
 const activeImage = ref(galleryImages.value[0]?.url || props.listing.image_url || null);
+const imageLoaded = ref(false);
 
 watch(galleryImages, (images) => {
     if (!activeImage.value || !images.some(img => img.url === activeImage.value)) {
         activeImage.value = images[0]?.url || props.listing.image_url || null;
+        imageLoaded.value = false;
     }
 }, { immediate: true });
+
+const selectImage = (url) => {
+    if (activeImage.value !== url) {
+        imageLoaded.value = false;
+        activeImage.value = url;
+    }
+};
 </script>
 
 <template>
@@ -41,7 +50,24 @@ watch(galleryImages, (images) => {
             <article class="grid min-w-0 items-start gap-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.85fr)] lg:gap-8 xl:gap-10">
                 <div class="min-w-0 lg:col-start-1 lg:row-start-1">
                     <div class="relative aspect-[4/3] overflow-hidden rounded-2xl bg-photo sm:rounded-[20px]">
-                        <img v-if="activeImage" :src="activeImage" :alt="`Foto ${listing.title}`" class="h-full w-full object-contain p-5 sm:p-8 transition-opacity duration-200" fetchpriority="high" />
+                        <!-- Skeleton Shimmer Placeholder while main image loads -->
+                        <div
+                            v-if="activeImage && !imageLoaded"
+                            class="absolute inset-0 z-0 flex items-center justify-center bg-neutral-100"
+                        >
+                            <div class="pointer-events-none absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/60 to-transparent" />
+                            <AppIcon name="image" class="h-12 w-12 text-neutral-300" />
+                        </div>
+
+                        <img
+                            v-if="activeImage"
+                            :src="activeImage"
+                            :alt="`Foto ${listing.title}`"
+                            class="h-full w-full object-contain p-5 sm:p-8 transition-opacity duration-300"
+                            :class="imageLoaded ? 'opacity-100' : 'opacity-0'"
+                            fetchpriority="high"
+                            @load="imageLoaded = true"
+                        />
                         <div v-else class="flex h-full flex-col items-center justify-center gap-3 text-sm text-ink-500"><AppIcon name="image" class="h-12 w-12" />Foto belum tersedia</div>
                         <span v-if="galleryImages.length > 1" class="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-full bg-ink-900/70 px-2.5 py-1 text-xs font-semibold text-white shadow-sm backdrop-blur-sm">
                             <AppIcon name="image" class="h-3.5 w-3.5" />
@@ -58,7 +84,7 @@ watch(galleryImages, (images) => {
                             role="tab"
                             :aria-selected="activeImage === img.url"
                             :aria-label="`Pilih foto ${idx + 1} dari ${galleryImages.length}`"
-                            @click="activeImage = img.url"
+                            @click="selectImage(img.url)"
                             class="group relative h-16 w-16 sm:h-20 sm:w-20 shrink-0 overflow-hidden rounded-xl border-2 bg-photo p-1 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-600"
                             :class="activeImage === img.url ? 'border-brand-600 ring-2 ring-brand-600/30 opacity-100 shadow-sm' : 'border-border opacity-70 hover:opacity-100 hover:border-ink-900/40'"
                         >

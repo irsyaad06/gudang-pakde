@@ -1,11 +1,12 @@
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import AppIcon from '@/Components/AppIcon.vue';
 import CustomSelect from '@/Components/CustomSelect.vue';
 import LocationSelect from '@/Components/LocationSelect.vue';
 import ListingCard from '@/Components/ListingCard.vue';
+import ListingCardSkeleton from '@/Components/ListingCardSkeleton.vue';
 import ListingPagination from '@/Components/ListingPagination.vue';
 
 const props = defineProps({ listings: { type: Object, required: true }, categories: { type: Array, required: true }, filters: { type: Object, required: true } });
@@ -55,6 +56,25 @@ const apply = () => {
     });
 };
 const reset = () => { search.value = ''; category.value = ''; condition.value = ''; location.value = ''; apply(); };
+
+let removeStartListener = null;
+let removeFinishListener = null;
+
+onMounted(() => {
+    removeStartListener = router.on('start', (event) => {
+        if (event.detail.visit.url.pathname === window.location.pathname) {
+            loading.value = true;
+        }
+    });
+    removeFinishListener = router.on('finish', () => {
+        loading.value = false;
+    });
+});
+
+onBeforeUnmount(() => {
+    if (removeStartListener) removeStartListener();
+    if (removeFinishListener) removeFinishListener();
+});
 </script>
 
 <template>
@@ -131,7 +151,17 @@ const reset = () => { search.value = ''; category.value = ''; condition.value = 
                     <button v-if="hasFilters && !filtersOpen" type="button" :disabled="loading" class="min-h-11 rounded-lg text-xs font-semibold underline underline-offset-4 disabled:opacity-50" @click="reset">Hapus filter</button>
                     <span role="status" class="text-xs text-ink-500">{{ loading ? 'Memuat barang…' : '' }}</span>
                 </div>
-                <div v-if="listings.data?.length" class="grid grid-cols-2 gap-3 motion-safe:transition-opacity md:grid-cols-3 lg:grid-cols-4 lg:gap-5 xl:gap-6" :class="loading ? 'opacity-60' : ''">
+                <!-- Skeleton Loading Grid when searching / filtering / paginating -->
+                <div
+                    v-if="loading"
+                    class="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 lg:gap-5 xl:gap-6"
+                    aria-busy="true"
+                    aria-label="Memuat daftar barang..."
+                >
+                    <ListingCardSkeleton v-for="n in (listings.data?.length || 8)" :key="n" />
+                </div>
+
+                <div v-else-if="listings.data?.length" class="grid grid-cols-2 gap-3 motion-safe:transition-opacity md:grid-cols-3 lg:grid-cols-4 lg:gap-5 xl:gap-6">
                     <ListingCard v-for="listing in listings.data" :key="listing.id" :listing="listing" />
                 </div>
                 <div v-else class="rounded-2xl border border-dashed border-border px-5 py-16 text-center sm:py-24">
