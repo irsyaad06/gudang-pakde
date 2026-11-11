@@ -15,6 +15,25 @@ createInertiaApp({
             `./Pages/${name}.vue`,
             import.meta.glob('./Pages/**/*.vue'),
         ),
+    defaults: {
+        visitOptions: (href, options) => {
+            if (options && typeof options.viewTransition === 'boolean') {
+                return { viewTransition: options.viewTransition };
+            }
+            if (typeof window === 'undefined') {
+                return {};
+            }
+            let targetPath = href;
+            try {
+                targetPath = new URL(href, window.location.origin).pathname;
+            } catch (e) {
+                targetPath = href.split('?')[0].split('#')[0];
+            }
+            return {
+                viewTransition: targetPath !== window.location.pathname,
+            };
+        },
+    },
     setup({ el, App, props, plugin }) {
         return createApp({ render: () => h(App, props) })
             .use(plugin)

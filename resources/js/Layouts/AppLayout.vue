@@ -215,7 +215,7 @@ const searchCatalog = () => {
         <ToastContainer />
         <FloatingDocsButton />
         <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-2 focus:z-50 focus:rounded-xl focus:bg-surface focus:px-4 focus:py-3">Lewati ke konten</a>
-        <header class="sticky top-0 z-30 w-full">
+        <header class="sticky top-0 z-30 w-full" style="view-transition-name: app-header;">
             <!-- Feathered gradient blur background layer behind navbar (fades to opacity 0 at bottom) -->
             <div
                 aria-hidden="true"
@@ -310,7 +310,11 @@ const searchCatalog = () => {
             </div>
         </header>
 
-        <main id="main-content" class="mx-auto w-full max-w-[1440px] flex-1 px-3 sm:px-6 lg:px-8"><slot /></main>
+        <main id="main-content" class="mx-auto w-full max-w-[1440px] flex-1 px-3 sm:px-6 lg:px-8" style="view-transition-name: app-main;">
+            <div class="page-content-wrapper min-h-full w-full">
+                <slot />
+            </div>
+        </main>
         <footer class="mx-auto flex w-full max-w-[1440px] flex-wrap items-center justify-between gap-4 px-5 py-7 text-xs text-ink-500 sm:px-8 lg:px-10">
             <div class="flex items-center gap-2">
                 <BrandMark class="h-5 w-5 shrink-0" />

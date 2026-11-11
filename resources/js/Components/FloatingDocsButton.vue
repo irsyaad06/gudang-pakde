@@ -29,10 +29,12 @@ const containerStyle = computed(() => {
     if (posY.value !== null) {
         return {
             top: `${posY.value}px`,
+            viewTransitionName: 'app-floating-docs',
         };
     }
     return {
         bottom: '1.5rem',
+        viewTransitionName: 'app-floating-docs',
     };
 });
 

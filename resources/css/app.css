@@ -40,3 +40,64 @@
         }
     }
 }
+
+/* Page Navigation Transitions (Native View Transitions API) */
+::view-transition-group(app-header),
+::view-transition-group(app-floating-docs) {
+    animation-duration: 0s;
+}
+
+::view-transition-old(app-main) {
+    animation: 140ms cubic-bezier(0.4, 0, 1, 1) both pageFadeOut;
+}
+
+::view-transition-new(app-main) {
+    animation: 240ms cubic-bezier(0.16, 1, 0.3, 1) both pageFadeIn;
+}
+
+::view-transition-old(root) {
+    animation: 140ms cubic-bezier(0.4, 0, 1, 1) both pageFadeOut;
+}
+
+::view-transition-new(root) {
+    animation: 240ms cubic-bezier(0.16, 1, 0.3, 1) both pageFadeIn;
+}
+
+@keyframes pageFadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+}
+
+@keyframes pageFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Fallback entrance animation for browsers without native View Transitions support */
+@supports not (view-transition-name: none) {
+    .page-content-wrapper {
+        animation: pageFadeIn 240ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    ::view-transition-old(root),
+    ::view-transition-new(root),
+    ::view-transition-old(app-main),
+    ::view-transition-new(app-main),
+    .page-content-wrapper {
+        animation: none !important;
+    }
+}
