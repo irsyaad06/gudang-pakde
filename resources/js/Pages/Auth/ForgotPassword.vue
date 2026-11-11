@@ -34,26 +34,22 @@ const submit = () => form.post(route('password.email'), {
             {{ status }}
         </p>
 
-        <form class="mt-5 space-y-3.5 sm:mt-6" @submit.prevent="submit">
+        <form class="mt-5 space-y-3.5 sm:mt-6" @submit.prevent>
             <div>
-                <InputLabel for="forgot-email" value="Email akun" />
+                <InputLabel for="forgot-email" value="Email akun" class="opacity-70" />
                 <TextInput
                     id="forgot-email"
                     v-model="form.email"
                     type="email"
                     class="mt-1.5 block w-full"
-                    placeholder="nama@email.com"
-                    required
-                    autofocus
+                    placeholder="Fitur belum aktif (Coming Soon)"
+                    disabled
                     autocomplete="username"
-                    :aria-invalid="!!form.errors.email"
-                    :aria-describedby="form.errors.email ? 'forgot-email-error' : undefined"
                 />
-                <InputError id="forgot-email-error" :message="form.errors.email" class="mt-1" />
             </div>
 
-            <PrimaryButton type="submit" class="w-full" :disabled="form.processing">
-                {{ form.processing ? 'Mengirim...' : 'Kirim tautan pemulihan' }}
+            <PrimaryButton type="button" class="w-full" disabled>
+                <span>Kirim tautan pemulihan (Coming Soon)</span>
                 <AppIcon name="arrow-right" class="h-4 w-4" />
             </PrimaryButton>
         </form>
