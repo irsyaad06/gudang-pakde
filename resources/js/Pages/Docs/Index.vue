@@ -20,6 +20,9 @@ const toggleSidebar = () => {
     isSidebarCollapsed.value = !isSidebarCollapsed.value;
 };
 
+// Mobile navigation collapsible state (default collapsed on mobile to avoid blocking content)
+const isMobileMenuExpanded = ref(false);
+
 // Filter mode: 'all' | 'rancangan' | 'technical'
 const activeDocMode = ref('all');
 
@@ -157,6 +160,11 @@ const visibleItems = computed(() => {
 
 // Active section state
 const activeSection = ref('rancangan-asumsi');
+
+const activeItemTitle = computed(() => {
+    const item = visibleItems.value.find((i) => i.id === activeSection.value);
+    return item ? item.shortTitle : 'Pilih Bagian';
+});
 
 // Card collapsible state (all 10 sub-sections)
 const cardOpenState = ref({
@@ -298,6 +306,7 @@ const scrollToSection = (id) => {
     isProgrammaticScroll = true;
     activeSection.value = id;
     cardOpenState.value[id] = true;
+    isMobileMenuExpanded.value = false;
     syncMobileNav(id);
 
     if (programmaticScrollTimeout) {
@@ -421,12 +430,37 @@ onBeforeUnmount(() => {
             <div class="flex flex-col gap-6 lg:flex-row lg:items-start">
                 <!-- Collapsible Sidebar with 2 Parent Groups ("Orangtua") -->
                 <aside
-                    class="sticky top-20 z-10 shrink-0 transition-all duration-300 ease-in-out lg:top-24"
+                    class="relative z-10 shrink-0 transition-all duration-300 ease-in-out lg:sticky lg:top-24"
                     :class="isSidebarCollapsed ? 'lg:w-20' : 'lg:w-80'"
                 >
                     <nav class="rounded-3xl border border-neutral-200/80 bg-white p-3 shadow-sm sm:p-4" aria-label="Navigasi Dokumentasi">
-                        <!-- Sidebar Header & Toggle Button -->
-                        <div class="mb-3 flex items-center justify-between border-b border-neutral-100 pb-3" :class="{ 'justify-center': isSidebarCollapsed }">
+                        <!-- Mobile Accordion Header (< lg) - Compact, clean & does NOT freeze or block screen -->
+                        <button
+                            type="button"
+                            class="flex w-full items-center justify-between p-1 text-left lg:hidden"
+                            :class="{ 'border-b border-neutral-100 pb-3 mb-3': isMobileMenuExpanded }"
+                            @click="isMobileMenuExpanded = !isMobileMenuExpanded"
+                            aria-label="Toggle Menu Navigasi Dokumentasi"
+                        >
+                            <div class="flex items-center gap-2.5 min-w-0">
+                                <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-blue-100 text-blue-700">
+                                    <AppIcon name="menu" class="h-4 w-4" />
+                                </span>
+                                <div class="min-w-0">
+                                    <div class="text-xs font-bold text-ink-900 leading-tight">Daftar Isi Dokumentasi</div>
+                                    <div class="truncate text-[11px] text-ink-500">
+                                        Aktif: <span class="font-semibold text-blue-600">{{ activeItemTitle }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1.5 shrink-0 rounded-xl border border-neutral-200 bg-neutral-50 px-2.5 py-1.5 text-xs font-semibold text-ink-700">
+                                <span>{{ isMobileMenuExpanded ? 'Tutup' : 'Lihat Menu' }}</span>
+                                <AppIcon name="chevron-down" class="h-3.5 w-3.5 transition-transform duration-200" :class="{ 'rotate-180': isMobileMenuExpanded }" />
+                            </div>
+                        </button>
+
+                        <!-- Desktop Sidebar Header (>= lg) -->
+                        <div class="hidden lg:flex mb-3 items-center justify-between border-b border-neutral-100 pb-3" :class="{ 'justify-center': isSidebarCollapsed }">
                             <span v-if="!isSidebarCollapsed" class="text-xs font-bold uppercase tracking-wider text-ink-400">
                                 Menu Navigasi (2 Kategori)
                             </span>
@@ -441,105 +475,108 @@ onBeforeUnmount(() => {
                             </button>
                         </div>
 
-                        <!-- 2 Parent Navigation Groups ("Orangtua") -->
-                        <div class="space-y-4">
-                            <div
-                                v-for="parent in visibleParents"
-                                :key="parent.id"
-                                class="rounded-2xl border border-neutral-100 bg-neutral-50/60 p-2 transition"
-                            >
-                                <!-- Parent Header (Orangtua) -->
-                                <button
-                                    type="button"
-                                    class="flex w-full items-center justify-between gap-2 rounded-xl p-2 text-left transition select-none hover:bg-white"
-                                    :class="{ 'justify-center': isSidebarCollapsed }"
-                                    @click="toggleParent(parent.id)"
+                        <!-- Menu Body: Collapsible on mobile, always visible on desktop -->
+                        <div :class="{ 'hidden lg:block': !isMobileMenuExpanded }">
+                            <!-- 2 Parent Navigation Groups ("Orangtua") -->
+                            <div class="space-y-4">
+                                <div
+                                    v-for="parent in visibleParents"
+                                    :key="parent.id"
+                                    class="rounded-2xl border border-neutral-100 bg-neutral-50/60 p-2 transition"
                                 >
-                                    <div class="flex items-center gap-2 min-w-0">
-                                        <span
-                                            class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg"
-                                            :class="parent.id === 'rancangan' ? 'bg-blue-100 text-blue-700' : 'bg-emerald-100 text-emerald-700'"
-                                        >
-                                            <AppIcon :name="parent.icon" class="h-3.5 w-3.5" />
-                                        </span>
-                                        <div v-if="!isSidebarCollapsed" class="min-w-0">
-                                            <div class="truncate text-xs font-bold text-ink-900 leading-tight">
-                                                {{ parent.shortTitle }}
-                                            </div>
-                                            <div class="truncate text-[10px] text-ink-400">
-                                                {{ parent.items.length }} Bagian
+                                    <!-- Parent Header (Orangtua) -->
+                                    <button
+                                        type="button"
+                                        class="flex w-full items-center justify-between gap-2 rounded-xl p-2 text-left transition select-none hover:bg-white"
+                                        :class="{ 'justify-center': isSidebarCollapsed }"
+                                        @click="toggleParent(parent.id)"
+                                    >
+                                        <div class="flex items-center gap-2 min-w-0">
+                                            <span
+                                                class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg"
+                                                :class="parent.id === 'rancangan' ? 'bg-blue-100 text-blue-700' : 'bg-emerald-100 text-emerald-700'"
+                                            >
+                                                <AppIcon :name="parent.icon" class="h-3.5 w-3.5" />
+                                            </span>
+                                            <div v-if="!isSidebarCollapsed" class="min-w-0">
+                                                <div class="truncate text-xs font-bold text-ink-900 leading-tight">
+                                                    {{ parent.shortTitle }}
+                                                </div>
+                                                <div class="truncate text-[10px] text-ink-400">
+                                                    {{ parent.items.length }} Bagian
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div v-if="!isSidebarCollapsed" class="flex items-center gap-1.5 shrink-0">
-                                        <span class="rounded-md px-1.5 py-0.5 text-[10px] font-bold" :class="parent.colorBadge">
-                                            {{ parent.badge }}
-                                        </span>
-                                        <AppIcon
-                                            name="chevron-down"
-                                            class="h-3.5 w-3.5 text-ink-400 transition-transform duration-200"
-                                            :class="{ 'rotate-180': !parentOpenState[parent.id] }"
-                                        />
-                                    </div>
-                                </button>
-
-                                <!-- Sub-items Under Parent (Anak) -->
-                                <div
-                                    v-show="parentOpenState[parent.id]"
-                                    class="mt-1 space-y-1 pt-1 border-t border-neutral-200/50"
-                                    :class="{ 'border-t-0': isSidebarCollapsed }"
-                                >
-                                    <button
-                                        v-for="item in parent.items"
-                                        :key="item.id"
-                                        :data-nav-id="item.id"
-                                        type="button"
-                                        class="group flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 text-left transition-all"
-                                        :class="[
-                                            activeSection === item.id
-                                                ? 'bg-ink-900 text-white shadow-xs'
-                                                : 'text-ink-700 hover:bg-white hover:text-ink-900',
-                                            isSidebarCollapsed ? 'justify-center px-1' : ''
-                                        ]"
-                                        :title="item.title"
-                                        @click="scrollToSection(item.id)"
-                                    >
-                                        <span
-                                            class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg transition-colors"
-                                            :class="activeSection === item.id ? 'bg-white/20 text-white' : 'bg-neutral-200/70 text-ink-600 group-hover:bg-neutral-300'"
-                                        >
-                                            <AppIcon :name="item.icon" class="h-3.5 w-3.5" />
-                                        </span>
-
-                                        <div v-if="!isSidebarCollapsed" class="min-w-0 flex-1 truncate">
-                                            <div class="truncate text-xs font-semibold">
-                                                {{ item.shortTitle }}
-                                            </div>
-                                            <div
-                                                class="truncate text-[10px]"
-                                                :class="activeSection === item.id ? 'text-neutral-300' : 'text-ink-500'"
-                                            >
-                                                {{ item.subtitle }}
-                                            </div>
+                                        <div v-if="!isSidebarCollapsed" class="flex items-center gap-1.5 shrink-0">
+                                            <span class="rounded-md px-1.5 py-0.5 text-[10px] font-bold" :class="parent.colorBadge">
+                                                {{ parent.badge }}
+                                            </span>
+                                            <AppIcon
+                                                name="chevron-down"
+                                                class="h-3.5 w-3.5 text-ink-400 transition-transform duration-200"
+                                                :class="{ 'rotate-180': !parentOpenState[parent.id] }"
+                                            />
                                         </div>
                                     </button>
+
+                                    <!-- Sub-items Under Parent (Anak) -->
+                                    <div
+                                        v-show="parentOpenState[parent.id]"
+                                        class="mt-1 space-y-1 pt-1 border-t border-neutral-200/50"
+                                        :class="{ 'border-t-0': isSidebarCollapsed }"
+                                    >
+                                        <button
+                                            v-for="item in parent.items"
+                                            :key="item.id"
+                                            :data-nav-id="item.id"
+                                            type="button"
+                                            class="group flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 text-left transition-all"
+                                            :class="[
+                                                activeSection === item.id
+                                                    ? 'bg-ink-900 text-white shadow-xs'
+                                                    : 'text-ink-700 hover:bg-white hover:text-ink-900',
+                                                isSidebarCollapsed ? 'justify-center px-1' : ''
+                                            ]"
+                                            :title="item.title"
+                                            @click="scrollToSection(item.id)"
+                                        >
+                                            <span
+                                                class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg transition-colors"
+                                                :class="activeSection === item.id ? 'bg-white/20 text-white' : 'bg-neutral-200/70 text-ink-600 group-hover:bg-neutral-300'"
+                                            >
+                                                <AppIcon :name="item.icon" class="h-3.5 w-3.5" />
+                                            </span>
+
+                                            <div v-if="!isSidebarCollapsed" class="min-w-0 flex-1 truncate">
+                                                <div class="truncate text-xs font-semibold">
+                                                    {{ item.shortTitle }}
+                                                </div>
+                                                <div
+                                                    class="truncate text-[10px]"
+                                                    :class="activeSection === item.id ? 'text-neutral-300' : 'text-ink-500'"
+                                                >
+                                                    {{ item.subtitle }}
+                                                </div>
+                                            </div>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Quick Repository Link -->
-                        <div v-if="!isSidebarCollapsed" class="mt-4 border-t border-neutral-100 pt-3">
-                            <a
-                                href="https://github.com/irsyaad06/gudang-pakde.git"
-                                target="_blank"
-                                rel="noreferrer"
-                                class="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2 text-xs font-semibold text-ink-700 transition hover:bg-neutral-100"
-                            >
-                                <AppIcon name="code" class="h-3.5 w-3.5" />
-                                <span>GitHub Repository</span>
-                                <AppIcon name="arrow-up-right" class="h-3 w-3 text-ink-400" />
-                            </a>
+                            <!-- Quick Repository Link -->
+                            <div v-if="!isSidebarCollapsed" class="mt-4 border-t border-neutral-100 pt-3">
+                                <a
+                                    href="https://github.com/irsyaad06/gudang-pakde.git"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    class="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2 text-xs font-semibold text-ink-700 transition hover:bg-neutral-100"
+                                >
+                                    <AppIcon name="code" class="h-3.5 w-3.5" />
+                                    <span>GitHub Repository</span>
+                                    <AppIcon name="arrow-up-right" class="h-3 w-3 text-ink-400" />
+                                </a>
+                            </div>
                         </div>
                     </nav>
                 </aside>
