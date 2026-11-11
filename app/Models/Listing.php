@@ -37,6 +37,35 @@ class Listing extends Model
         return $this->hasMany(ListingImage::class)->orderBy('sort_order')->orderBy('id');
     }
 
+    public static function resolveImageUrl(?string $path): ?string
+    {
+        if (! $path) {
+            return null;
+        }
+
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            return $path;
+        }
+
+        // Direct public asset paths (e.g. img/products/..., demo/...)
+        if (str_starts_with($path, 'img/') || str_starts_with($path, 'demo/') || str_starts_with($path, 'images/')) {
+            return asset($path);
+        }
+
+        // If file exists in public/img/products/ directly
+        $basename = basename($path);
+        if (file_exists(public_path('img/products/'.$basename))) {
+            return asset('img/products/'.$basename);
+        }
+
+        // If file exists directly in public/
+        if (file_exists(public_path($path))) {
+            return asset($path);
+        }
+
+        return Storage::disk('public')->url($path);
+    }
+
     public function cardData(): array
     {
         $image = $this->images->first();
@@ -55,10 +84,10 @@ class Listing extends Model
             'status' => $this->status,
             'location' => $this->location,
             'views_count' => (int) ($this->views_count ?? 0),
-            'image_url' => $image ? Storage::disk('public')->url($image->path) : null,
+            'image_url' => $image ? self::resolveImageUrl($image->path) : null,
             'images' => $this->images->map(fn ($img) => [
                 'id' => $img->id,
-                'url' => Storage::disk('public')->url($img->path),
+                'url' => self::resolveImageUrl($img->path),
             ])->values()->all(),
             'images_count' => $this->images->count(),
             'category' => $this->category ? $this->category->only('id', 'name', 'slug') : null,
