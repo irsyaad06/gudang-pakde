@@ -47,8 +47,8 @@ class Listing extends Model
             return $path;
         }
 
-        // Direct public asset paths (e.g. img/products/..., demo/...)
-        if (str_starts_with($path, 'img/') || str_starts_with($path, 'demo/') || str_starts_with($path, 'images/')) {
+        // Direct public asset paths (e.g. img/products/..., images/...)
+        if (str_starts_with($path, 'img/') || str_starts_with($path, 'images/')) {
             return asset($path);
         }
 
